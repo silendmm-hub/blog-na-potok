@@ -716,6 +716,21 @@
     .sidenav a.on b { color: #fff; font-weight: 800; }
     .toast { display: none; }
   }
+  /* ===== плашка оглавления: понятная кнопка ===== */
+  .toast-wrap { position: fixed; left: 14px; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); z-index: 9; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; pointer-events: none; }
+  .toast-wrap .toast { position: static; transform: translateY(30px); left: auto; bottom: auto; padding: 5px 5px 5px 8px; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.55); }
+  .toast-wrap .toast.show { transform: none; }
+  .toast-wrap .toast:active { transform: scale(.96); }
+  .toast span { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+  .toast__all { display: inline-flex; align-items: center; gap: 6px; font: 800 12px/1 'Manrope', sans-serif; text-transform: uppercase; letter-spacing: .02em; color: #050605; background: var(--accent); border-radius: 999px; padding: 9px 12px; box-shadow: 0 0 16px var(--glow); white-space: nowrap; }
+  .toast .toast__all svg { width: 13px; height: 13px; color: #050605; }
+  .toast.pulse { animation: tocPulse 1.2s ease-in-out 3; }
+  @keyframes tocPulse { 50% { box-shadow: 0 0 0 6px rgba(199,247,54,.25), 0 0 30px rgba(199,247,54,.5); } }
+  .toast-tip { position: relative; font: 700 13px/1.3 'Manrope', sans-serif; color: #050605; background: #fff; border-radius: 12px; padding: 9px 12px; white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,.5); opacity: 0; transform: translateY(8px); transition: opacity .35s, transform .35s cubic-bezier(.2,.7,.2,1); }
+  .toast-tip::after { content: ''; position: absolute; left: 40px; bottom: -6px; width: 12px; height: 12px; background: #fff; transform: translateX(-50%) rotate(45deg); border-radius: 2px; }
+  .toast-tip.show { opacity: 1; transform: none; }
+  @media (min-width: 1440px) { .toast-wrap { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .toast.pulse { animation: none; } }
 </style>
 </head>
 <body>
@@ -1223,7 +1238,10 @@
   <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" class="ring__track"/><circle cx="24" cy="24" r="21" class="ring__fill" id="ringFill"/></svg>
   <span id="ringPct">0%</span>
 </a>
-<button class="toast" id="toast" type="button" data-toc-open aria-label="Открыть содержание страницы"><b id="toastNum">01</b><span id="toastLabel">Начало</span><svg><use href="#i-list"/></svg></button>
+<div class="toast-wrap" id="toastWrap">
+  <div class="toast-tip" id="toastTip" aria-hidden="true">Нажми — покажу все разделы страницы</div>
+  <button class="toast" id="toast" type="button" data-toc-open aria-label="Открыть содержание страницы"><b id="toastNum">01</b><span id="toastLabel">Начало</span><strong class="toast__all">Все разделы <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></strong></button>
+</div>
 <div class="toc" id="toc" hidden>
   <div class="toc__panel" role="dialog" aria-modal="true" aria-labelledby="tocTitle">
     <div class="toc__head">
@@ -1496,6 +1514,20 @@
   tocBox.querySelector('.toc__close').addEventListener('click', tocClose);
   tocBox.addEventListener('click', function (e) { if (e.target === tocBox) tocClose(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !tocBox.hidden) tocClose(); });
+  // подсказка к плашке: один раз за визит
+  var tip = document.getElementById('toastTip'), tipShown = false, tipTimer = null;
+  try { tipShown = sessionStorage.getItem('tocTip') === '1'; } catch (e) {}
+  function hideTip() { tip.classList.remove('show'); }
+  function showTip() {
+    tipShown = true;
+    try { sessionStorage.setItem('tocTip', '1'); } catch (e) {}
+    setTimeout(function () {
+      tip.classList.add('show');
+      toast.classList.add('pulse');
+      tipTimer = setTimeout(hideTip, 5000);
+    }, 700);
+  }
+  toast.addEventListener('click', function () { clearTimeout(tipTimer); hideTip(); });
   var heroBg = document.querySelector('.hero-bg'), lastPart = -1, toastTimer = null, ticking = false;
   function onScroll() {
     ticking = false;
@@ -1512,7 +1544,9 @@
     tocLinks.forEach(function (a, i) { a.className = i === cur ? 'on' : (i < cur ? 'done' : ''); a.querySelector('i').textContent = i === cur ? 'Сейчас' : ''; });
     tocBar.style.transform = 'scaleX(' + k + ')';
     navBox.style.setProperty('--navp', ((cur + 1) / parts.length * 100).toFixed(1) + '%');
-    toast.classList.toggle('show', y > window.innerHeight * 0.8);
+    var pillOn = y > window.innerHeight * 0.8;
+    toast.classList.toggle('show', pillOn);
+    if (pillOn && !tipShown) showTip();
     if (cur !== lastPart) {
       if (lastPart !== -1) {
       }
