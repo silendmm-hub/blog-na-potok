@@ -662,6 +662,60 @@
     html.js .rv, html.js section h2, html.js section .sub, html.js section .mono, html.js .hero__text > *, html.js .hero-bg { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; animation: none !important; transition: none !important; }
     section::after { display: none; }
   }
+  /* ===== оглавление ===== */
+  .toc-open { margin-top: 28px; display: inline-flex; align-items: center; gap: 10px; background: rgba(11,14,9,.7); border: 1px solid var(--line); color: #fff; border-radius: 999px; padding: 12px 18px 12px 14px; font: 700 15px/1 'Manrope', sans-serif; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+  .toc-open:hover { border-color: rgba(199,247,54,.5); box-shadow: 0 0 24px rgba(199,247,54,.15); }
+  .toc-open svg { width: 18px; height: 18px; color: var(--accent); }
+  .toc-open em { font: 500 12px/1 'IBM Plex Mono', monospace; font-style: normal; color: var(--muted); }
+
+  .toast { cursor: pointer; border: 1px solid rgba(199,247,54,.35); font: inherit; color: #fff; pointer-events: none; }
+  .toast.show { pointer-events: auto; }
+  .toast svg { width: 16px; height: 16px; color: var(--accent); }
+
+  .toc { position: fixed; inset: 0; z-index: 90; background: rgba(3,4,3,.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; justify-content: flex-end; animation: tocFade .25s ease both; }
+  .toc[hidden] { display: none; }
+  .toc__panel { width: min(420px, 100%); height: 100%; overflow-y: auto; background: #080a07; border-left: 1px solid var(--line); padding: calc(env(safe-area-inset-top, 0px) + 22px) 22px calc(env(safe-area-inset-bottom, 0px) + 22px); display: flex; flex-direction: column; gap: 16px; animation: tocIn .45s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes tocFade { from { opacity: 0; } }
+  @keyframes tocIn { from { transform: translateX(40px); opacity: 0; } }
+  .toc__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .toc__eyebrow { font: 500 11px/1 'IBM Plex Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .toc__head h3 { font: 900 22px/1.1 'Unbounded', sans-serif; text-transform: uppercase; margin-top: 8px; }
+  .toc__close { width: 42px; height: 42px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: #fff; font-size: 24px; line-height: 1; cursor: pointer; }
+  .toc__bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+  .toc__bar i { display: block; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--glow); transform-origin: 0 50%; transform: scaleX(0); transition: transform .4s; }
+  .toc__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; counter-reset: toc; }
+  .toc__list a { display: grid; grid-template-columns: 34px 1fr auto; gap: 2px 10px; align-items: center; padding: 11px 12px; border-radius: 12px; text-decoration: none; color: #fff; border: 1px solid transparent; transition: background .2s, border-color .2s; }
+  .toc__list a:hover { background: var(--panel); }
+  .toc__list em { grid-row: span 2; font: 800 12px/1 'Unbounded', sans-serif; font-style: normal; color: var(--muted); }
+  .toc__list b { font: 700 15px/1.25 'Manrope', sans-serif; }
+  .toc__list small { grid-column: 2; font-size: 13px; line-height: 1.35; color: var(--muted); }
+  .toc__list i { grid-row: 1 / span 2; grid-column: 3; font: 500 10px/1 'IBM Plex Mono', monospace; font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .toc__list a.done em { color: var(--accent-dim); }
+  .toc__list a.done i::before { content: '✓'; color: var(--accent); font-size: 13px; }
+  .toc__list a.on { background: rgba(199,247,54,.08); border-color: rgba(199,247,54,.45); }
+  .toc__list a.on em { color: var(--accent); }
+  .toc__list a.on i { color: #050605; background: var(--accent); border-radius: 999px; padding: 5px 7px; }
+  .toc__cta { justify-content: center; margin-top: auto; }
+
+  /* боковое оглавление на широком экране */
+  .sidenav a em, .sidenav a b { display: none; }
+  @media (min-width: 1440px) {
+    .sidenav { left: 22px; right: auto; gap: 2px; width: 196px; padding-left: 14px; border-left: 1px solid var(--line); }
+    .sidenav::before { content: ''; position: absolute; left: -1px; top: 0; width: 1px; height: var(--navp, 0%); background: var(--accent); box-shadow: 0 0 8px var(--glow); transition: height .3s; }
+    .sidenav a { width: auto; height: auto; border: 0; border-radius: 8px; background: none; display: flex; align-items: baseline; gap: 10px; padding: 6px 8px; text-decoration: none; transform: none !important; box-shadow: none !important; transition: background .2s; }
+    .sidenav a span { display: none; }
+    .sidenav a em { display: block; font: 800 10px/1 'Unbounded', sans-serif; font-style: normal; color: var(--faint); width: 18px; }
+    .sidenav a b { display: block; font: 600 13px/1.25 'Manrope', sans-serif; color: var(--muted); transition: color .2s; }
+    .sidenav a:hover { background: var(--panel); }
+    .sidenav a:hover b { color: #fff; }
+    .sidenav a.done { background: none; }
+    .sidenav a.done em { color: var(--accent-dim); }
+    .sidenav a.done b { color: #8a917f; }
+    .sidenav a.on { background: rgba(199,247,54,.08); }
+    .sidenav a.on em { color: var(--accent); }
+    .sidenav a.on b { color: #fff; font-weight: 800; }
+    .toast { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -683,6 +737,7 @@
   <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
   <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l7 7"/></symbol>
   <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
 </svg>
 
@@ -693,7 +748,7 @@
 
 <main>
   <!-- 1. первый экран -->
-  <div class="hero-zone" data-nav="Начало">
+  <div class="hero-zone" data-nav="Начало" data-desc="Что за поток, сколько стоит и сколько мест">
     <div class="hero-bg" aria-hidden="true"><img src="img/hero.jpg" alt=""></div>
     <div class="glow glow--a"></div><div class="glow glow--b"></div>
     <div class="wrap hero">
@@ -713,6 +768,7 @@
           <div><svg><use href="#i-check"/></svg><span>Реальные кейсы</span></div>
           <div><svg><use href="#i-shield"/></svg><span>Гарантия результата</span></div>
         </div>
+        <button class="toc-open" type="button" data-toc-open><svg><use href="#i-list"/></svg>Что на странице <em class="js-parts-count">15 разделов</em></button>
       </div>
       <div class="hero__chips" aria-hidden="true">
         <div class="float float--1"><b>2,9 млн</b><span>просмотров за месяц у ученика</span></div>
@@ -722,7 +778,7 @@
   </div>
 
   <!-- 2. кейс -->
-  <section data-nav="Кейсы">
+  <section data-nav="Кейсы" data-desc="Результаты учеников со скринами">
     <div class="wrap">
       <div class="mono">Результаты учеников</div>
       <h2>Два аккаунта с нуля и <span class="hl">2,9 млн просмотров</span> за месяц</h2>
@@ -811,7 +867,7 @@
   </section>
 
   <!-- прошлые потоки -->
-  <section id="past" data-nav="Прошлые потоки">
+  <section id="past" data-nav="Прошлые потоки" data-desc="Как всё выглядит внутри чата группы">
     <div class="wrap">
       <div class="mono">Прошлые потоки</div>
       <h2>Как это было <span class="hl">в прошлых потоках</span></h2>
@@ -830,7 +886,7 @@
   </section>
 
   <!-- кейсы по нишам -->
-  <section data-nav="Ниши">
+  <section data-nav="Ниши" data-desc="Примеры в разных темах">
     <div class="wrap">
       <div class="mono">Примеры по нишам</div>
       <h2>Как это выглядит в <span class="hl">разных нишах</span></h2>
@@ -852,7 +908,7 @@
   </section>
 
   <!-- мои блоги -->
-  <section data-nav="Мои блоги">
+  <section data-nav="Мои блоги" data-desc="Мои аккаунты: с лицом и без">
     <div class="wrap">
       <div class="mono">Мои блоги</div>
       <h2>Сначала проверяю <span class="hl">на себе</span></h2>
@@ -871,7 +927,7 @@
   </section>
 
   <!-- 3. как проходит день -->
-  <section data-nav="Как проходит">
+  <section data-nav="Как проходит" data-desc="Задание утром, разбор вечером">
     <div class="wrap">
       <div class="mono">Как это проходит</div>
       <h2>Каждый день говорю, что делать.<br><span class="hl">Каждый вечер</span> смотрю, что вышло</h2>
@@ -901,7 +957,7 @@
   </section>
 
   <!-- 4. форматы -->
-  <section data-nav="С лицом или без">
+  <section data-nav="С лицом или без" data-desc="Два варианта блога на выбор">
     <div class="wrap">
       <div class="noface rv">
         <div class="mono">Для тех, кто не хочет в кадр</div>
@@ -945,7 +1001,7 @@
   </section>
 
   <!-- 5. две недели -->
-  <section data-nav="План">
+  <section data-nav="План" data-desc="Что происходит по дням">
     <div class="wrap">
       <div class="mono">План потока</div>
       <h2>Как идут <span class="hl">две недели</span></h2>
@@ -973,7 +1029,7 @@
   </section>
 
   <!-- 6. что на 14-й день -->
-  <section data-nav="Результат">
+  <section data-nav="Результат" data-desc="Что будет на 14-й день и что входит">
     <div class="wrap">
       <div class="mono">Что у тебя будет на 14-й день</div>
       <h2>Дальше просто <span class="hl">повторять</span> и наращивать объём</h2>
@@ -1005,7 +1061,7 @@
   </section>
 
   <!-- 7. кому -->
-  <section data-nav="Кому подойдёт">
+  <section data-nav="Кому подойдёт" data-desc="Кому подходит, кому нет, и гарантия">
     <div class="wrap">
       <div class="mono">Кому подойдёт</div>
       <h2>Пол, возраст и город <span class="hl">не важны</span></h2>
@@ -1036,7 +1092,7 @@
   </section>
 
   <!-- отзывы -->
-  <section data-nav="Отзывы">
+  <section data-nav="Отзывы" data-desc="Что пишут участники">
     <div class="wrap">
       <div class="mono">Отзывы</div>
       <h2>Что пишут <span class="hl">после работы</span> со мной</h2>
@@ -1058,7 +1114,7 @@
   </section>
 
   <!-- 8. стоимость -->
-  <section id="price" data-nav="Цена">
+  <section id="price" data-nav="Цена" data-desc="Стоимость, оплата частями, расходы на старт">
     <div class="wrap">
       <div class="mono">Стоимость и оплата</div>
       <h2>Сейчас дешевле <span class="hl">на 25%</span></h2>
@@ -1103,7 +1159,7 @@
   </section>
 
   <!-- 9. как попасть -->
-  <section data-nav="Как попасть">
+  <section data-nav="Как попасть" data-desc="Три шага в поток">
     <div class="wrap">
       <div class="mono">Как попасть в поток</div>
       <h2><span class="hl">Три шага</span> в поток</h2>
@@ -1116,7 +1172,7 @@
   </section>
 
   <!-- 10. вопросы -->
-  <section data-nav="Вопросы">
+  <section data-nav="Вопросы" data-desc="Ответы на частые вопросы">
     <div class="wrap narrow">
       <div class="mono">Частые вопросы</div>
       <h2>Коротко <span class="hl">о главном</span></h2>
@@ -1129,7 +1185,7 @@
     </div>
   </section>
 
-  <section class="final" data-nav="Старт">
+  <section class="final" data-nav="Старт" data-desc="Записаться или написать в личку">
     <div class="final__bg" aria-hidden="true">
       <div class="belt"><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""></div>
       <div class="belt belt--rev"><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""></div>
@@ -1167,7 +1223,18 @@
   <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" class="ring__track"/><circle cx="24" cy="24" r="21" class="ring__fill" id="ringFill"/></svg>
   <span id="ringPct">0%</span>
 </a>
-<div class="toast" id="toast" aria-hidden="true"><b id="toastNum">01</b><span id="toastLabel">Начало</span></div>
+<button class="toast" id="toast" type="button" data-toc-open aria-label="Открыть содержание страницы"><b id="toastNum">01</b><span id="toastLabel">Начало</span><svg><use href="#i-list"/></svg></button>
+<div class="toc" id="toc" hidden>
+  <div class="toc__panel" role="dialog" aria-modal="true" aria-labelledby="tocTitle">
+    <div class="toc__head">
+      <div><div class="toc__eyebrow">Навигация</div><h3 id="tocTitle">Что на этой странице</h3></div>
+      <button class="toc__close" type="button" aria-label="Закрыть">×</button>
+    </div>
+    <div class="toc__bar"><i id="tocBar"></i></div>
+    <ol class="toc__list" id="tocList"></ol>
+    <a class="btn toc__cta" href="#price" data-toc-close>Сразу к цене</a>
+  </div>
+</div>
 
 <div class="lb" id="lb" hidden>
   <button class="lb__close" aria-label="Закрыть">×</button>
@@ -1405,11 +1472,30 @@
     if (!sec.id) sec.id = 'part-' + (i + 1);
     var a = document.createElement('a');
     a.href = '#' + sec.id;
-    a.innerHTML = '<span>' + sec.getAttribute('data-nav') + '</span>';
+    var num = (i + 1 < 10 ? '0' : '') + (i + 1);
+    a.innerHTML = '<span>' + sec.getAttribute('data-nav') + '</span><em>' + num + '</em><b>' + sec.getAttribute('data-nav') + '</b>';
     a.setAttribute('aria-label', sec.getAttribute('data-nav'));
     navBox.appendChild(a);
     return a;
   });
+  var tocBox = document.getElementById('toc'), tocList = document.getElementById('tocList'), tocBar = document.getElementById('tocBar');
+  var tocLinks = parts.map(function (sec, i) {
+    var li = document.createElement('li'), a = document.createElement('a');
+    a.href = '#' + sec.id;
+    a.innerHTML = '<em>' + (i + 1 < 10 ? '0' : '') + (i + 1) + '</em><b>' + sec.getAttribute('data-nav') + '</b><small>' + (sec.getAttribute('data-desc') || '') + '</small><i></i>';
+    a.addEventListener('click', tocClose);
+    li.appendChild(a); tocList.appendChild(li);
+    return a;
+  });
+  each('.js-parts-count', function (el) { el.textContent = parts.length + ' разделов'; });
+  var tocLastFocus = null;
+  function tocOpen() { tocLastFocus = document.activeElement; tocBox.hidden = false; document.documentElement.style.overflow = 'hidden'; tocBox.querySelector('.toc__close').focus(); }
+  function tocClose() { tocBox.hidden = true; document.documentElement.style.overflow = ''; if (tocLastFocus) tocLastFocus.focus({ preventScroll: true }); }
+  each('[data-toc-open]', function (b) { b.addEventListener('click', tocOpen); });
+  each('[data-toc-close]', function (b) { b.addEventListener('click', tocClose); });
+  tocBox.querySelector('.toc__close').addEventListener('click', tocClose);
+  tocBox.addEventListener('click', function (e) { if (e.target === tocBox) tocClose(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !tocBox.hidden) tocClose(); });
   var heroBg = document.querySelector('.hero-bg'), lastPart = -1, toastTimer = null, ticking = false;
   function onScroll() {
     ticking = false;
@@ -1423,14 +1509,15 @@
     var cur = 0, mid = window.innerHeight * 0.4;
     parts.forEach(function (sec, i) { if (sec.getBoundingClientRect().top < mid) cur = i; });
     navLinks.forEach(function (a, i) { a.className = i === cur ? 'on' : (i < cur ? 'done' : ''); });
+    tocLinks.forEach(function (a, i) { a.className = i === cur ? 'on' : (i < cur ? 'done' : ''); a.querySelector('i').textContent = i === cur ? 'Сейчас' : ''; });
+    tocBar.style.transform = 'scaleX(' + k + ')';
+    navBox.style.setProperty('--navp', ((cur + 1) / parts.length * 100).toFixed(1) + '%');
+    toast.classList.toggle('show', y > window.innerHeight * 0.8);
     if (cur !== lastPart) {
       if (lastPart !== -1) {
-        toastNum.textContent = (cur + 1 < 10 ? '0' : '') + (cur + 1) + ' / ' + parts.length;
-        toastLabel.textContent = parts[cur].getAttribute('data-nav');
-        toast.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1600);
       }
+      toastNum.textContent = (cur + 1 < 10 ? '0' : '') + (cur + 1) + ' / ' + parts.length;
+      toastLabel.textContent = parts[cur].getAttribute('data-nav');
       lastPart = cur;
     }
     if (heroBg && !reduceMotion && y < window.innerHeight * 1.2) heroBg.style.translate = '0 ' + (y * 0.25).toFixed(1) + 'px';
