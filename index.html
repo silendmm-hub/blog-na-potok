@@ -410,6 +410,53 @@
     .float b { font-size: 18px; }
   }
   @media (prefers-reduced-motion: reduce) { .hero-bg img { animation: none; } }
+  /* ===== карусели ===== */
+  .slider { position: relative; margin-top: 24px; }
+  .slider__track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
+  .slider__track::-webkit-scrollbar { display: none; }
+  .slider__track > * { scroll-snap-align: start; flex: none; }
+  .slider__nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
+  .slider__btn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(199,247,54,.45); background: var(--panel); color: var(--accent); font: 700 18px/1 'Manrope', sans-serif; cursor: pointer; transition: box-shadow .2s, background .2s; }
+  .slider__btn:hover { background: var(--accent); color: #050605; box-shadow: 0 0 24px var(--glow); }
+  .slider__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .slider__dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; max-width: 60%; }
+  .slider__dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; background: var(--line); cursor: pointer; transition: width .3s, background .3s; }
+  .slider__dots button.on { width: 26px; background: var(--accent); box-shadow: 0 0 10px var(--glow); }
+
+  .gslide { margin: 0; height: 460px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .gslide img { flex: 1; min-height: 0; width: auto; height: 100%; max-width: 86vw; object-fit: contain; background: #000; cursor: zoom-in; }
+  .gslide figcaption { padding: 12px 16px; font: 400 12px/1.4 'IBM Plex Mono', monospace; color: var(--silver); max-width: 0; min-width: 100%; }
+  @media (max-width: 600px) { .gslide { height: 400px; } }
+  .hint { margin-top: 10px; font: 400 12px/1.4 'IBM Plex Mono', monospace; color: var(--muted); text-align: center; }
+
+  .slider--cases .cases { display: flex; grid-template-columns: none; margin: 0; }
+  .slider--cases .case { width: calc((100% - 42px) / 4); }
+  @media (max-width: 960px) { .slider--cases .case { width: calc((100% - 14px) / 2); } }
+  @media (max-width: 560px) { .slider--cases .case { width: 82%; } }
+
+  .slider--reviews .reviews { columns: auto; column-gap: 0; margin: 0; align-items: stretch; }
+  .slider--reviews .review { width: calc((100% - 28px) / 3); margin: 0; }
+  .slider--reviews .review p { font-size: 16px; line-height: 1.55; }
+  @media (max-width: 960px) { .slider--reviews .review { width: calc((100% - 14px) / 2); } }
+  @media (max-width: 560px) { .slider--reviews .review { width: 86%; } }
+
+  .student__pics img { cursor: zoom-in; }
+
+  .left-chip { color: #050605; background: var(--accent); border-radius: 8px; padding: 4px 10px; box-shadow: 0 0 20px var(--glow); animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 34px rgba(199,247,54,.75); } }
+
+  /* ===== просмотр фото ===== */
+  .lb { position: fixed; inset: 0; z-index: 100; background: rgba(3,4,3,.94); display: flex; align-items: center; justify-content: center; padding: calc(env(safe-area-inset-top, 0px) + 56px) 0 calc(env(safe-area-inset-bottom, 0px) + 56px); }
+  .lb[hidden] { display: none; }
+  .lb__track { display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .lb__track::-webkit-scrollbar { display: none; }
+  .lb__track div { flex: none; width: 100%; height: 100%; scroll-snap-align: center; display: flex; align-items: center; justify-content: center; padding: 0 16px; }
+  .lb__track img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; }
+  .lb__close { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 10px); right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: #fff; font-size: 26px; line-height: 1; cursor: pointer; }
+  .lb__arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(199,247,54,.45); background: rgba(11,14,9,.8); color: var(--accent); font-size: 20px; cursor: pointer; z-index: 1; }
+  .lb__arrow--prev { left: 12px; } .lb__arrow--next { right: 12px; }
+  .lb__count { position: absolute; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); left: 0; right: 0; text-align: center; font: 500 13px/1 'IBM Plex Mono', monospace; color: var(--silver); }
+  @media (max-width: 600px) { .lb__arrow { display: none; } }
 </style>
 </head>
 <body>
@@ -448,7 +495,7 @@
         <div class="brand">ALPHA<span>4</span></div>
         <div class="mono">Мастер-группа · поток на <span class="js-total">10</span> человек</div>
         <h1><span class="t-lime">Блог</span> <span class="t-silver">на поток</span></h1>
-        <div class="tagline">14 дней <i></i> <span class="js-total">10</span> мест <i></i> <em>без съёмок каждый день</em></div>
+        <div class="tagline">14 дней <i></i> <span class="left-chip">осталось <span class="js-left">7</span> из <span class="js-total">10</span> мест</span> <i></i> <em>без съёмок каждый день</em></div>
         <p class="lead">Конвейер роликов, воронка и продукт, который можно продавать сразу. Каждый день задание, каждый вечер разбор.</p>
         <div class="cta-row">
           <a class="btn" href="#price"><svg class="btn__ico"><use href="#i-rocket"/></svg>Хочу в поток</a>
@@ -478,16 +525,16 @@
         <div class="num rv"><b>2 897</b><span>подписчиков: 2 019 у alexmasked и 878 у alex.fromzero</span></div>
         <div class="num rv"><b>128 тыс.</b><span>просмотров у лучшего ролика</span></div>
       </div>
-      <div class="shots">
-        <figure class="shot rv" style="margin:0">
-          <img src="img/akkaunty.jpg" alt="Статистика двух аккаунтов: 1 млн и 1,9 млн просмотров за 30 дней" width="1200" height="555" loading="lazy">
-          <figcaption>alexmasked — блогер без лица на ИИ · alex.fromzero — 1,9 млн просмотров за 30 дней</figcaption>
-        </figure>
-        <figure class="shot rv" style="margin:0">
-          <img src="img/reels.jpg" alt="Ролики alexmasked: 128 тыс., 23,4 тыс. и 22,7 тыс. просмотров" width="1440" height="840" loading="lazy">
-          <figcaption>Ролики, собранные через нейросеть: 128 тыс. · 23,4 тыс. · 22,7 тыс. просмотров</figcaption>
-        </figure>
+      <div class="slider" data-autoplay="4500">
+        <div class="slider__track">
+          <figure class="gslide"><img class="zoom" data-group="alex" decoding="async" src="img/alexmasked.jpg" alt="Профиль alexmasked: 2 019 подписчиков, 1 млн просмотров за 30 дней"><figcaption>alexmasked · 2 019 подписчиков · 1 млн просмотров за 30 дней</figcaption></figure>
+          <figure class="gslide"><img class="zoom" data-group="alex" decoding="async" src="img/reels.jpg" alt="Ролики alexmasked: 128 тыс., 23,4 тыс. и 22,7 тыс. просмотров"><figcaption>Ролики через нейросеть: 128 тыс. · 23,4 тыс. · 22,7 тыс.</figcaption></figure>
+          <figure class="gslide"><img class="zoom" data-group="alex" decoding="async" src="img/alexfromzero.jpg" alt="Профиль alex.fromzero: 878 подписчиков, 1,9 млн просмотров за 30 дней"><figcaption>alex.fromzero · 878 подписчиков · 1,9 млн просмотров за 30 дней</figcaption></figure>
+          <figure class="gslide"><img class="zoom" data-group="alex" decoding="async" src="img/akkaunty.jpg" alt="Статистика двух аккаунтов: 1 млн и 1,9 млн просмотров за 30 дней"><figcaption>Оба аккаунта рядом: 1 млн + 1,9 млн просмотров</figcaption></figure>
+        </div>
+        <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
       </div>
+      <p class="hint">Нажми на скрин, чтобы открыть крупно</p>
       <div class="h-small">Ещё ученики</div>
       <div class="students">
         <div class="student rv">
@@ -497,7 +544,7 @@
             <div><b>130 тыс.</b><span>просмотров, ролик 2</span></div>
             <div><b>116</b><span>подписчиков было на старте</span></div>
           </div>
-          <div class="student__pics"><img src="img/mariya_profile.jpg" alt="Профиль verle_mariya" loading="lazy"><img src="img/mariya_reels.jpg" alt="Ролики verle_mariya: 140 тыс. и 130 тыс. просмотров" loading="lazy"></div>
+          <div class="student__pics"><img class="zoom" data-group="mariya" src="img/mariya_profile.jpg" alt="Профиль verle_mariya" loading="lazy"><img class="zoom" data-group="mariya" src="img/mariya_reels.jpg" alt="Ролики verle_mariya: 140 тыс. и 130 тыс. просмотров" loading="lazy"></div>
         </div>
         <div class="student rv">
           <div class="student__head"><img src="img/sergey_ava.jpg" alt=""><div><b>@gaivoronsky_sergey</b><span>Личный блог, бизнес без прикрас</span></div><a href="https://instagram.com/gaivoronsky_sergey" target="_blank" rel="noopener">Открыть →</a></div>
@@ -506,7 +553,7 @@
             <div><b>28 тыс.</b><span>просмотров, серия про путь</span></div>
             <div><b>2 574</b><span>подписчика</span></div>
           </div>
-          <div class="student__pics"><img src="img/sergey_profile.jpg" alt="Профиль gaivoronsky_sergey: 2 574 подписчика" loading="lazy"><img src="img/sergey_reels.jpg" alt="Ролики gaivoronsky_sergey" loading="lazy"></div>
+          <div class="student__pics"><img class="zoom" data-group="sergey" src="img/sergey_profile.jpg" alt="Профиль gaivoronsky_sergey: 2 574 подписчика" loading="lazy"><img class="zoom" data-group="sergey" src="img/sergey_reels.jpg" alt="Ролики gaivoronsky_sergey" loading="lazy"></div>
         </div>
       </div>
 
@@ -520,15 +567,18 @@
       <div class="mono">Примеры по нишам</div>
       <h2>Как это выглядит в <span class="hl">разных нишах</span></h2>
       <p class="sub">Психология, финансы, кулинария, английский. Система одна, ниша любая.</p>
-      <div class="cases">
-        <div class="case rv"><div class="case__img"><img src="img/c_nastya.jpg" alt="Настя" loading="lazy"><div class="case__who"><b>Настя</b><span>Психология без лица</span></div></div><div class="case__body"><div><small>ДО</small>Не решалась начать, 0 подписчиков, страх камеры</div><div class="case__after"><small>ПОСЛЕ</small>3 недели по системе — 640 подписчиков, первый платный созвон</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_igor.jpg" alt="Игорь" loading="lazy"><div class="case__who"><b>Игорь</b><span>Финансы и инвестиции</span></div></div><div class="case__body"><div><small>ДО</small>Вёл канал 4 месяца, ролики по 80–90 просмотров</div><div class="case__after"><small>ПОСЛЕ</small>Один ролик по хуку из методички — 12 000 просмотров, +210 подписчиков</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_oksana.jpg" alt="Оксана" loading="lazy"><div class="case__who"><b>Оксана</b><span>ЗОЖ и питание</span></div></div><div class="case__body"><div><small>ДО</small>Год откладывала блог, боялась показывать лицо</div><div class="case__after"><small>ПОСЛЕ</small>AI-персонаж, 5 роликов за вечер, первая продажа гайда за 990 ₽</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_danil.jpg" alt="Данил" loading="lazy"><div class="case__who"><b>Данил</b><span>Саморазвитие</span></div></div><div class="case__body"><div><small>ДО</small>3 заброшенных попытки вести блог</div><div class="case__after"><small>ПОСЛЕ</small>5 недель по системе — 1 200 подписчиков, регулярные консультации</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_marina.jpg" alt="Марина" loading="lazy"><div class="case__who"><b>Марина</b><span>Бьюти и уход</span></div></div><div class="case__body"><div><small>ДО</small>Публиковала хаотично, рост стоял на месте</div><div class="case__after"><small>ПОСЛЕ</small>Перешла на faceless-формат — +900 подписчиков за месяц</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_timofey.jpg" alt="Тимофей" loading="lazy"><div class="case__who"><b>Тимофей</b><span>Нейросети и AI</span></div></div><div class="case__body"><div><small>ДО</small>Аккаунта не было вообще</div><div class="case__after"><small>ПОСЛЕ</small>2 недели — три ролика «залетели», 480 подписчиков</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_kristina.jpg" alt="Кристина" loading="lazy"><div class="case__who"><b>Кристина</b><span>Английский язык</span></div></div><div class="case__body"><div><small>ДО</small>Вела блог с лицом, выгорела за полгода</div><div class="case__after"><small>ПОСЛЕ</small>Faceless-формат — охваты выросли в 3 раза за месяц</div></div></div>
-        <div class="case rv"><div class="case__img"><img src="img/c_artem.jpg" alt="Артём" loading="lazy"><div class="case__who"><b>Артём</b><span>Кулинария</span></div></div><div class="case__body"><div><small>ДО</small>Ролики без системы, по 150–200 просмотров</div><div class="case__after"><small>ПОСЛЕ</small>Один ролик по хуку — 40 000 просмотров, +560 подписчиков</div></div></div>
+      <div class="slider slider--cases">
+        <div class="slider__track cases">
+        <div class="case"><div class="case__img"><img src="img/c_nastya.jpg" alt="Настя" loading="lazy"><div class="case__who"><b>Настя</b><span>Психология без лица</span></div></div><div class="case__body"><div><small>ДО</small>Не решалась начать, 0 подписчиков, страх камеры</div><div class="case__after"><small>ПОСЛЕ</small>3 недели по системе — 640 подписчиков, первый платный созвон</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_igor.jpg" alt="Игорь" loading="lazy"><div class="case__who"><b>Игорь</b><span>Финансы и инвестиции</span></div></div><div class="case__body"><div><small>ДО</small>Вёл канал 4 месяца, ролики по 80–90 просмотров</div><div class="case__after"><small>ПОСЛЕ</small>Один ролик по хуку из методички — 12 000 просмотров, +210 подписчиков</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_oksana.jpg" alt="Оксана" loading="lazy"><div class="case__who"><b>Оксана</b><span>ЗОЖ и питание</span></div></div><div class="case__body"><div><small>ДО</small>Год откладывала блог, боялась показывать лицо</div><div class="case__after"><small>ПОСЛЕ</small>AI-персонаж, 5 роликов за вечер, первая продажа гайда за 990 ₽</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_danil.jpg" alt="Данил" loading="lazy"><div class="case__who"><b>Данил</b><span>Саморазвитие</span></div></div><div class="case__body"><div><small>ДО</small>3 заброшенных попытки вести блог</div><div class="case__after"><small>ПОСЛЕ</small>5 недель по системе — 1 200 подписчиков, регулярные консультации</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_marina.jpg" alt="Марина" loading="lazy"><div class="case__who"><b>Марина</b><span>Бьюти и уход</span></div></div><div class="case__body"><div><small>ДО</small>Публиковала хаотично, рост стоял на месте</div><div class="case__after"><small>ПОСЛЕ</small>Перешла на faceless-формат — +900 подписчиков за месяц</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_timofey.jpg" alt="Тимофей" loading="lazy"><div class="case__who"><b>Тимофей</b><span>Нейросети и AI</span></div></div><div class="case__body"><div><small>ДО</small>Аккаунта не было вообще</div><div class="case__after"><small>ПОСЛЕ</small>2 недели — три ролика «залетели», 480 подписчиков</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_kristina.jpg" alt="Кристина" loading="lazy"><div class="case__who"><b>Кристина</b><span>Английский язык</span></div></div><div class="case__body"><div><small>ДО</small>Вела блог с лицом, выгорела за полгода</div><div class="case__after"><small>ПОСЛЕ</small>Faceless-формат — охваты выросли в 3 раза за месяц</div></div></div>
+        <div class="case"><div class="case__img"><img src="img/c_artem.jpg" alt="Артём" loading="lazy"><div class="case__who"><b>Артём</b><span>Кулинария</span></div></div><div class="case__body"><div><small>ДО</small>Ролики без системы, по 150–200 просмотров</div><div class="case__after"><small>ПОСЛЕ</small>Один ролик по хуку — 40 000 просмотров, +560 подписчиков</div></div></div>
+      </div>
+        <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
       </div>
     </div>
   </section>
@@ -673,15 +723,18 @@
       <div class="mono">Отзывы</div>
       <h2>Что пишут <span class="hl">после работы</span> со мной</h2>
       <p class="sub">Из чата обратной связи и личных сообщений.</p>
-      <div class="reviews">
-        <div class="review rv"><div class="mono">Egor Popov · отзыв о разборе</div><p>На созвоне очень круто пообщались, появился заряд и понял, что останавливаться нельзя! Даже мне, 16-летнему парню, Слава открыл глаза на те вещи, которых не видел! Всем рекомендую взаимодействовать со Славой!</p></div>
-        <div class="review rv"><div class="mono">vova · «У тебя как успехи, всё гуд?»</div><p>Да норм) лучше чем было пару недель назад, два месяца набирал 2к подписчиков, понял и внедрил несколько фишек и полетел)</p></div>
-        <div class="review rv"><div class="mono">Viktor Kubyshkin</div><p>Честный отзыв о тебе: много был на разных созвонах от супер-мега экспертов, но всё заканчивалось одним, острым чувством наеба. После разговора с тобой этого нет. Вайб у тебя свойский. Потому готов попробовать😄</p></div>
-        <div class="review rv"><div class="mono">Филипп · работа в море на яхтах с нуля</div><p>Привет) всё збс) двое суток один ролик пилил)) но всё гуд, 1,5к просмотров за сутки! Крутая команда и Вячеслав крутой мужик!</p></div>
-        <div class="review rv"><div class="mono">Лера</div><p>Хочется сказать тебе большое спасибо за информацию, которую дал. Особенно классно, когда всё по делу, чётко и ясно. Теперь в голове есть порядок действий, с чего начать, что посмотреть. Уже села всё изучать 😊</p></div>
-        <div class="review rv"><div class="mono">vova · чат обратной связи</div><p>Который раз убеждаюсь: нехрен тратить время и изобретать велосипед, заплати тому, у кого получается то, чего хочешь ты, и не парь себе мозг)))</p></div>
-        <div class="review rv"><div class="mono">Алим Ермеков</div><p>Хотел сказать спасибо за вчерашние разъяснения, было ощущение, что не у бота учиться собираюсь, а у реального человека, который умеет просто разговаривать. Плюс нормальная реакция на чайника.</p></div>
-        <div class="review rv"><div class="mono">Михаил К.</div><p>Ребята, это было круто!!! Воодушевляет такое общение единомышленников!!! Узнал много нового, хотя по факту я только на самом старте.</p></div>
+      <div class="slider slider--reviews" data-autoplay="5000">
+        <div class="slider__track reviews">
+        <div class="review"><div class="mono">Egor Popov · отзыв о разборе</div><p>На созвоне очень круто пообщались, появился заряд и понял, что останавливаться нельзя! Даже мне, 16-летнему парню, Слава открыл глаза на те вещи, которых не видел! Всем рекомендую взаимодействовать со Славой!</p></div>
+        <div class="review"><div class="mono">vova · «У тебя как успехи, всё гуд?»</div><p>Да норм) лучше чем было пару недель назад, два месяца набирал 2к подписчиков, понял и внедрил несколько фишек и полетел)</p></div>
+        <div class="review"><div class="mono">Viktor Kubyshkin</div><p>Честный отзыв о тебе: много был на разных созвонах от супер-мега экспертов, но всё заканчивалось одним, острым чувством наеба. После разговора с тобой этого нет. Вайб у тебя свойский. Потому готов попробовать😄</p></div>
+        <div class="review"><div class="mono">Филипп · работа в море на яхтах с нуля</div><p>Привет) всё збс) двое суток один ролик пилил)) но всё гуд, 1,5к просмотров за сутки! Крутая команда и Вячеслав крутой мужик!</p></div>
+        <div class="review"><div class="mono">Лера</div><p>Хочется сказать тебе большое спасибо за информацию, которую дал. Особенно классно, когда всё по делу, чётко и ясно. Теперь в голове есть порядок действий, с чего начать, что посмотреть. Уже села всё изучать 😊</p></div>
+        <div class="review"><div class="mono">vova · чат обратной связи</div><p>Который раз убеждаюсь: нехрен тратить время и изобретать велосипед, заплати тому, у кого получается то, чего хочешь ты, и не парь себе мозг)))</p></div>
+        <div class="review"><div class="mono">Алим Ермеков</div><p>Хотел сказать спасибо за вчерашние разъяснения, было ощущение, что не у бота учиться собираюсь, а у реального человека, который умеет просто разговаривать. Плюс нормальная реакция на чайника.</p></div>
+        <div class="review"><div class="mono">Михаил К.</div><p>Ребята, это было круто!!! Воодушевляет такое общение единомышленников!!! Узнал много нового, хотя по факту я только на самом старте.</p></div>
+      </div>
+        <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
       </div>
     </div>
   </section>
@@ -750,7 +803,7 @@
     </div>
     <div class="wrap">
       <h2>Старт <span class="hl">в понедельник</span></h2>
-      <p class="sub">Мест <span class="js-total">10</span>. Цена <span class="js-final-price">14 990 ₽</span>, пока идёт таймер.</p>
+      <p class="sub">Осталось <span class="js-left">7</span> мест из <span class="js-total">10</span>. Цена <span class="js-final-price">14 990 ₽</span>, пока идёт таймер.</p>
       <div class="cta-row">
         <a class="btn js-pay" href="#" target="_blank" rel="noopener">Оплатить</a>
         <a class="btn btn--ghost" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">Задать вопрос</a>
@@ -763,13 +816,21 @@
   <div class="wrap">Слава, ALPHA4 · Telegram и Instagram: <a href="https://instagram.com/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a> · <a href="mailto:slavsfaceless@gmail.com">slavsfaceless@gmail.com</a></div>
 </footer>
 
+<div class="lb" id="lb" hidden>
+  <button class="lb__close" aria-label="Закрыть">×</button>
+  <button class="lb__arrow lb__arrow--prev" aria-label="Назад">←</button>
+  <div class="lb__track" id="lbTrack"></div>
+  <button class="lb__arrow lb__arrow--next" aria-label="Вперёд">→</button>
+  <div class="lb__count" id="lbCount"></div>
+</div>
+
 <script>
   // ===== НАСТРОЙКИ =====
   // Конец скидки (время по UTC, по Москве +3 часа).
   var DEADLINE = new Date('2026-10-02T10:30:00Z').getTime();
   // Всего мест в потоке и сколько ещё свободно. Когда кто-то оплатил, уменьшай SEATS_LEFT.
   var SEATS_TOTAL = 10;
-  var SEATS_LEFT = 10;
+  var SEATS_LEFT = 7;
   // Ссылка на оплату (Точка). Сейчас в ней 14 990 ₽.
   // Когда скидка закончится, поставь в PAY_URL_AFTER ссылку на 20 000 ₽.
   var PAY_URL = 'https://tochkaplace.com/ia/89ce0448-163f-4765-a80d-5afe2b9e7952';
@@ -802,7 +863,7 @@
       document.getElementById('priceBox').classList.add('is-over');
       document.getElementById('priceNow').textContent = '20 000 ₽';
       each('.js-hero-price', function (el) { el.innerHTML = '<b>20 000 ₽</b> · старт в понедельник'; });
-      each('.js-final-price', function (el) { el.parentNode.textContent = 'Мест ' + SEATS_TOTAL + '. Цена 20 000 ₽.'; });
+      each('.js-final-price', function (el) { el.parentNode.textContent = 'Осталось ' + SEATS_LEFT + ' мест из ' + SEATS_TOTAL + '. Цена 20 000 ₽.'; });
       text = 'Блог на поток за 14 дней · <b>' + seats + '</b> · старт в понедельник · пиши @slava.alpha4';
     } else {
       var s = Math.floor(left / 1000);
@@ -823,6 +884,101 @@
   if (!render()) {
     var t = setInterval(function () { if (render()) clearInterval(t); }, 1000);
   }
+
+  // ===== карусели =====
+  each('.slider', function (sl) {
+    var track = sl.querySelector('.slider__track');
+    var dotsBox = sl.querySelector('.slider__dots');
+    var slides = track.children;
+    var dots = [];
+    // точки остановки: начало каждого слайда, но не дальше конца ленты
+    function stops() {
+      var max = track.scrollWidth - track.clientWidth, out = [];
+      Array.prototype.forEach.call(slides, function (s) {
+        var x = Math.min(max, s.offsetLeft - slides[0].offsetLeft);
+        if (!out.length || x - out[out.length - 1] > 4) out.push(x);
+      });
+      return out.length ? out : [0];
+    }
+    function pages() { return stops().length; }
+    function current() {
+      var st = stops(), x = track.scrollLeft, best = 0;
+      st.forEach(function (v, i) { if (Math.abs(v - x) < Math.abs(st[best] - x)) best = i; });
+      return best;
+    }
+    function go(i) {
+      var st = stops();
+      if (i < 0) i = st.length - 1;
+      if (i >= st.length) i = 0;
+      track.scrollTo({ left: st[i], behavior: 'smooth' });
+    }
+    function buildDots() {
+      dotsBox.innerHTML = ''; dots = [];
+      for (var i = 0; i < pages(); i++) {
+        var d = document.createElement('button');
+        d.setAttribute('aria-label', 'Слайд ' + (i + 1));
+        (function (k) { d.addEventListener('click', function () { go(k); stop(); }); })(i);
+        dotsBox.appendChild(d); dots.push(d);
+      }
+      mark();
+    }
+    function mark() { var c = current(); dots.forEach(function (d, i) { d.className = i === c ? 'on' : ''; }); }
+    Array.prototype.forEach.call(sl.querySelectorAll('.slider__btn'), function (b) {
+      b.addEventListener('click', function () { go(current() + Number(b.getAttribute('data-dir'))); stop(); });
+    });
+    var raf; track.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(mark); });
+    window.addEventListener('resize', buildDots);
+    Array.prototype.forEach.call(track.querySelectorAll('img'), function (im) { if (!im.complete) im.addEventListener('load', buildDots); });
+    buildDots();
+
+    // автолистание, пока человек сам не начал листать
+    var delay = Number(sl.getAttribute('data-autoplay')) || 0, timer = null, reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    if (delay && !reduce) {
+      timer = setInterval(function () {
+        var r = sl.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) go(current() + 1);
+      }, delay);
+      ['pointerdown', 'touchstart', 'wheel'].forEach(function (ev) { track.addEventListener(ev, stop, { passive: true }); });
+    }
+  });
+
+  // ===== просмотр фото на весь экран =====
+  var lb = document.getElementById('lb'), lbTrack = document.getElementById('lbTrack'), lbCount = document.getElementById('lbCount');
+  var lbImgs = [];
+  function lbShow(group, start) {
+    lbImgs = Array.prototype.filter.call(document.querySelectorAll('img.zoom'), function (im) { return im.getAttribute('data-group') === group; });
+    lbTrack.innerHTML = lbImgs.map(function (im) { return '<div><img src="' + im.src + '" alt="' + im.alt.replace(/"/g, '&quot;') + '"></div>'; }).join('');
+    lb.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    lbTrack.style.scrollBehavior = 'auto';
+    lbTrack.scrollLeft = start * lbTrack.clientWidth;
+    lbTrack.style.scrollBehavior = '';
+    lbCounter();
+  }
+  function lbCur() { return Math.round(lbTrack.scrollLeft / lbTrack.clientWidth); }
+  function lbCounter() { lbCount.textContent = (lbCur() + 1) + ' / ' + lbImgs.length; }
+  function lbGo(d) { var i = Math.min(lbImgs.length - 1, Math.max(0, lbCur() + d)); lbTrack.scrollTo({ left: i * lbTrack.clientWidth, behavior: 'smooth' }); }
+  function lbClose() { lb.hidden = true; document.documentElement.style.overflow = ''; }
+  lbTrack.addEventListener('scroll', lbCounter);
+  lb.querySelector('.lb__close').addEventListener('click', lbClose);
+  lb.querySelector('.lb__arrow--prev').addEventListener('click', function () { lbGo(-1); });
+  lb.querySelector('.lb__arrow--next').addEventListener('click', function () { lbGo(1); });
+  lb.addEventListener('click', function (e) { if (e.target.tagName === 'DIV' && e.target.parentNode === lbTrack) lbClose(); });
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') lbClose();
+    if (e.key === 'ArrowRight') lbGo(1);
+    if (e.key === 'ArrowLeft') lbGo(-1);
+  });
+  each('img.zoom', function (im) {
+    im.addEventListener('click', function () {
+      var g = im.getAttribute('data-group');
+      var list = Array.prototype.filter.call(document.querySelectorAll('img.zoom'), function (x) { return x.getAttribute('data-group') === g; });
+      lbShow(g, list.indexOf(im));
+    });
+  });
 </script>
 </body>
 </html>
