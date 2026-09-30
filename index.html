@@ -510,6 +510,46 @@
   .inside__pics img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); cursor: zoom-in; transition: transform .3s; }
   .inside__pics img:hover { transform: scale(1.02); }
   @media (max-width: 860px) { .inside { grid-template-columns: 1fr; } }
+  /* ===== честно ===== */
+  .honest { margin-top: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px 24px; }
+  .honest h3, .noface h2, .nolessons h3, .dm h3 { text-transform: uppercase; }
+  .honest h3 { font-size: clamp(20px, 3vw, 28px); margin: 10px 0 18px; }
+  .honest__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .honest__grid p { margin: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; font-size: 16px; color: var(--silver); }
+  @media (max-width: 700px) { .honest__grid { grid-template-columns: 1fr; } }
+
+  /* ===== без лица ===== */
+  .noface { text-align: center; padding: 10px 0 48px; margin-bottom: 40px; border-bottom: 1px solid var(--line); }
+  .noface .mono { justify-content: center; }
+  .noface h2 { max-width: 760px; margin-left: auto; margin-right: auto; }
+  .noface__big { font: 900 clamp(48px, 10vw, 104px)/1 'Unbounded', sans-serif; text-transform: uppercase; letter-spacing: -.03em; margin: 18px 0 26px;
+    background: linear-gradient(180deg, #ecff7a 0%, #c7f736 45%, #93c912 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 30px rgba(199,247,54,.4)); }
+  .noface__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 820px; margin: 0 auto; text-align: left; }
+  .noface__grid p { margin: 0; font: 700 18px/1.45 'Manrope', sans-serif; color: #fff; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  @media (max-width: 700px) { .noface__grid { grid-template-columns: 1fr; } }
+
+  /* ===== не уроки ===== */
+  .nolessons { margin-top: 28px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: center; border: 1px solid rgba(199,247,54,.35); background: radial-gradient(120% 120% at 0% 0%, rgba(199,247,54,.10), var(--panel) 60%); border-radius: 18px; padding: 26px 24px; box-shadow: 0 0 40px rgba(199,247,54,.08); }
+  .nolessons h3 { font-size: clamp(20px, 3vw, 28px); margin-top: 10px; line-height: 1.15; }
+  .nolessons p { margin: 0; font-size: 18px; color: #fff; }
+  @media (max-width: 760px) { .nolessons { grid-template-columns: 1fr; } }
+
+  .inside--3 { grid-template-columns: 1fr 1fr; }
+  .inside--3 > :last-child { grid-column: 1 / -1; grid-template-columns: 1fr 240px; align-items: center; }
+  .inside--3 > :last-child .inside__pics--one { max-width: 240px; }
+  .inside--3 > :last-child .inside__pics--one { justify-self: end; }
+  @media (max-width: 860px) { .inside--3 { grid-template-columns: 1fr; } .inside--3 > :last-child { grid-template-columns: 1fr; } .inside--3 > :last-child .inside__pics--one { justify-self: center; } }
+
+  /* ===== напиши в личку ===== */
+  .dm { margin: 44px auto 0; max-width: 640px; text-align: left; background: rgba(11,14,9,.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid var(--line); border-radius: 20px; padding: 30px 26px; }
+  .dm h3 { font-size: clamp(22px, 3.4vw, 30px); text-align: center; }
+  .dm__lead { text-align: center; margin: 8px 0 18px; color: var(--silver); font-weight: 700; }
+  .dm__list { list-style: none; padding: 0; margin: 0 0 22px; display: grid; gap: 12px; }
+  .dm__list li { position: relative; padding-left: 32px; font: 700 17px/1.4 'Manrope', sans-serif; color: #fff; }
+  .dm__list li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #050605; font: 800 12px/22px 'Manrope', sans-serif; text-align: center; box-shadow: 0 0 12px var(--glow); }
+  .dm__chip { text-align: center; font: 800 16px/1.2 'Unbounded', sans-serif; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 12px 16px; box-shadow: 0 0 20px rgba(199,247,54,.2) inset; }
+  .dm__calm { text-align: center; margin: 14px 0 18px; color: var(--silver); font-size: 17px; }
+  .btn--dm { display: flex; justify-content: center; width: 100%; }
 </style>
 </head>
 <body>
@@ -619,7 +659,16 @@
         </div>
       </div>
 
-      <p class="fine">Скажу честно: это одни из лучших результатов прошлых потоков. У кого меньше роликов, у того и рост медленнее. Результат зависит от того, сколько ты делаешь.</p>
+      <div class="honest rv">
+        <div class="mono">Скажу честно</div>
+        <h3>Не у всех так, <span class="hl">как у него</span></h3>
+        <div class="honest__grid">
+          <p>Это один из лучших результатов среди <b class="accent">почти 15 человек.</b></p>
+          <p>Кто-то двигается медленнее, потому что делает меньше контента.</p>
+          <p>Результат зависит от того, <b class="accent">сколько ты делаешь</b>, а не от удачи.</p>
+          <p>Доступ к материалам и группе остаётся, так что продолжить можно в любой момент.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -700,7 +749,18 @@
       <div class="mono">Как это выглядит внутри</div>
       <h2>Обычный день <span class="hl">в мастер-группе</span></h2>
       <p class="sub">Реальные скрины из чата потока. Нажми, чтобы открыть крупно.</p>
-      <div class="inside">
+      <div class="inside inside--3">
+        <div class="inside__card rv">
+          <div class="inside__text">
+            <div class="step-tag">Всё расписано по дням</div>
+            <h3>Каждый день урок и задание</h3>
+            <p>Посмотрел урок и сразу делаешь. От первого ролика до статьи-воронки в Telegram.</p>
+          </div>
+          <div class="inside__pics">
+            <img class="zoom" data-group="inside" src="img/chat_day1.jpg" alt="Чат «День №1»: задание, как собирать видео" loading="lazy">
+            <img class="zoom" data-group="inside" src="img/chat_day2.jpg" alt="Чат «Отчёт за день»: участники сдают статьи-воронки" loading="lazy">
+          </div>
+        </div>
         <div class="inside__card rv">
           <div class="inside__text">
             <div class="step-tag">Каждый вечер</div>
@@ -729,6 +789,15 @@
   <!-- 4. форматы -->
   <section>
     <div class="wrap">
+      <div class="noface rv">
+        <div class="mono">Для тех, кто не хочет в кадр</div>
+        <h2>Хочешь блог, но не готов показывать лицо?</h2>
+        <div class="noface__big">И не нужно</div>
+        <div class="noface__grid">
+          <p>Персонажа, ролики и тексты делает <b class="accent">ИИ</b>.</p>
+          <p>Ты управляешь процессом: что снимать, как вести людей в Telegram и как продавать.</p>
+        </div>
+      </div>
       <div class="mono">Три способа, выбираешь на старте</div>
       <h2>Снимать себя каждый день <span class="hl">не придётся</span></h2>
       <p class="sub">Людей останавливает не лень, а мысль «мне что, теперь каждый день говорить на камеру». Механику всех трёх форматов я показываю.</p>
@@ -788,6 +857,14 @@
         <div class="card rv"><div class="ico"><svg><use href="#i-box"/></svg></div><h3>Готовый продукт</h3><p>С правами перепродажи. Можно продавать сразу.</p></div>
         <div class="card rv"><div class="ico"><svg><use href="#i-users"/></svg></div><h3>Чат группы</h3><p>На всё время потока.</p></div>
         <div class="card rv"><div class="ico"><svg><use href="#i-check"/></svg></div><h3>Созвон-контроль</h3><p>Через две недели после финала, без доплаты.</p></div>
+      </div>
+
+      <div class="nolessons rv">
+        <div>
+          <div class="mono">Не буду продавать тебе уроки</div>
+          <h3>Уроки, шаблоны и промты внутри есть. <span class="hl">Но главное не в них</span></h3>
+        </div>
+        <p>14 дней ты делаешь, а я рядом: разбираю, подсказываю и слежу, чтобы ты дошёл до результата, а не бросил на третий день.</p>
       </div>
     </div>
   </section>
@@ -927,7 +1004,20 @@
       <p class="sub">Осталось <span class="js-left">7</span> мест из <span class="js-total">10</span>. Цена <span class="js-final-price">14 990 ₽</span>, пока идёт таймер.</p>
       <div class="cta-row">
         <a class="btn js-pay" href="#" target="_blank" rel="noopener">Оплатить</a>
-        <a class="btn btn--ghost" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">Задать вопрос</a>
+      </div>
+
+      <div class="dm rv">
+        <h3>Ещё думаешь? Напиши мне <span class="hl">в личку</span></h3>
+        <p class="dm__lead">и я пришлю:</p>
+        <ul class="dm__list">
+          <li>программу мастер-группы по дням</li>
+          <li>результаты участников со скринами</li>
+          <li>условия и цену</li>
+          <li>голосовое, где расскажу, как всё устроено и кому это подойдёт</li>
+        </ul>
+        <div class="dm__chip">−25% тем, кто запишется до старта</div>
+        <p class="dm__calm">Спокойно посмотришь и решишь</p>
+        <a class="btn btn--dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Написать мне в личку</a>
       </div>
     </div>
   </section>
