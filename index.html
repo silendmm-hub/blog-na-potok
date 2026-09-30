@@ -457,6 +457,22 @@
   .lb__arrow--prev { left: 12px; } .lb__arrow--next { right: 12px; }
   .lb__count { position: absolute; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); left: 0; right: 0; text-align: center; font: 500 13px/1 'IBM Plex Mono', monospace; color: var(--silver); }
   @media (max-width: 600px) { .lb__arrow { display: none; } }
+  /* ===== сколько нужно на старт ===== */
+  .startcost { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: center; }
+  .startcost__head h3 { font-size: 20px; text-transform: uppercase; margin: 10px 0 8px; }
+  .startcost__head p { margin: 0; font-size: 15px; }
+  .tools { display: grid; gap: 10px; }
+  .tool { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .tool b { font: 800 16px/1.2 'Unbounded', sans-serif; color: #fff; }
+  .tool span { font-size: 14px; color: var(--muted); min-width: 0; }
+  .tool em { font: 800 15px/1.2 'Unbounded', sans-serif; font-style: normal; color: var(--accent); white-space: nowrap; text-shadow: 0 0 16px rgba(199,247,54,.35); }
+  .tool i { grid-column: 1 / -1; justify-self: start; font: 500 11px/1 'IBM Plex Mono', monospace; font-style: normal; letter-spacing: .04em; text-transform: uppercase; color: #050605; background: var(--accent); border-radius: 999px; padding: 6px 10px; margin-top: 4px; }
+  .startcost__note { grid-column: 1 / -1; margin: 0; font-size: 14px; color: var(--silver); }
+  @media (max-width: 760px) {
+    .startcost { grid-template-columns: 1fr; }
+    .tool { grid-template-columns: 1fr auto; }
+    .tool span { grid-column: 1 / -1; grid-row: 2; }
+  }
 </style>
 </head>
 <body>
@@ -767,6 +783,20 @@
           <div class="card rv"><div><div class="mono" style="margin-bottom:6px">Почему только <span class="js-total">10</span> мест</div><p>Отвечать каждому каждый вечер на большем количестве я физически не смогу. А без этого группа превращается в обычный курс.</p></div></div>
         </div>
       </div>
+
+      <div class="startcost rv">
+        <div class="startcost__head">
+          <div class="mono">Сколько нужно на старт</div>
+          <h3>Кроме оплаты потока — только подписки на сервисы</h3>
+          <p>Техника не нужна, всё делается с телефона. Платишь только за инструменты, на которых собираешь ролики и воронку.</p>
+        </div>
+        <div class="tools">
+          <div class="tool"><b>Claude</b><span>нейросеть для сценариев и текстов</span><em>20 € в месяц</em></div>
+          <div class="tool"><b>Syntx</b><span>агрегатор нейросетей для роликов</span><em>1 690 ₽ в месяц</em></div>
+          <div class="tool"><b>ChatPlace</b><span>воронка и автоответы в директе</span><em>2 000–4 000 ₽ в месяц</em><i>первые 14 дней бесплатно</i></div>
+        </div>
+        <p class="startcost__note">На время потока ChatPlace бесплатный, так что платишь только за Claude и Syntx.</p>
+      </div>
     </div>
   </section>
 
@@ -789,6 +819,7 @@
       <div class="mono">Частые вопросы</div>
       <h2>Коротко <span class="hl">о главном</span></h2>
       <details><summary>Сколько времени нужно в день?</summary><p>Около часа. Ролики собираешь пачкой и ставишь в отложку, поэтому 5–10 видео в день укладываются в этот час.</p></details>
+      <details><summary>Сколько денег нужно, кроме оплаты потока?</summary><p>Только подписки на сервисы: Claude 20 € в месяц, Syntx 1 690 ₽ в месяц и ChatPlace 2 000–4 000 ₽ в месяц. ChatPlace первые 14 дней бесплатный, поэтому на время потока платишь только за Claude и Syntx. Техника не нужна, хватит телефона.</p></details>
       <details><summary>Мне обязательно показывать лицо?</summary><p>Нет. Можно вести блог через ИИ-аватара или на бытовых кадрах. Способ выбираем на первом созвоне.</p></details>
       <details><summary>У меня нет опыта и техники. Получится?</summary><p>Да. Всё делается с телефона. Начинали с нуля почти все, кто у меня был.</p></details>
       <details><summary>Не знаю, про что вести блог и что продавать</summary><p>Тему выберем на первом созвоне. Продукт я даю свой, с правами перепродажи.</p></details>
