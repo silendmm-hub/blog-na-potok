@@ -279,10 +279,6 @@
   @keyframes fill { from { width: 0; } }
 
   /* плавное появление при прокрутке (где браузер умеет) */
-  @supports (animation-timeline: view()) {
-    .rv { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
-    @keyframes rise { from { opacity: .15; transform: translateY(40px) scale(.98); } to { opacity: 1; transform: none; } }
-  }
 
   /* ленты публикаций */
   .belt { display: flex; width: max-content; animation: belt 60s linear infinite; }
@@ -584,6 +580,88 @@
   .variant__who { font: 400 12px/1.6 'IBM Plex Mono', monospace; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
   .variant__who a { color: var(--accent); text-decoration: none; }
   @media (max-width: 760px) { .variants { grid-template-columns: 1fr; } }
+  /* ===== мобильные карусели ===== */
+  .mdots { display: none; }
+  @media (max-width: 760px) {
+    .mcar { display: flex !important; grid-template-columns: none !important; gap: 12px !important; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-left: -20px !important; margin-right: -20px !important; padding: 4px 20px 6px !important; scroll-padding: 0 20px; -webkit-overflow-scrolling: touch; }
+    .mcar::-webkit-scrollbar { display: none; }
+    .mcar > * { flex: 0 0 84% !important; scroll-snap-align: start; margin: 0 !important; }
+    .mcar.who > *, .mcar.honest__grid > *, .mcar.noface__grid > * { flex-basis: 78% !important; }
+    .mcar.case-nums > *, .mcar.result > * { flex-basis: 62% !important; }
+    .mcar.steps > .card::before { margin-bottom: 12px; }
+    .mdots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+    .mdots i { width: 6px; height: 6px; border-radius: 3px; background: var(--line); transition: width .35s cubic-bezier(.2,.7,.2,1), background .35s; }
+    .mdots i.on { width: 22px; background: var(--accent); box-shadow: 0 0 10px var(--glow); }
+    .mhint { display: block; }
+  }
+
+  /* ===== ученики каруселью ===== */
+  .slider--students .students { display: flex; grid-template-columns: none; margin: 0; }
+  .slider--students .student { width: calc((100% - 14px) / 2); }
+  @media (max-width: 760px) { .slider--students .student { width: 88%; } }
+
+  /* ===== индикация прокрутки ===== */
+  .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(5,6,5,.18); }
+  .progress i { display: block; height: 100%; width: 100%; background: #050605; transform: scaleX(0); transform-origin: 0 50%; }
+
+  .sidenav { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 9; display: none; flex-direction: column; gap: 10px; }
+  .sidenav a { position: relative; display: block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(199,247,54,.5); background: transparent; transition: transform .3s, background .3s, box-shadow .3s; }
+  .sidenav a.on { background: var(--accent); transform: scale(1.35); box-shadow: 0 0 12px var(--glow); }
+  .sidenav a.done { background: rgba(199,247,54,.35); }
+  .sidenav a span { position: absolute; right: 22px; top: 50%; transform: translate(8px,-50%); opacity: 0; white-space: nowrap; pointer-events: none; font: 500 11px/1 'IBM Plex Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: #050605; background: var(--accent); border-radius: 6px; padding: 6px 8px; transition: opacity .25s, transform .25s; }
+  .sidenav a:hover span, .sidenav a:focus-visible span { opacity: 1; transform: translate(0,-50%); }
+  @media (min-width: 1180px) { .sidenav { display: flex; } }
+
+  .ring { position: fixed; right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); z-index: 9; width: 58px; height: 58px; border-radius: 50%; background: rgba(11,14,9,.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: grid; place-items: center; text-decoration: none; box-shadow: 0 8px 30px rgba(0,0,0,.5); opacity: 0; transform: translateY(20px) scale(.9); transition: opacity .4s, transform .4s cubic-bezier(.2,.7,.2,1); }
+  .ring.show { opacity: 1; transform: none; }
+  .ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring__track { fill: none; stroke: var(--line); stroke-width: 3; }
+  .ring__fill { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 132; stroke-dashoffset: 132; filter: drop-shadow(0 0 4px rgba(199,247,54,.6)); }
+  .ring span { position: relative; font: 800 12px/1 'Unbounded', sans-serif; color: #fff; font-variant-numeric: tabular-nums; }
+
+  .toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 22px); z-index: 9; display: flex; align-items: center; gap: 10px; padding: 9px 14px 9px 10px; border-radius: 999px; background: rgba(11,14,9,.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(199,247,54,.3); transform: translate(-50%, 30px); opacity: 0; transition: opacity .35s, transform .45s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .toast b { font: 800 11px/1 'Unbounded', sans-serif; color: #050605; background: var(--accent); border-radius: 999px; padding: 6px 8px; font-variant-numeric: tabular-nums; }
+  .toast span { font: 500 12px/1 'IBM Plex Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+
+  /* ===== появление блоков ===== */
+  html.js .rv { opacity: 0; transform: translateY(40px) scale(.985); filter: blur(10px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1), filter .9s ease; transition-delay: var(--d, 0ms); }
+  html.js .rv.in { opacity: 1; transform: none; filter: none; }
+  html.js .card.rv.in:hover, html.js .num.rv.in:hover, html.js .phase.rv.in:hover, html.js .variant.rv.in:hover { transform: translateY(-4px); transition-delay: 0ms; }
+
+  html.js section .mono { clip-path: inset(0 100% 0 0); transition: clip-path 1s cubic-bezier(.2,.7,.2,1) .05s; }
+  html.js section h2 { opacity: 0; transform: translateY(26px); clip-path: inset(0 0 100% 0); transition: opacity .8s ease .1s, transform 1s cubic-bezier(.2,.7,.2,1) .1s, clip-path 1s cubic-bezier(.2,.7,.2,1) .1s; }
+  html.js section .sub { opacity: 0; transform: translateY(18px); transition: opacity .8s ease .25s, transform .9s cubic-bezier(.2,.7,.2,1) .25s; }
+  html.js section .mono.in { clip-path: inset(0 0 0 0); }
+  html.js section h2.in { opacity: 1; transform: none; clip-path: inset(-20% -5% -20% -5%); }
+  html.js section .sub.in { opacity: 1; transform: none; }
+
+  section::after { content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); opacity: 0; transition: transform 1.4s cubic-bezier(.2,.7,.2,1), opacity 1.4s; pointer-events: none; }
+  section.in::after { transform: scaleX(1); opacity: .55; }
+
+  /* первый экран: сборка при загрузке */
+  html.js .hero__text > * { animation: heroIn 1s cubic-bezier(.2,.7,.2,1) both; }
+  html.js .hero__text > :nth-child(1) { animation-delay: .1s; }
+  html.js .hero__text > :nth-child(2) { animation-delay: .2s; }
+  html.js .hero__text > :nth-child(3) { animation-delay: .3s; }
+  html.js .hero__text > :nth-child(4) { animation-delay: .5s; }
+  html.js .hero__text > :nth-child(5) { animation-delay: .6s; }
+  html.js .hero__text > :nth-child(6) { animation-delay: .72s; }
+  html.js .hero__text > :nth-child(7) { animation-delay: .85s; }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(34px); filter: blur(12px); } to { opacity: 1; transform: none; filter: none; } }
+  html.js .hero-bg { animation: bgIn 1.8s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes bgIn { from { opacity: 0; transform: scale(1.12); filter: blur(14px); } to { opacity: 1; transform: none; filter: none; } }
+  html.js .hero__chips .float { animation: heroIn 1s cubic-bezier(.2,.7,.2,1) both 1s, bob 5s ease-in-out infinite 2s; }
+
+  /* подсветка под курсором */
+  @media (hover: hover) {
+    .spot { background-image: radial-gradient(420px circle at var(--mx, -999px) var(--my, -999px), rgba(199,247,54,.09), transparent 45%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .rv, html.js section h2, html.js section .sub, html.js section .mono, html.js .hero__text > *, html.js .hero-bg { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; animation: none !important; transition: none !important; }
+    section::after { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -609,12 +687,13 @@
 </svg>
 
 <div class="ticker" aria-live="off">
+  <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
   <div class="ticker__track" id="ticker"></div>
 </div>
 
 <main>
   <!-- 1. первый экран -->
-  <div class="hero-zone">
+  <div class="hero-zone" data-nav="Начало">
     <div class="hero-bg" aria-hidden="true"><img src="img/hero.jpg" alt=""></div>
     <div class="glow glow--a"></div><div class="glow glow--b"></div>
     <div class="wrap hero">
@@ -643,14 +722,14 @@
   </div>
 
   <!-- 2. кейс -->
-  <section>
+  <section data-nav="Кейсы">
     <div class="wrap">
       <div class="mono">Результаты учеников</div>
       <h2>Два аккаунта с нуля и <span class="hl">2,9 млн просмотров</span> за месяц</h2>
-      <div class="case-nums">
-        <div class="num rv"><b>2,9 млн</b><span>просмотров за 30 дней на двух аккаунтах</span></div>
-        <div class="num rv"><b>2 897</b><span>подписчиков: 2 019 у alexmasked и 878 у alex.fromzero</span></div>
-        <div class="num rv"><b>128 тыс.</b><span>просмотров у лучшего ролика</span></div>
+      <div class="case-nums mcar">
+        <div class="num"><b class="count">2,9 млн</b><span>просмотров за 30 дней на двух аккаунтах</span></div>
+        <div class="num"><b class="count">2 897</b><span>подписчиков: 2 019 у alexmasked и 878 у alex.fromzero</span></div>
+        <div class="num"><b class="count">128 тыс.</b><span>просмотров у лучшего ролика</span></div>
       </div>
       <div class="slider" data-autoplay="4500">
         <div class="slider__track">
@@ -671,12 +750,24 @@
           <div class="vs"><b>2</b><span>ролика в неделю у большинства</span></div>
         </div>
       </div>
+      <div class="honest rv">
+        <div class="mono">Скажу честно</div>
+        <h3>Не у всех так, <span class="hl">как у него</span></h3>
+        <div class="honest__grid mcar">
+          <p>Это один из лучших результатов среди <b class="accent">почти 15 человек.</b></p>
+          <p>Кто-то двигается медленнее, потому что делает меньше контента.</p>
+          <p>Результат зависит от того, <b class="accent">сколько ты делаешь</b>, а не от удачи.</p>
+          <p>Доступ к материалам и группе остаётся, так что продолжить можно в любой момент.</p>
+        </div>
+      </div>
+
       <div class="students-head">
         <div class="mono">Ученики</div>
         <h3>С полного нуля по моей системе, <span class="hl">с лицом и без</span></h3>
       </div>
-      <div class="students">
-        <div class="student rv">
+      <div class="slider slider--students">
+        <div class="slider__track students">
+        <div class="student">
           <div class="student__head"><img src="img/mariya_ava.jpg" alt=""><div><b>@verle_mariya</b><span>Фитнес, тренировки в зале и дома</span><em class="ftag">с лицом</em></div><a href="https://instagram.com/verle_mariya" target="_blank" rel="noopener">Открыть →</a></div>
           <div class="student__nums">
             <div><b>140 тыс.</b><span>просмотров, ролик 1</span></div>
@@ -685,7 +776,7 @@
           </div>
           <div class="student__pics"><img class="zoom" data-group="mariya" src="img/mariya_profile.jpg" alt="Профиль verle_mariya" loading="lazy"><img class="zoom" data-group="mariya" src="img/mariya_reels.jpg" alt="Ролики verle_mariya: 140 тыс. и 130 тыс. просмотров" loading="lazy"></div>
         </div>
-        <div class="student rv">
+        <div class="student">
           <div class="student__head"><img src="img/sergey_ava.jpg" alt=""><div><b>@gaivoronsky_sergey</b><span>Личный блог, бизнес без прикрас</span><em class="ftag">с лицом</em></div><a href="https://instagram.com/gaivoronsky_sergey" target="_blank" rel="noopener">Открыть →</a></div>
           <div class="student__nums">
             <div><b>127 тыс.</b><span>просмотров у лучшего ролика</span></div>
@@ -694,7 +785,7 @@
           </div>
           <div class="student__pics"><img class="zoom" data-group="sergey" src="img/sergey_profile2.jpg" alt="Профиль gaivoronsky_sergey: 2 697 подписчиков" loading="lazy"><img class="zoom" data-group="sergey" src="img/sergey_reels.jpg" alt="Ролики gaivoronsky_sergey" loading="lazy"></div>
         </div>
-        <div class="student rv">
+        <div class="student">
           <div class="student__head"><img src="img/vova_ava.jpg" alt=""><div><b>@vova.truss</b><span>Рост и деньги в блоге</span><em class="ftag">с лицом</em></div><a href="https://instagram.com/vova.truss" target="_blank" rel="noopener">Открыть →</a></div>
           <div class="student__nums">
             <div><b>25,3 тыс.</b><span>подписчиков</span></div>
@@ -703,7 +794,7 @@
           </div>
           <div class="student__pics"><img class="zoom" data-group="vova" src="img/vova_profile.jpg" alt="Профиль vova.truss: 25,3 тыс. подписчиков" loading="lazy"><img class="zoom" data-group="vova" src="img/vova_grid.jpg" alt="Ролики vova.truss" loading="lazy"></div>
         </div>
-        <div class="student rv">
+        <div class="student">
           <div class="student__head"><img src="img/max_ava.jpg" alt=""><div><b>@maxorlovlife</b><span>Деньги, тело, характер после 35</span><em class="ftag ftag--ai">без лица · ИИ</em></div><a href="https://instagram.com/maxorlovlife" target="_blank" rel="noopener">Открыть →</a></div>
           <div class="student__nums">
             <div><b>1 216</b><span>подписчиков</span></div>
@@ -713,22 +804,14 @@
           <div class="student__pics"><img class="zoom" data-group="max" src="img/max_profile.jpg" alt="Профиль maxorlovlife: 1 216 подписчиков, AI creator" loading="lazy"><img class="zoom" data-group="max" src="img/max_grid.jpg" alt="Ролики maxorlovlife с ИИ-персонажем" loading="lazy"></div>
         </div>
       </div>
-
-      <div class="honest rv">
-        <div class="mono">Скажу честно</div>
-        <h3>Не у всех так, <span class="hl">как у него</span></h3>
-        <div class="honest__grid">
-          <p>Это один из лучших результатов среди <b class="accent">почти 15 человек.</b></p>
-          <p>Кто-то двигается медленнее, потому что делает меньше контента.</p>
-          <p>Результат зависит от того, <b class="accent">сколько ты делаешь</b>, а не от удачи.</p>
-          <p>Доступ к материалам и группе остаётся, так что продолжить можно в любой момент.</p>
-        </div>
+        <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
       </div>
+
     </div>
   </section>
 
   <!-- прошлые потоки -->
-  <section id="past">
+  <section id="past" data-nav="Прошлые потоки">
     <div class="wrap">
       <div class="mono">Прошлые потоки</div>
       <h2>Как это было <span class="hl">в прошлых потоках</span></h2>
@@ -747,7 +830,7 @@
   </section>
 
   <!-- кейсы по нишам -->
-  <section>
+  <section data-nav="Ниши">
     <div class="wrap">
       <div class="mono">Примеры по нишам</div>
       <h2>Как это выглядит в <span class="hl">разных нишах</span></h2>
@@ -769,7 +852,7 @@
   </section>
 
   <!-- мои блоги -->
-  <section>
+  <section data-nav="Мои блоги">
     <div class="wrap">
       <div class="mono">Мои блоги</div>
       <h2>Сначала проверяю <span class="hl">на себе</span></h2>
@@ -788,15 +871,15 @@
   </section>
 
   <!-- 3. как проходит день -->
-  <section>
+  <section data-nav="Как проходит">
     <div class="wrap">
       <div class="mono">Как это проходит</div>
       <h2>Каждый день говорю, что делать.<br><span class="hl">Каждый вечер</span> смотрю, что вышло</h2>
       <p class="sub">Так 14 дней подряд. Без записанных уроков, которые копятся непросмотренными.</p>
-      <div class="day">
-        <div class="card rv"><div class="ico"><svg><use href="#i-sun"/></svg></div><div class="step-tag">Утро</div><h3>Задание в чате</h3><p>Одно конкретное действие на сегодня.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-phone"/></svg></div><div class="step-tag">День</div><h3>Около часа работы</h3><p>Делаешь с телефона, в любое удобное время.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-moon"/></svg></div><div class="step-tag">Вечер</div><h3>Разбор от меня</h3><p>Что нормально, что переделать, что делать завтра.</p></div>
+      <div class="day mcar">
+        <div class="card"><div class="ico"><svg><use href="#i-sun"/></svg></div><div class="step-tag">Утро</div><h3>Задание в чате</h3><p>Одно конкретное действие на сегодня.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-phone"/></svg></div><div class="step-tag">День</div><h3>Около часа работы</h3><p>Делаешь с телефона, в любое удобное время.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-moon"/></svg></div><div class="step-tag">Вечер</div><h3>Разбор от меня</h3><p>Что нормально, что переделать, что делать завтра.</p></div>
       </div>
       <div class="quote">
         <div class="ico"><svg><use href="#i-alert"/></svg></div>
@@ -818,13 +901,13 @@
   </section>
 
   <!-- 4. форматы -->
-  <section>
+  <section data-nav="С лицом или без">
     <div class="wrap">
       <div class="noface rv">
         <div class="mono">Для тех, кто не хочет в кадр</div>
         <h2>Хочешь блог, но не готов показывать лицо?</h2>
         <div class="noface__big">И не нужно</div>
-        <div class="noface__grid">
+        <div class="noface__grid mcar">
           <p>Персонажа, ролики и тексты делает <b class="accent">ИИ</b>.</p>
           <p>Ты управляешь процессом: что снимать, как вести людей в Telegram и как продавать.</p>
         </div>
@@ -832,8 +915,8 @@
       <div class="mono">Выбираешь на старте</div>
       <h2>Два варианта блога: <span class="hl">с лицом или без</span></h2>
       <p class="sub">Механику обоих вариантов я показываю. Можно начать с одного и потом добавить второй.</p>
-      <div class="variants">
-        <div class="variant rv">
+      <div class="variants mcar">
+        <div class="variant">
           <div class="variant__img"><img src="img/vova_grid.jpg" alt="" loading="lazy"><span class="variant__num">Вариант 1</span></div>
           <div class="variant__body">
             <div class="variant__title"><div class="ico"><svg><use href="#i-cam"/></svg></div><h3>С лицом</h3></div>
@@ -845,7 +928,7 @@
             <div class="variant__who">Так ведут: <a href="https://instagram.com/vova.truss" target="_blank" rel="noopener">@vova.truss</a> · <a href="https://instagram.com/gaivoronsky_sergey" target="_blank" rel="noopener">@gaivoronsky_sergey</a> · <a href="https://instagram.com/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a></div>
           </div>
         </div>
-        <div class="variant variant--ai rv">
+        <div class="variant variant--ai">
           <div class="variant__img"><img src="img/max_grid.jpg" alt="" loading="lazy"><span class="variant__num">Вариант 2</span></div>
           <div class="variant__body">
             <div class="variant__title"><div class="ico"><svg><use href="#i-bot"/></svg></div><h3>Без лица</h3></div>
@@ -862,24 +945,24 @@
   </section>
 
   <!-- 5. две недели -->
-  <section>
+  <section data-nav="План">
     <div class="wrap">
       <div class="mono">План потока</div>
       <h2>Как идут <span class="hl">две недели</span></h2>
-      <div class="timeline">
-        <div class="phase rv">
+      <div class="timeline mcar">
+        <div class="phase">
           <div class="phase__days">1–3</div><div class="phase__label">Старт</div>
           <h3>Созвон-старт и упаковка</h3>
           <ul><li>выбираем нишу и способ съёмки</li><li>оформляем профиль</li><li>публикуем первые ролики</li></ul>
           <div class="bar"><i style="width:22%"></i></div>
         </div>
-        <div class="phase rv">
+        <div class="phase">
           <div class="phase__days">4–10</div><div class="phase__label">Конвейер</div>
           <h3>5–10 видео в день</h3>
           <ul><li>около часа, если собирать пачкой</li><li>ставим в отложку</li><li>созвон по первой статистике</li></ul>
           <div class="bar"><i style="width:72%"></i></div>
         </div>
-        <div class="phase rv">
+        <div class="phase">
           <div class="phase__days">11–14</div><div class="phase__label">Деньги</div>
           <h3>Воронка и продукт</h3>
           <ul><li>куда вести подписчика</li><li>что предлагать и чем закрывать</li><li>созвон-финал и план на 30 дней</li></ul>
@@ -890,25 +973,25 @@
   </section>
 
   <!-- 6. что на 14-й день -->
-  <section>
+  <section data-nav="Результат">
     <div class="wrap">
       <div class="mono">Что у тебя будет на 14-й день</div>
       <h2>Дальше просто <span class="hl">повторять</span> и наращивать объём</h2>
-      <div class="result" style="margin-top:24px">
-        <div class="num rv"><b>50+</b><span>опубликованных видео и оформленный аккаунт</span></div>
-        <div class="num rv"><b>1</b><span>конвейер, по которому собираешь контент сам, без меня</span></div>
-        <div class="num rv"><b>1</b><span>подключённая воронка и продукт, который можно продавать</span></div>
-        <div class="num rv"><b>30</b><span>дней расписанного плана на после потока</span></div>
+      <div class="result mcar" style="margin-top:24px">
+        <div class="num"><b class="count">50+</b><span>опубликованных видео и оформленный аккаунт</span></div>
+        <div class="num"><b>1</b><span>конвейер, по которому собираешь контент сам, без меня</span></div>
+        <div class="num"><b>1</b><span>подключённая воронка и продукт, который можно продавать</span></div>
+        <div class="num"><b>30</b><span>дней расписанного плана на после потока</span></div>
       </div>
 
       <div class="h-small">Что входит</div>
-      <div class="grid3">
-        <div class="card rv"><div class="ico"><svg><use href="#i-chat"/></svg></div><h3>Задание и разбор</h3><p>Каждый день, все 14 дней.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-video"/></svg></div><h3>Три живых созвона</h3><p>Старт, середина, финал.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-bot"/></svg></div><h3>Все форматы</h3><p>ИИ-аватар, бытовые кадры, съёмка с лицом.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-box"/></svg></div><h3>Готовый продукт</h3><p>С правами перепродажи. Можно продавать сразу.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-users"/></svg></div><h3>Чат группы</h3><p>На всё время потока.</p></div>
-        <div class="card rv"><div class="ico"><svg><use href="#i-check"/></svg></div><h3>Созвон-контроль</h3><p>Через две недели после финала, без доплаты.</p></div>
+      <div class="grid3 mcar">
+        <div class="card"><div class="ico"><svg><use href="#i-chat"/></svg></div><h3>Задание и разбор</h3><p>Каждый день, все 14 дней.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-video"/></svg></div><h3>Три живых созвона</h3><p>Старт, середина, финал.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-bot"/></svg></div><h3>Все форматы</h3><p>ИИ-аватар, бытовые кадры, съёмка с лицом.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-box"/></svg></div><h3>Готовый продукт</h3><p>С правами перепродажи. Можно продавать сразу.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-users"/></svg></div><h3>Чат группы</h3><p>На всё время потока.</p></div>
+        <div class="card"><div class="ico"><svg><use href="#i-check"/></svg></div><h3>Созвон-контроль</h3><p>Через две недели после финала, без доплаты.</p></div>
       </div>
 
       <div class="nolessons rv">
@@ -922,12 +1005,12 @@
   </section>
 
   <!-- 7. кому -->
-  <section>
+  <section data-nav="Кому подойдёт">
     <div class="wrap">
       <div class="mono">Кому подойдёт</div>
       <h2>Пол, возраст и город <span class="hl">не важны</span></h2>
       <p class="sub">Всё делается с телефона, откуда угодно. Опыт не нужен, оборудование тоже. Начинали с нуля почти все, кто у меня был.</p>
-      <div class="who">
+      <div class="who mcar">
         <div>Работаешь в найме и хочешь свой доход, но светиться нельзя или не хочется</div>
         <div>Сидишь дома или в декрете и ищешь, чем заниматься, не выходя из квартиры</div>
         <div>Есть профессия и знания, но непонятно, как превратить их в деньги онлайн</div>
@@ -953,7 +1036,7 @@
   </section>
 
   <!-- отзывы -->
-  <section>
+  <section data-nav="Отзывы">
     <div class="wrap">
       <div class="mono">Отзывы</div>
       <h2>Что пишут <span class="hl">после работы</span> со мной</h2>
@@ -975,7 +1058,7 @@
   </section>
 
   <!-- 8. стоимость -->
-  <section id="price">
+  <section id="price" data-nav="Цена">
     <div class="wrap">
       <div class="mono">Стоимость и оплата</div>
       <h2>Сейчас дешевле <span class="hl">на 25%</span></h2>
@@ -1020,20 +1103,20 @@
   </section>
 
   <!-- 9. как попасть -->
-  <section>
+  <section data-nav="Как попасть">
     <div class="wrap">
       <div class="mono">Как попасть в поток</div>
       <h2><span class="hl">Три шага</span> в поток</h2>
-      <div class="steps" style="margin-top:24px">
-        <div class="card rv"><h3>Оплати</h3><p>Нажми «Оплатить», укажи ФИО и почту, выбери оплату полностью или частями. Место закрепляется за тобой.</p></div>
-        <div class="card rv"><h3>Напиши мне</h3><p>После оплаты напиши в личку <a href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a>, добавлю в чат группы.</p></div>
-        <div class="card rv"><h3>Стартуем</h3><p>В понедельник созвон-старт и первое задание.</p></div>
+      <div class="steps mcar" style="margin-top:24px">
+        <div class="card"><h3>Оплати</h3><p>Нажми «Оплатить», укажи ФИО и почту, выбери оплату полностью или частями. Место закрепляется за тобой.</p></div>
+        <div class="card"><h3>Напиши мне</h3><p>После оплаты напиши в личку <a href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a>, добавлю в чат группы.</p></div>
+        <div class="card"><h3>Стартуем</h3><p>В понедельник созвон-старт и первое задание.</p></div>
       </div>
     </div>
   </section>
 
   <!-- 10. вопросы -->
-  <section>
+  <section data-nav="Вопросы">
     <div class="wrap narrow">
       <div class="mono">Частые вопросы</div>
       <h2>Коротко <span class="hl">о главном</span></h2>
@@ -1046,7 +1129,7 @@
     </div>
   </section>
 
-  <section class="final">
+  <section class="final" data-nav="Старт">
     <div class="final__bg" aria-hidden="true">
       <div class="belt"><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""></div>
       <div class="belt belt--rev"><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""></div>
@@ -1078,6 +1161,13 @@
 <footer>
   <div class="wrap">Слава, ALPHA4 · Telegram и Instagram: <a href="https://instagram.com/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a> · <a href="mailto:slavsfaceless@gmail.com">slavsfaceless@gmail.com</a></div>
 </footer>
+
+<nav class="sidenav" id="sidenav" aria-label="Разделы страницы"></nav>
+<a class="ring" id="ring" href="#price" aria-label="Прокрутка страницы, перейти к цене">
+  <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" class="ring__track"/><circle cx="24" cy="24" r="21" class="ring__fill" id="ringFill"/></svg>
+  <span id="ringPct">0%</span>
+</a>
+<div class="toast" id="toast" aria-hidden="true"><b id="toastNum">01</b><span id="toastLabel">Начало</span></div>
 
 <div class="lb" id="lb" hidden>
   <button class="lb__close" aria-label="Закрыть">×</button>
@@ -1242,6 +1332,112 @@
       lbShow(g, list.indexOf(im));
     });
   });
+// ===== мобильные карусели: точки =====
+  each('.mcar', function (box) {
+    var dots = document.createElement('div');
+    dots.className = 'mdots';
+    var items = box.children;
+    for (var i = 0; i < items.length; i++) dots.appendChild(document.createElement('i'));
+    box.parentNode.insertBefore(dots, box.nextSibling);
+    function mark() {
+      var x = box.scrollLeft, best = 0;
+      for (var i = 0; i < items.length; i++) if (Math.abs(items[i].offsetLeft - items[0].offsetLeft - x) < Math.abs(items[best].offsetLeft - items[0].offsetLeft - x)) best = i;
+      Array.prototype.forEach.call(dots.children, function (d, k) { d.className = k === best ? 'on' : ''; });
+    }
+    box.addEventListener('scroll', function () { requestAnimationFrame(mark); }, { passive: true });
+    mark();
+  });
+
+  // ===== появление блоков =====
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  each('.rv', function (el) {
+    var sibs = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.classList.contains('rv'); });
+    el.style.setProperty('--d', Math.min(sibs.indexOf(el), 6) * 90 + 'ms');
+  });
+  function countUp(el) {
+    var txt = el.textContent, m = txt.match(/[\d\s]*\d(?:,\d+)?/);
+    if (!m || reduceMotion) return;
+    var raw = m[0], dec = (raw.split(',')[1] || '').length, target = parseFloat(raw.replace(/\s/g, '').replace(',', '.'));
+    var pre = txt.slice(0, m.index), post = txt.slice(m.index + raw.length), start = null;
+    function fmt(v) {
+      var s = v.toFixed(dec).replace('.', ',');
+      var parts = s.split(','); parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      return parts.join(',');
+    }
+    function tick(ts) {
+      if (!start) start = ts;
+      var k = Math.min(1, (ts - start) / 1600), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = pre + fmt(target * e) + post;
+      if (k < 1) requestAnimationFrame(tick); else el.textContent = txt;
+    }
+    requestAnimationFrame(tick);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        if (en.target.tagName === 'SECTION') Array.prototype.forEach.call(en.target.querySelectorAll('h2, .sub, .mono'), function (h) { h.classList.add('in'); });
+        if (en.target.classList.contains('count')) countUp(en.target);
+        io.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
+    each('.rv, section, .count', function (el) { io.observe(el); });
+    document.documentElement.classList.add('js');
+  }
+
+  // ===== подсветка под курсором =====
+  each('.card, .num, .student, .case, .phase, .variant, .review, .price-box, .startcost, .honest, .cycle', function (el) {
+    el.classList.add('spot');
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // ===== индикация прокрутки =====
+  var bar = document.getElementById('progressBar'), ring = document.getElementById('ring'), ringFill = document.getElementById('ringFill'), ringPct = document.getElementById('ringPct');
+  var navBox = document.getElementById('sidenav'), toast = document.getElementById('toast'), toastNum = document.getElementById('toastNum'), toastLabel = document.getElementById('toastLabel');
+  var parts = Array.prototype.slice.call(document.querySelectorAll('[data-nav]'));
+  var navLinks = parts.map(function (sec, i) {
+    if (!sec.id) sec.id = 'part-' + (i + 1);
+    var a = document.createElement('a');
+    a.href = '#' + sec.id;
+    a.innerHTML = '<span>' + sec.getAttribute('data-nav') + '</span>';
+    a.setAttribute('aria-label', sec.getAttribute('data-nav'));
+    navBox.appendChild(a);
+    return a;
+  });
+  var heroBg = document.querySelector('.hero-bg'), lastPart = -1, toastTimer = null, ticking = false;
+  function onScroll() {
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset, max = document.documentElement.scrollHeight - window.innerHeight;
+    var k = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    bar.style.transform = 'scaleX(' + k + ')';
+    ringFill.style.strokeDashoffset = (132 * (1 - k)).toFixed(1);
+    ringPct.textContent = Math.round(k * 100) + '%';
+    ring.classList.toggle('show', y > window.innerHeight * 0.6);
+    if (k > 0.985) each('.rv:not(.in), section h2:not(.in), section .sub:not(.in), section .mono:not(.in)', function (el) { el.classList.add('in'); });
+    var cur = 0, mid = window.innerHeight * 0.4;
+    parts.forEach(function (sec, i) { if (sec.getBoundingClientRect().top < mid) cur = i; });
+    navLinks.forEach(function (a, i) { a.className = i === cur ? 'on' : (i < cur ? 'done' : ''); });
+    if (cur !== lastPart) {
+      if (lastPart !== -1) {
+        toastNum.textContent = (cur + 1 < 10 ? '0' : '') + (cur + 1) + ' / ' + parts.length;
+        toastLabel.textContent = parts[cur].getAttribute('data-nav');
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1600);
+      }
+      lastPart = cur;
+    }
+    if (heroBg && !reduceMotion && y < window.innerHeight * 1.2) heroBg.style.translate = '0 ' + (y * 0.25).toFixed(1) + 'px';
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
 </script>
 </body>
 </html>
