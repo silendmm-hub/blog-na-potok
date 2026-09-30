@@ -550,6 +550,13 @@
   .dm__chip { text-align: center; font: 800 16px/1.2 'Unbounded', sans-serif; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 12px 16px; box-shadow: 0 0 20px rgba(199,247,54,.2) inset; }
   .dm__calm { text-align: center; margin: 14px 0 18px; color: var(--silver); font-size: 17px; }
   .btn--dm { display: flex; justify-content: center; width: 100%; }
+  /* ===== прошлые потоки ===== */
+  .slider--past .pslide { margin: 0; width: calc((100% - 42px) / 4); background: var(--panel); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .pslide img { width: 100%; height: auto; aspect-ratio: 720 / 1053; object-fit: cover; cursor: zoom-in; transition: transform .4s; }
+  .pslide:hover img { transform: scale(1.03); }
+  .pslide figcaption { padding: 12px 14px; font: 700 14px/1.35 'Manrope', sans-serif; color: #fff; }
+  @media (max-width: 960px) { .slider--past .pslide { width: calc((100% - 14px) / 2); } }
+  @media (max-width: 560px) { .slider--past .pslide { width: 78%; } }
 </style>
 </head>
 <body>
@@ -672,6 +679,25 @@
     </div>
   </section>
 
+  <!-- прошлые потоки -->
+  <section id="past">
+    <div class="wrap">
+      <div class="mono">Прошлые потоки</div>
+      <h2>Как это было <span class="hl">в прошлых потоках</span></h2>
+      <p class="sub">Настоящие скрины из чатов групп: задания, вечерние отчёты, вопросы и результаты. Листай и нажимай, чтобы открыть крупно.</p>
+      <div class="slider slider--past" data-autoplay="4000">
+        <div class="slider__track">
+          <figure class="pslide"><img class="zoom" data-group="past" src="img/slide_report.jpg" alt="Каждый вечер отчёт за день" loading="lazy"><figcaption>Каждый вечер отчёт за день</figcaption></figure>
+          <figure class="pslide"><img class="zoom" data-group="past" src="img/slide_qa.jpg" alt="Застрял? Спросил и сделал" loading="lazy"><figcaption>Застрял? Спросил и сделал</figcaption></figure>
+          <figure class="pslide"><img class="zoom" data-group="past" src="img/slide_lessons.jpg" alt="Каждый день урок и задание" loading="lazy"><figcaption>Каждый день урок и задание</figcaption></figure>
+          <figure class="pslide"><img class="zoom" data-group="past" src="img/slide_case.jpg" alt="2 аккаунта с нуля" loading="lazy"><figcaption>2 аккаунта с нуля</figcaption></figure>
+          <figure class="pslide"><img class="zoom" data-group="past" src="img/slide_versus.jpg" alt="5–10 роликов в день против 2 в неделю" loading="lazy"><figcaption>5–10 роликов в день против 2 в неделю</figcaption></figure>
+        </div>
+        <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
+      </div>
+    </div>
+  </section>
+
   <!-- кейсы по нишам -->
   <section>
     <div class="wrap">
@@ -739,49 +765,6 @@
           <div class="on">Выпустил следующий</div>
         </div>
         <p>И так <b class="accent">14 дней подряд.</b> Так появляется результат, а не папка с курсами.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- внутри группы -->
-  <section>
-    <div class="wrap">
-      <div class="mono">Как это выглядит внутри</div>
-      <h2>Обычный день <span class="hl">в мастер-группе</span></h2>
-      <p class="sub">Реальные скрины из чата потока. Нажми, чтобы открыть крупно.</p>
-      <div class="inside inside--3">
-        <div class="inside__card rv">
-          <div class="inside__text">
-            <div class="step-tag">Всё расписано по дням</div>
-            <h3>Каждый день урок и задание</h3>
-            <p>Посмотрел урок и сразу делаешь. От первого ролика до статьи-воронки в Telegram.</p>
-          </div>
-          <div class="inside__pics">
-            <img class="zoom" data-group="inside" src="img/chat_day1.jpg" alt="Чат «День №1»: задание, как собирать видео" loading="lazy">
-            <img class="zoom" data-group="inside" src="img/chat_day2.jpg" alt="Чат «Отчёт за день»: участники сдают статьи-воронки" loading="lazy">
-          </div>
-        </div>
-        <div class="inside__card rv">
-          <div class="inside__text">
-            <div class="step-tag">Каждый вечер</div>
-            <h3>Отчёт за день</h3>
-            <p>До 21:00 каждый пишет, сколько роликов сделал и что не успел. Всё на виду, тихо слиться не получится.</p>
-          </div>
-          <div class="inside__pics">
-            <img class="zoom" data-group="inside" src="img/chat_report1.jpg" alt="Чат «Отчёт за день»: участник показывает ролики и что успел сделать" loading="lazy">
-            <img class="zoom" data-group="inside" src="img/chat_report2.jpg" alt="Чат «Отчёт за день»: отчёт участника и вопрос про ChatPlace" loading="lazy">
-          </div>
-        </div>
-        <div class="inside__card rv">
-          <div class="inside__text">
-            <div class="step-tag">Застрял?</div>
-            <h3>Спросил и сделал</h3>
-            <p>В «Вопрос-ответ» подсказываем, как сделать: от настроек ИИ до монтажа.</p>
-          </div>
-          <div class="inside__pics inside__pics--one">
-            <img class="zoom" data-group="inside" src="img/chat_qa.jpg" alt="Чат «Вопрос-ответ»: менеджер подсказывает настройки генерации видео" loading="lazy">
-          </div>
-        </div>
       </div>
     </div>
   </section>
