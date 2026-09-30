@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Блог на поток · ALPHA4</title>
+<meta name="description" content="Мастер-группа ALPHA4: за 14 дней ставим блог на поток. Конвейер роликов, воронка и продукт. Поток на 10 человек.">
+<meta property="og:title" content="Блог на поток · ALPHA4">
+<meta property="og:description" content="14 дней, 10 мест. Конвейер роликов, воронка и продукт. Снимать себя каждый день не придётся.">
+<meta property="og:image" content="img/akkaunty.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d0a;
+    --panel: #12150e;
+    --panel-2: #1a1d15;
+    --line: #2a3020;
+    --accent: #c7f736;
+    --accent-dim: #9bc22a;
+    --text: #eef2e5;
+    --body: #c3cab4;
+    --muted: #848b75;
+    --faint: #4e5544;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--body);
+    font: 400 17px/1.6 'Manrope', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  b, strong { color: var(--text); font-weight: 700; }
+  p { margin: 0 0 14px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .narrow { max-width: 680px; }
+
+  /* бегущая строка */
+  .ticker {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--accent); color: #0b0d0a; overflow: hidden; white-space: nowrap;
+    font: 500 14px/1 'IBM Plex Mono', monospace; letter-spacing: .02em;
+  }
+  .ticker__track { display: inline-flex; padding: 12px 0; animation: run 38s linear infinite; }
+  .ticker__item { padding-right: 48px; }
+  .ticker__item b { color: #0b0d0a; }
+  @keyframes run { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .ticker__track { animation-duration: 120s; } }
+
+  .brand { font: 800 15px/1 'Unbounded', sans-serif; letter-spacing: .35em; color: var(--accent); }
+  .mono { font: 400 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-dim); }
+  h1, h2, h3 { font-family: 'Unbounded', sans-serif; color: var(--text); margin: 0; }
+  h1 { font-size: clamp(40px, 7.4vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+  h2 { font-size: clamp(24px, 4.4vw, 36px); font-weight: 800; line-height: 1.15; margin: 12px 0 14px; }
+  h3 { font-size: 17px; font-weight: 600; line-height: 1.3; margin: 0 0 8px; }
+  .sub { font-size: 18px; max-width: 620px; margin-bottom: 30px; }
+  .accent { color: var(--accent); }
+
+  header { padding: 36px 0 0; }
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+
+  /* первый экран */
+  .hero { display: grid; grid-template-columns: 1.25fr .9fr; gap: 40px; align-items: center; padding-top: 44px; padding-bottom: 64px; }
+  .hero .mono { margin-bottom: 22px; }
+  .lead { font-size: 19px; margin: 22px 0 0; max-width: 560px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 34px; border-top: 1px solid var(--line); }
+  .stat { padding: 16px 12px 0 0; }
+  .stat + .stat { padding-left: 14px; border-left: 1px solid var(--line); }
+  .stat b { display: block; font: 800 22px/1.2 'Unbounded', sans-serif; color: var(--accent); white-space: nowrap; }
+  .stat span { font: 400 11px/1 'IBM Plex Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  .phone { position: relative; max-width: 330px; margin: 0 auto; }
+  .phone__screen { border-radius: 34px; border: 8px solid #1f2419; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px var(--line); }
+  .float {
+    position: absolute; background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px;
+    padding: 10px 14px; box-shadow: 0 12px 30px rgba(0,0,0,.5); white-space: nowrap;
+  }
+  .float b { display: block; font: 800 20px/1.1 'Unbounded', sans-serif; color: var(--accent); }
+  .float span { font: 400 11px/1.3 'IBM Plex Mono', monospace; color: var(--muted); letter-spacing: .06em; }
+  .float--1 { top: 16%; left: -48px; }
+  .float--2 { bottom: 12%; right: -40px; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    .phone { max-width: 270px; margin-top: 10px; }
+    .float--1 { left: -30px; } .float--2 { right: -24px; }
+  }
+  @media (max-width: 560px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(3) { border-left: 0; padding-left: 0; }
+    .float--1 { left: -14px; } .float--2 { right: -10px; }
+  }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; margin-top: 30px; }
+  .btn {
+    display: inline-block; text-decoration: none; background: var(--accent); color: #0b0d0a;
+    font: 800 15px/1 'Unbounded', sans-serif; padding: 18px 26px; border-radius: 12px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(199,247,54,.18); }
+  .btn--ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .btn--ghost:hover { border-color: var(--accent-dim); box-shadow: none; }
+  .price-chip { font: 500 14px/1.3 'IBM Plex Mono', monospace; color: var(--muted); }
+  .price-chip s { color: var(--faint); }
+  .price-chip b { color: var(--accent); }
+
+  /* места */
+  .seats { margin-top: 18px; max-width: 360px; }
+  .seats__top { display: flex; justify-content: space-between; font: 400 12px/1 'IBM Plex Mono', monospace; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+  .seats__top b { color: var(--accent); }
+  .seats__bar { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+  .seats__bar i { height: 8px; border-radius: 3px; background: var(--accent); }
+  .seats__bar i.taken { background: var(--line); }
+
+  /* кейс */
+  .case-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .num { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .num b { display: block; font: 800 clamp(28px, 5vw, 40px)/1 'Unbounded', sans-serif; color: var(--accent); margin-bottom: 8px; }
+  .num span { font-size: 15px; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .shot { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+  .shot figcaption { padding: 12px 16px; font: 400 12px/1.4 'IBM Plex Mono', monospace; color: var(--muted); letter-spacing: .04em; }
+  .shot--wide { grid-column: 1 / -1; }
+  .fine { font-size: 14px; color: var(--muted); margin-top: 16px; }
+  @media (max-width: 700px) { .case-nums { grid-template-columns: 1fr; } .shots { grid-template-columns: 1fr; } }
+
+  .students { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .student { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .student__head { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .student__head img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+  .student__head b { display: block; font-size: 15px; }
+  .student__head span { font-size: 13px; color: var(--muted); }
+  .student__head a { margin-left: auto; font: 500 12px/1 'IBM Plex Mono', monospace; color: var(--accent); text-decoration: none; white-space: nowrap; }
+  .student__nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .student__nums div { background: var(--bg); border-radius: 10px; padding: 10px; }
+  .student__nums b { display: block; font: 800 18px/1.1 'Unbounded', sans-serif; color: var(--accent); }
+  .student__nums span { font-size: 12px; line-height: 1.3; }
+  .student__pics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .student__pics img { border-radius: 10px; border: 1px solid var(--line); width: 100%; height: auto; }
+  @media (max-width: 760px) { .students { grid-template-columns: 1fr; } }
+
+  /* отзывы */
+  .reviews { columns: 3 280px; column-gap: 12px; margin-top: 24px; }
+  .review { break-inside: avoid; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent-dim); border-radius: 14px; padding: 18px 20px; margin-bottom: 12px; }
+  .review .mono { font-size: 11px; margin-bottom: 8px; letter-spacing: .06em; text-transform: none; }
+  .review p { margin: 0; font-size: 15px; color: var(--text); }
+
+  /* день участника */
+  .day { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; position: relative; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .card p { margin: 0; font-size: 15px; }
+  .ico { width: 44px; height: 44px; border-radius: 12px; background: rgba(199,247,54,.1); color: var(--accent); display: grid; place-items: center; margin-bottom: 16px; }
+  .ico svg { width: 22px; height: 22px; }
+  .step-tag { font: 500 11px/1 'IBM Plex Mono', monospace; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+  .quote { margin-top: 20px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; background: var(--panel-2); border-radius: 16px; padding: 20px 22px; border-left: 3px solid var(--accent-dim); }
+  .quote .ico { margin: 0; }
+  .quote p { margin: 0; color: var(--text); }
+  .quote .mono { margin-bottom: 6px; font-size: 11px; }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 760px) { .day, .grid3 { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* две недели */
+  .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; counter-reset: t; }
+  .phase { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; position: relative; overflow: hidden; }
+  .phase__days { font: 800 34px/1 'Unbounded', sans-serif; color: var(--accent); margin-bottom: 4px; }
+  .phase__label { font: 400 11px/1 'IBM Plex Mono', monospace; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; margin-bottom: 18px; }
+  .phase ul { margin: 12px 0 0; padding: 0; list-style: none; }
+  .phase li { font-size: 15px; padding-left: 20px; position: relative; margin-bottom: 6px; }
+  .phase li::before { content: '→'; position: absolute; left: 0; color: var(--accent-dim); }
+  .bar { height: 4px; border-radius: 2px; background: var(--line); margin-top: 18px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--accent); }
+  @media (max-width: 760px) { .timeline { grid-template-columns: 1fr; } }
+
+  /* итог */
+  .result { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .result .num b { font-size: 30px; }
+  @media (max-width: 860px) { .result { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 420px) { .result { grid-template-columns: 1fr; } }
+
+  /* кому */
+  .who { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .who div { display: flex; gap: 12px; align-items: flex-start; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; font-size: 15px; }
+  .who div::before { content: '✓'; flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #0b0d0a; font: 800 12px/22px 'Manrope', sans-serif; text-align: center; margin-top: 1px; }
+  .not { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .not div { display: flex; gap: 12px; align-items: flex-start; border: 1px dashed var(--line); border-radius: 14px; padding: 16px 18px; font-size: 15px; color: var(--muted); }
+  .not div::before { content: '×'; flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--faint); color: var(--muted); font: 700 14px/20px 'Manrope', sans-serif; text-align: center; margin-top: 1px; }
+  @media (max-width: 700px) { .who, .not { grid-template-columns: 1fr; } }
+  .h-small { font: 400 12px/1 'IBM Plex Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 28px 0 12px; }
+
+  .guarantee { margin-top: 28px; display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; background: linear-gradient(135deg, rgba(199,247,54,.12), rgba(199,247,54,.02)); border: 1px solid var(--accent-dim); border-radius: 18px; padding: 26px; }
+  .guarantee .shield { width: 64px; height: 64px; color: var(--accent); }
+  .guarantee h3 { font-size: 20px; }
+  .guarantee p { margin: 0; }
+  @media (max-width: 560px) { .guarantee { grid-template-columns: 1fr; } }
+
+  /* стоимость */
+  .price-wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; align-items: stretch; }
+  @media (max-width: 800px) { .price-wrap { grid-template-columns: 1fr; } }
+  .price-box { display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid var(--accent-dim); background: var(--panel-2); border-radius: 18px; padding: 30px 24px; text-align: center; }
+  .price-old { font: 600 20px/1 'Unbounded', sans-serif; color: var(--faint); text-decoration: line-through; }
+  .price-new { font: 800 clamp(44px, 9vw, 60px)/1.05 'Unbounded', sans-serif; color: var(--accent); margin: 10px 0 6px; }
+  .badge { display: inline-block; background: var(--accent); color: #0b0d0a; font: 800 13px/1 'Unbounded', sans-serif; padding: 7px 10px; border-radius: 8px; vertical-align: middle; margin-left: 8px; }
+  .timer { display: inline-flex; gap: 8px; margin: 16px 0 6px; }
+  .timer div { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; min-width: 64px; padding: 10px 6px 8px; }
+  .timer b { display: block; font: 800 24px/1 'Unbounded', sans-serif; color: var(--text); }
+  .timer span { font: 400 10px/1 'IBM Plex Mono', monospace; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+  .price-hint { font: 400 13px/1.5 'IBM Plex Mono', monospace; color: var(--muted); margin: 6px 0 0; }
+  .price-box .btn { margin-top: 20px; }
+  .price-box .seats { margin: 22px auto 0; text-align: left; width: 100%; }
+  .is-over .price-old, .is-over .badge, .is-over .timer, .is-over .price-hint { display: none; }
+  .pay { display: grid; gap: 12px; }
+  .pay .card { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .pay .card .ico { margin: 0; }
+  .pay .card:last-child { grid-template-columns: 1fr; }
+  .pay .card p + p { margin-top: 6px; }
+  .methods { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .methods span { font: 500 12px/1 'IBM Plex Mono', monospace; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; }
+  .price-box .btn + .btn { margin-left: 8px; }
+
+  /* как попасть */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; counter-reset: s; }
+  .steps .card { counter-increment: s; }
+  .steps .card::before { content: counter(s); display: block; font: 800 18px/40px 'Unbounded', sans-serif; color: #0b0d0a; background: var(--accent); width: 40px; height: 40px; border-radius: 10px; text-align: center; margin-bottom: 16px; }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+
+  details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  summary { cursor: pointer; list-style: none; color: var(--text); font-weight: 700; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--accent); font: 600 20px/1 'Unbounded', sans-serif; }
+  details[open] summary::after { content: '−'; }
+  details p { margin: 10px 0 0; }
+
+  .final { text-align: center; }
+  .final .sub { margin: 0 auto 26px; }
+  .final .cta-row { justify-content: center; }
+
+  /* ===== фон и анимации ===== */
+  .hero-zone { position: relative; overflow: hidden; }
+  .hero-zone::before {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px; opacity: .35;
+    -webkit-mask-image: radial-gradient(70% 60% at 70% 40%, #000 20%, transparent 75%);
+            mask-image: radial-gradient(70% 60% at 70% 40%, #000 20%, transparent 75%);
+  }
+  .glow { position: absolute; z-index: 0; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+  .glow--a { width: 460px; height: 460px; right: -80px; top: 40px; background: rgba(199,247,54,.16); animation: drift 14s ease-in-out infinite alternate; }
+  .glow--b { width: 320px; height: 320px; left: -120px; bottom: -60px; background: rgba(155,194,42,.10); animation: drift 18s ease-in-out infinite alternate-reverse; }
+  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(-60px,40px) scale(1.15); } }
+  .hero-zone > .wrap { position: relative; z-index: 1; }
+  .hero-strip { position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; height: 180px; overflow: hidden; opacity: .18;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 60%); mask-image: linear-gradient(to bottom, transparent, #000 60%); }
+  .hero-strip .belt { height: 180px; }
+
+  .phone { animation: bob 6s ease-in-out infinite; }
+  .float--1 { animation: bob 5s ease-in-out infinite .6s; }
+  .float--2 { animation: bob 5.5s ease-in-out infinite 1.4s; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+  .btn { position: relative; overflow: hidden; }
+  .btn:not(.btn--ghost)::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+    transform: skewX(-20deg); animation: shine 3.6s ease-in-out infinite;
+  }
+  @keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+
+  .card, .num, .student, .case, .review, .phase { transition: transform .2s ease, border-color .2s ease; }
+  .card:hover, .num:hover, .student:hover, .case:hover, .review:hover, .phase:hover { transform: translateY(-4px); border-color: var(--accent-dim); }
+
+  .bar i { animation: fill 2.4s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes fill { from { width: 0; } }
+
+  /* плавное появление при прокрутке (где браузер умеет) */
+  @supports (animation-timeline: view()) {
+    .rv { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
+    @keyframes rise { from { opacity: .15; transform: translateY(40px) scale(.98); } to { opacity: 1; transform: none; } }
+  }
+
+  /* ленты публикаций */
+  .belt { display: flex; width: max-content; animation: belt 60s linear infinite; }
+  .belt img { height: 100%; width: auto; max-width: none; }
+  .belt--rev { animation-direction: reverse; }
+  @keyframes belt { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .blogs { display: grid; gap: 14px; margin-top: 24px; }
+  .blog { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .blog__head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; flex-wrap: wrap; }
+  .blog__head img { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--accent); }
+  .blog__head b { display: block; font-size: 15px; }
+  .blog__head span { font-size: 13px; color: var(--muted); }
+  .blog__head .tag { margin-left: auto; font: 500 11px/1 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #0b0d0a; background: var(--accent); border-radius: 999px; padding: 6px 10px; }
+  .blog__belt { height: 190px; overflow: hidden; }
+  .blog__belt .belt { height: 190px; }
+
+  /* кейсы по нишам */
+  .cases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+  .case { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .case__img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+  .case__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+  .case:hover .case__img img { transform: scale(1.06); }
+  .case__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--panel), transparent 55%); }
+  .case__who { position: absolute; left: 14px; bottom: 10px; z-index: 1; }
+  .case__who b { display: block; font: 600 16px/1.2 'Unbounded', sans-serif; }
+  .case__who span { font: 400 11px/1.3 'IBM Plex Mono', monospace; color: var(--accent); letter-spacing: .04em; }
+  .case__body { padding: 12px 14px 16px; display: grid; gap: 10px; font-size: 14px; line-height: 1.45; }
+  .case__body small { display: block; font: 500 10px/1 'IBM Plex Mono', monospace; letter-spacing: .14em; color: var(--muted); margin-bottom: 4px; }
+  .case__after { color: var(--text); }
+  .case__after small { color: var(--accent); }
+  @media (max-width: 960px) { .cases { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .cases { grid-template-columns: 1fr; } }
+
+  .final { position: relative; overflow: hidden; }
+  .final__bg { position: absolute; inset: 0; opacity: .14; display: grid; align-content: center; gap: 10px; pointer-events: none;
+    -webkit-mask-image: radial-gradient(60% 70% at 50% 50%, #000, transparent); mask-image: radial-gradient(60% 70% at 50% 50%, #000, transparent); }
+  .final__bg .belt { height: 150px; }
+  .final .wrap { position: relative; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phone, .float, .glow, .belt, .btn::after, .bar i { animation: none !important; }
+  }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; font: 400 12px/1.8 'IBM Plex Mono', monospace; color: var(--faint); }
+  footer a { color: var(--muted); }
+  /* ===== стиль баннера ALPHA4 ===== */
+  :root { --bg: #050605; --panel: #0b0e09; --panel-2: #10140c; --line: #1e2617; --silver: #d9ddd4; --red: #ff2b2b; --glow: rgba(199,247,54,.45); }
+  body { background: var(--bg); }
+  .brand { font: 900 22px/1 'Unbounded', sans-serif; letter-spacing: .02em; color: #fff; margin-bottom: 34px; }
+  .brand span { color: var(--red); }
+  .mono { display: inline-flex; align-items: center; gap: 10px; color: var(--accent); }
+  .mono::before { content: ''; width: 22px; height: 2px; background: var(--accent); box-shadow: 0 0 10px var(--glow); }
+
+  h1 { font: 900 clamp(54px, 10.5vw, 118px)/.92 'Unbounded', sans-serif; text-transform: uppercase; letter-spacing: -.035em; margin-top: 18px; }
+  h1 span { display: block; }
+  .t-lime, .hl { background: linear-gradient(180deg, #ecff7a 0%, #c7f736 45%, #93c912 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .t-lime { filter: drop-shadow(0 0 28px rgba(199,247,54,.35)); }
+  .t-silver { background: linear-gradient(180deg, #ffffff 0%, #e6e9e2 45%, #9aa096 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h2 { text-transform: uppercase; font-weight: 900; font-size: clamp(24px, 4.2vw, 42px); line-height: 1.05; letter-spacing: -.02em; text-wrap: balance; }
+  .hl { filter: drop-shadow(0 0 18px rgba(199,247,54,.3)); }
+
+  .tagline { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font: 800 clamp(15px, 2vw, 20px)/1.2 'Manrope', sans-serif; text-transform: uppercase; color: #fff; }
+  .tagline i { width: 6px; height: 6px; border-radius: 50%; background: var(--silver); }
+  .tagline em { font-style: normal; color: var(--accent); text-shadow: 0 0 18px var(--glow); }
+
+  .hero-zone { position: relative; overflow: hidden; background: var(--bg); }
+  .hero-zone::before { display: none; }
+  .hero-bg { position: absolute; top: 0; right: 0; bottom: 0; width: min(68%, 1000px); z-index: 0; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 30% center; animation: zoom 20s ease-in-out infinite alternate; }
+  .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(5,6,5,.85) 22%, rgba(5,6,5,0) 55%), linear-gradient(0deg, var(--bg) 0%, rgba(5,6,5,0) 30%); }
+  @keyframes zoom { from { transform: scale(1); } to { transform: scale(1.07); } }
+  .hero { display: block; position: relative; padding-top: 60px; padding-bottom: 70px; min-height: 640px; }
+  .hero__text { max-width: 600px; position: relative; z-index: 1; }
+  .hero .lead { font-size: 19px; color: var(--silver); max-width: 460px; }
+  .hero__chips { position: absolute; right: 20px; top: 0; bottom: 0; width: 40%; z-index: 1; pointer-events: none; }
+  .float { position: absolute; background: rgba(11,14,9,.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(199,247,54,.35); box-shadow: 0 0 24px rgba(199,247,54,.18); border-radius: 14px; padding: 10px 14px; white-space: nowrap; }
+  .float b { display: block; font: 900 22px/1.1 'Unbounded', sans-serif; color: var(--accent); }
+  .float span { font: 400 11px/1.3 'IBM Plex Mono', monospace; color: var(--silver); }
+  .float--1 { top: 58%; left: -10px; right: auto; bottom: auto; }
+  .float--2 { top: 16%; right: 0; left: auto; bottom: auto; }
+
+  .btn { display: inline-flex; align-items: center; gap: 12px; text-transform: uppercase; font-weight: 800; font-size: 15px; letter-spacing: .02em; padding: 20px 28px; border-radius: 14px;
+         box-shadow: 0 0 0 1px rgba(236,255,122,.7) inset, 0 0 28px var(--glow), 0 0 60px rgba(199,247,54,.18); }
+  .btn:hover { box-shadow: 0 0 0 1px #ecff7a inset, 0 0 40px rgba(199,247,54,.65), 0 0 90px rgba(199,247,54,.25); }
+  .btn__ico { width: 20px; height: 20px; }
+  .btn--ghost { box-shadow: none; }
+
+  .feats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 44px; max-width: 600px; }
+  .feats div { display: grid; justify-items: center; gap: 10px; text-align: center; padding: 4px 10px; }
+  .feats div + div { border-left: 1px solid var(--line); }
+  .feats svg { width: 30px; height: 30px; color: var(--accent); filter: drop-shadow(0 0 8px var(--glow)); }
+  .feats span { font: 500 11px/1.35 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+
+  .glow--a { right: 20%; top: 30%; background: rgba(199,247,54,.14); }
+
+  section { position: relative; }
+  section:nth-of-type(3n+1)::before { content: ''; position: absolute; width: 520px; height: 520px; right: -200px; top: -120px; border-radius: 50%; background: rgba(199,247,54,.07); filter: blur(90px); pointer-events: none; }
+  section:nth-of-type(3n+2)::before { content: ''; position: absolute; width: 480px; height: 480px; left: -220px; bottom: -100px; border-radius: 50%; background: rgba(199,247,54,.06); filter: blur(90px); pointer-events: none; }
+  section > .wrap { position: relative; }
+  section { overflow: hidden; }
+
+  .card:hover, .num:hover, .student:hover, .case:hover, .review:hover, .phase:hover { box-shadow: 0 0 0 1px rgba(199,247,54,.4), 0 0 30px rgba(199,247,54,.14); }
+  .ico { background: rgba(199,247,54,.08); box-shadow: 0 0 0 1px rgba(199,247,54,.25) inset; }
+  .ico svg { filter: drop-shadow(0 0 6px var(--glow)); }
+  .num b, .phase__days, .student__nums b { text-shadow: 0 0 22px rgba(199,247,54,.35); }
+  .price-box { background: radial-gradient(120% 80% at 50% 0%, rgba(199,247,54,.10), var(--panel-2) 60%); box-shadow: 0 0 40px rgba(199,247,54,.12); }
+  .price-new { font-weight: 900; text-shadow: 0 0 40px rgba(199,247,54,.4); }
+  .timer div { box-shadow: 0 0 0 1px rgba(199,247,54,.2) inset; }
+  .steps .card::before { box-shadow: 0 0 20px var(--glow); }
+  .seats__bar i:not(.taken) { box-shadow: 0 0 8px var(--glow); }
+
+  @media (max-width: 860px) {
+    .hero { min-height: 0; padding-top: 330px; }
+    .hero-bg { width: 100%; bottom: auto; height: 460px; }
+    .hero-bg img { object-position: 60% 20%; }
+    .hero-bg::after { background: linear-gradient(0deg, var(--bg) 8%, rgba(5,6,5,.4) 45%, rgba(5,6,5,.15) 100%); }
+    .hero__text { position: static; }
+    .brand { position: absolute; top: 28px; left: 20px; z-index: 2; }
+    .hero__chips { left: 0; right: 0; width: auto; top: 20px; height: 280px; bottom: auto; }
+    .float--1 { top: 170px; left: 16px; } .float--2 { top: 70px; right: 16px; }
+  }
+  @media (max-width: 560px) {
+    .feats { grid-template-columns: repeat(2, 1fr); row-gap: 18px; }
+    .feats div:nth-child(3) { border-left: 0; }
+    .float b { font-size: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-bg img { animation: none; } }
+</style>
+</head>
+<body>
+
+<!-- иконки -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 17h6"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l7 7"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+</svg>
+
+<div class="ticker" aria-live="off">
+  <div class="ticker__track" id="ticker"></div>
+</div>
+
+<main>
+  <!-- 1. первый экран -->
+  <div class="hero-zone">
+    <div class="hero-bg" aria-hidden="true"><img src="img/hero.jpg" alt=""></div>
+    <div class="glow glow--a"></div><div class="glow glow--b"></div>
+    <div class="wrap hero">
+      <div class="hero__text">
+        <div class="brand">ALPHA<span>4</span></div>
+        <div class="mono">Мастер-группа · поток на <span class="js-total">10</span> человек</div>
+        <h1><span class="t-lime">Блог</span> <span class="t-silver">на поток</span></h1>
+        <div class="tagline">14 дней <i></i> <span class="js-total">10</span> мест <i></i> <em>без съёмок каждый день</em></div>
+        <p class="lead">Конвейер роликов, воронка и продукт, который можно продавать сразу. Каждый день задание, каждый вечер разбор.</p>
+        <div class="cta-row">
+          <a class="btn" href="#price"><svg class="btn__ico"><use href="#i-rocket"/></svg>Хочу в поток</a>
+          <span class="price-chip js-hero-price"><s>20 000 ₽</s> <b>14 990 ₽</b> · старт в понедельник</span>
+        </div>
+        <div class="feats">
+          <div><svg><use href="#i-phone"/></svg><span>Всё с телефона</span></div>
+          <div><svg><use href="#i-video"/></svg><span>3 живых созвона</span></div>
+          <div><svg><use href="#i-check"/></svg><span>Реальные кейсы</span></div>
+          <div><svg><use href="#i-shield"/></svg><span>Гарантия результата</span></div>
+        </div>
+      </div>
+      <div class="hero__chips" aria-hidden="true">
+        <div class="float float--1"><b>2,9 млн</b><span>просмотров за месяц у ученика</span></div>
+        <div class="float float--2"><b>128 тыс.</b><span>лучший ролик без лица</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. кейс -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Результаты учеников</div>
+      <h2>Два аккаунта с нуля и <span class="hl">2,9 млн просмотров</span> за месяц</h2>
+      <div class="case-nums">
+        <div class="num rv"><b>2,9 млн</b><span>просмотров за 30 дней на двух аккаунтах</span></div>
+        <div class="num rv"><b>2 897</b><span>подписчиков: 2 019 у alexmasked и 878 у alex.fromzero</span></div>
+        <div class="num rv"><b>128 тыс.</b><span>просмотров у лучшего ролика</span></div>
+      </div>
+      <div class="shots">
+        <figure class="shot rv" style="margin:0">
+          <img src="img/akkaunty.jpg" alt="Статистика двух аккаунтов: 1 млн и 1,9 млн просмотров за 30 дней" width="1200" height="555" loading="lazy">
+          <figcaption>alexmasked — блогер без лица на ИИ · alex.fromzero — 1,9 млн просмотров за 30 дней</figcaption>
+        </figure>
+        <figure class="shot rv" style="margin:0">
+          <img src="img/reels.jpg" alt="Ролики alexmasked: 128 тыс., 23,4 тыс. и 22,7 тыс. просмотров" width="1440" height="840" loading="lazy">
+          <figcaption>Ролики, собранные через нейросеть: 128 тыс. · 23,4 тыс. · 22,7 тыс. просмотров</figcaption>
+        </figure>
+      </div>
+      <div class="h-small">Ещё ученики</div>
+      <div class="students">
+        <div class="student rv">
+          <div class="student__head"><img src="img/mariya_ava.jpg" alt=""><div><b>@verle_mariya</b><span>Фитнес, тренировки в зале и дома</span></div><a href="https://instagram.com/verle_mariya" target="_blank" rel="noopener">Открыть →</a></div>
+          <div class="student__nums">
+            <div><b>140 тыс.</b><span>просмотров, ролик 1</span></div>
+            <div><b>130 тыс.</b><span>просмотров, ролик 2</span></div>
+            <div><b>116</b><span>подписчиков было на старте</span></div>
+          </div>
+          <div class="student__pics"><img src="img/mariya_profile.jpg" alt="Профиль verle_mariya" loading="lazy"><img src="img/mariya_reels.jpg" alt="Ролики verle_mariya: 140 тыс. и 130 тыс. просмотров" loading="lazy"></div>
+        </div>
+        <div class="student rv">
+          <div class="student__head"><img src="img/sergey_ava.jpg" alt=""><div><b>@gaivoronsky_sergey</b><span>Личный блог, бизнес без прикрас</span></div><a href="https://instagram.com/gaivoronsky_sergey" target="_blank" rel="noopener">Открыть →</a></div>
+          <div class="student__nums">
+            <div><b>127 тыс.</b><span>просмотров у лучшего ролика</span></div>
+            <div><b>28 тыс.</b><span>просмотров, серия про путь</span></div>
+            <div><b>2 574</b><span>подписчика</span></div>
+          </div>
+          <div class="student__pics"><img src="img/sergey_profile.jpg" alt="Профиль gaivoronsky_sergey: 2 574 подписчика" loading="lazy"><img src="img/sergey_reels.jpg" alt="Ролики gaivoronsky_sergey" loading="lazy"></div>
+        </div>
+      </div>
+
+      <p class="fine">Скажу честно: это одни из лучших результатов прошлых потоков. У кого меньше роликов, у того и рост медленнее. Результат зависит от того, сколько ты делаешь.</p>
+    </div>
+  </section>
+
+  <!-- кейсы по нишам -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Примеры по нишам</div>
+      <h2>Как это выглядит в <span class="hl">разных нишах</span></h2>
+      <p class="sub">Психология, финансы, кулинария, английский. Система одна, ниша любая.</p>
+      <div class="cases">
+        <div class="case rv"><div class="case__img"><img src="img/c_nastya.jpg" alt="Настя" loading="lazy"><div class="case__who"><b>Настя</b><span>Психология без лица</span></div></div><div class="case__body"><div><small>ДО</small>Не решалась начать, 0 подписчиков, страх камеры</div><div class="case__after"><small>ПОСЛЕ</small>3 недели по системе — 640 подписчиков, первый платный созвон</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_igor.jpg" alt="Игорь" loading="lazy"><div class="case__who"><b>Игорь</b><span>Финансы и инвестиции</span></div></div><div class="case__body"><div><small>ДО</small>Вёл канал 4 месяца, ролики по 80–90 просмотров</div><div class="case__after"><small>ПОСЛЕ</small>Один ролик по хуку из методички — 12 000 просмотров, +210 подписчиков</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_oksana.jpg" alt="Оксана" loading="lazy"><div class="case__who"><b>Оксана</b><span>ЗОЖ и питание</span></div></div><div class="case__body"><div><small>ДО</small>Год откладывала блог, боялась показывать лицо</div><div class="case__after"><small>ПОСЛЕ</small>AI-персонаж, 5 роликов за вечер, первая продажа гайда за 990 ₽</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_danil.jpg" alt="Данил" loading="lazy"><div class="case__who"><b>Данил</b><span>Саморазвитие</span></div></div><div class="case__body"><div><small>ДО</small>3 заброшенных попытки вести блог</div><div class="case__after"><small>ПОСЛЕ</small>5 недель по системе — 1 200 подписчиков, регулярные консультации</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_marina.jpg" alt="Марина" loading="lazy"><div class="case__who"><b>Марина</b><span>Бьюти и уход</span></div></div><div class="case__body"><div><small>ДО</small>Публиковала хаотично, рост стоял на месте</div><div class="case__after"><small>ПОСЛЕ</small>Перешла на faceless-формат — +900 подписчиков за месяц</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_timofey.jpg" alt="Тимофей" loading="lazy"><div class="case__who"><b>Тимофей</b><span>Нейросети и AI</span></div></div><div class="case__body"><div><small>ДО</small>Аккаунта не было вообще</div><div class="case__after"><small>ПОСЛЕ</small>2 недели — три ролика «залетели», 480 подписчиков</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_kristina.jpg" alt="Кристина" loading="lazy"><div class="case__who"><b>Кристина</b><span>Английский язык</span></div></div><div class="case__body"><div><small>ДО</small>Вела блог с лицом, выгорела за полгода</div><div class="case__after"><small>ПОСЛЕ</small>Faceless-формат — охваты выросли в 3 раза за месяц</div></div></div>
+        <div class="case rv"><div class="case__img"><img src="img/c_artem.jpg" alt="Артём" loading="lazy"><div class="case__who"><b>Артём</b><span>Кулинария</span></div></div><div class="case__body"><div><small>ДО</small>Ролики без системы, по 150–200 просмотров</div><div class="case__after"><small>ПОСЛЕ</small>Один ролик по хуку — 40 000 просмотров, +560 подписчиков</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- мои блоги -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Мои блоги</div>
+      <h2>Сначала проверяю <span class="hl">на себе</span></h2>
+      <p class="sub">Веду два аккаунта параллельно: личный и полностью без лица, с AI-персонажем. Всё, что попадает в систему, сначала обкатано на них.</p>
+      <div class="blogs">
+        <div class="blog rv">
+          <div class="blog__head"><img src="img/slava_ava.jpg" alt=""><div><b>@slava.alpha4</b><span>Личный бренд, сторителлинг и разборы</span></div><span class="tag">с лицом</span></div>
+          <div class="blog__belt"><div class="belt"><img src="img/slava_strip.jpg" alt="Публикации @slava.alpha4" loading="lazy"><img src="img/slava_strip.jpg" alt="" loading="lazy"></div></div>
+        </div>
+        <div class="blog rv">
+          <div class="blog__head"><img src="img/syntx_ava.jpg" alt=""><div><b>@syntx.creator.alpha4</b><span>Персонаж, сгенерированный AI, и контент по системе</span></div><span class="tag">без лица · AI</span></div>
+          <div class="blog__belt"><div class="belt belt--rev"><img src="img/syntx_strip.jpg" alt="Публикации @syntx.creator.alpha4" loading="lazy"><img src="img/syntx_strip.jpg" alt="" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. как проходит день -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Как это проходит</div>
+      <h2>Каждый день говорю, что делать.<br><span class="hl">Каждый вечер</span> смотрю, что вышло</h2>
+      <p class="sub">Так 14 дней подряд. Без записанных уроков, которые копятся непросмотренными.</p>
+      <div class="day">
+        <div class="card rv"><div class="ico"><svg><use href="#i-sun"/></svg></div><div class="step-tag">Утро</div><h3>Задание в чате</h3><p>Одно конкретное действие на сегодня.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-phone"/></svg></div><div class="step-tag">День</div><h3>Около часа работы</h3><p>Делаешь с телефона, в любое удобное время.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-moon"/></svg></div><div class="step-tag">Вечер</div><h3>Разбор от меня</h3><p>Что нормально, что переделать, что делать завтра.</p></div>
+      </div>
+      <div class="quote">
+        <div class="ico"><svg><use href="#i-alert"/></svg></div>
+        <div><div class="mono">Зачем так</div><p>Бросают почти всегда на второй неделе: роликов уже тридцать, а просмотров ещё нет. Если рядом никого, человек уходит за день до того, как всё начинает получаться.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. форматы -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Три способа, выбираешь на старте</div>
+      <h2>Снимать себя каждый день <span class="hl">не придётся</span></h2>
+      <p class="sub">Людей останавливает не лень, а мысль «мне что, теперь каждый день говорить на камеру». Механику всех трёх форматов я показываю.</p>
+      <div class="grid3">
+        <div class="card rv"><div class="ico"><svg><use href="#i-bot"/></svg></div><h3>ИИ-аватар</h3><p>Персонаж, которого генерирует нейросеть. Говорит вместо тебя, собирается один раз и дальше работает.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-hand"/></svg></div><h3>Бытовые кадры</h3><p>Руки, рабочий стол, дорога, обычные дела. Ты в кадре, но не говорящей головой.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-cam"/></svg></div><h3>С лицом</h3><p>Если готов показывать, научу снимать быстро и без десяти дублей.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. две недели -->
+  <section>
+    <div class="wrap">
+      <div class="mono">План потока</div>
+      <h2>Как идут <span class="hl">две недели</span></h2>
+      <div class="timeline">
+        <div class="phase rv">
+          <div class="phase__days">1–3</div><div class="phase__label">Старт</div>
+          <h3>Созвон-старт и упаковка</h3>
+          <ul><li>выбираем нишу и способ съёмки</li><li>оформляем профиль</li><li>публикуем первые ролики</li></ul>
+          <div class="bar"><i style="width:22%"></i></div>
+        </div>
+        <div class="phase rv">
+          <div class="phase__days">4–10</div><div class="phase__label">Конвейер</div>
+          <h3>3–5 роликов в день</h3>
+          <ul><li>около часа, если собирать пачкой</li><li>ставим в отложку</li><li>созвон по первой статистике</li></ul>
+          <div class="bar"><i style="width:72%"></i></div>
+        </div>
+        <div class="phase rv">
+          <div class="phase__days">11–14</div><div class="phase__label">Деньги</div>
+          <h3>Воронка и продукт</h3>
+          <ul><li>куда вести подписчика</li><li>что предлагать и чем закрывать</li><li>созвон-финал и план на 30 дней</li></ul>
+          <div class="bar"><i style="width:100%"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. что на 14-й день -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Что у тебя будет на 14-й день</div>
+      <h2>Дальше просто <span class="hl">повторять</span> и наращивать объём</h2>
+      <div class="result" style="margin-top:24px">
+        <div class="num rv"><b>≈50</b><span>опубликованных роликов и оформленный аккаунт</span></div>
+        <div class="num rv"><b>1</b><span>конвейер, по которому собираешь контент сам, без меня</span></div>
+        <div class="num rv"><b>1</b><span>подключённая воронка и продукт, который можно продавать</span></div>
+        <div class="num rv"><b>30</b><span>дней расписанного плана на после потока</span></div>
+      </div>
+
+      <div class="h-small">Что входит</div>
+      <div class="grid3">
+        <div class="card rv"><div class="ico"><svg><use href="#i-chat"/></svg></div><h3>Задание и разбор</h3><p>Каждый день, все 14 дней.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-video"/></svg></div><h3>Три живых созвона</h3><p>Старт, середина, финал.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-bot"/></svg></div><h3>Все форматы</h3><p>ИИ-аватар, бытовые кадры, съёмка с лицом.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-box"/></svg></div><h3>Готовый продукт</h3><p>С правами перепродажи. Можно продавать сразу.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-users"/></svg></div><h3>Чат группы</h3><p>На всё время потока.</p></div>
+        <div class="card rv"><div class="ico"><svg><use href="#i-check"/></svg></div><h3>Созвон-контроль</h3><p>Через две недели после финала, без доплаты.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. кому -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Кому подойдёт</div>
+      <h2>Пол, возраст и город <span class="hl">не важны</span></h2>
+      <p class="sub">Всё делается с телефона, откуда угодно. Опыт не нужен, оборудование тоже. Начинали с нуля почти все, кто у меня был.</p>
+      <div class="who">
+        <div>Работаешь в найме и хочешь свой доход, но светиться нельзя или не хочется</div>
+        <div>Сидишь дома или в декрете и ищешь, чем заниматься, не выходя из квартиры</div>
+        <div>Есть профессия и знания, но непонятно, как превратить их в деньги онлайн</div>
+        <div>Уже пробовал вести блог и забросил, когда просмотров не было</div>
+        <div>Не готов показывать лицо и думал, что тогда ничего не выйдет</div>
+        <div>Нет ни темы, ни продукта: тему выберем на созвоне, продукт я даю свой</div>
+      </div>
+
+      <div class="h-small">Кому не надо</div>
+      <div class="not">
+        <div>Кто не готов тратить час в день. Тут каждый день, а не когда получится</div>
+        <div>У кого уже блог на 10 тысяч подписчиков. Тебе в личную работу, здесь будет скучно</div>
+      </div>
+
+      <div class="guarantee rv">
+        <svg class="shield"><use href="#i-shield"/></svg>
+        <div>
+          <h3>Гарантия</h3>
+          <p>Делал задания и не вышел на свой конвейер за две недели — веду дальше бесплатно, пока не выйдешь. Срок не ограничиваю.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- отзывы -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Отзывы</div>
+      <h2>Что пишут <span class="hl">после работы</span> со мной</h2>
+      <p class="sub">Из чата обратной связи и личных сообщений.</p>
+      <div class="reviews">
+        <div class="review rv"><div class="mono">Egor Popov · отзыв о разборе</div><p>На созвоне очень круто пообщались, появился заряд и понял, что останавливаться нельзя! Даже мне, 16-летнему парню, Слава открыл глаза на те вещи, которых не видел! Всем рекомендую взаимодействовать со Славой!</p></div>
+        <div class="review rv"><div class="mono">vova · «У тебя как успехи, всё гуд?»</div><p>Да норм) лучше чем было пару недель назад, два месяца набирал 2к подписчиков, понял и внедрил несколько фишек и полетел)</p></div>
+        <div class="review rv"><div class="mono">Viktor Kubyshkin</div><p>Честный отзыв о тебе: много был на разных созвонах от супер-мега экспертов, но всё заканчивалось одним, острым чувством наеба. После разговора с тобой этого нет. Вайб у тебя свойский. Потому готов попробовать😄</p></div>
+        <div class="review rv"><div class="mono">Филипп · работа в море на яхтах с нуля</div><p>Привет) всё збс) двое суток один ролик пилил)) но всё гуд, 1,5к просмотров за сутки! Крутая команда и Вячеслав крутой мужик!</p></div>
+        <div class="review rv"><div class="mono">Лера</div><p>Хочется сказать тебе большое спасибо за информацию, которую дал. Особенно классно, когда всё по делу, чётко и ясно. Теперь в голове есть порядок действий, с чего начать, что посмотреть. Уже села всё изучать 😊</p></div>
+        <div class="review rv"><div class="mono">vova · чат обратной связи</div><p>Который раз убеждаюсь: нехрен тратить время и изобретать велосипед, заплати тому, у кого получается то, чего хочешь ты, и не парь себе мозг)))</p></div>
+        <div class="review rv"><div class="mono">Алим Ермеков</div><p>Хотел сказать спасибо за вчерашние разъяснения, было ощущение, что не у бота учиться собираюсь, а у реального человека, который умеет просто разговаривать. Плюс нормальная реакция на чайника.</p></div>
+        <div class="review rv"><div class="mono">Михаил К.</div><p>Ребята, это было круто!!! Воодушевляет такое общение единомышленников!!! Узнал много нового, хотя по факту я только на самом старте.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. стоимость -->
+  <section id="price">
+    <div class="wrap">
+      <div class="mono">Стоимость и оплата</div>
+      <h2>Сейчас дешевле <span class="hl">на 25%</span></h2>
+      <div class="price-wrap" style="margin-top:24px">
+        <div class="price-box rv" id="priceBox">
+          <div class="price-old">20 000 ₽</div>
+          <div class="price-new"><span id="priceNow">14 990 ₽</span><span class="badge">−25%</span></div>
+          <div class="price-hint">Для тех, кто заходит сейчас.<br>Потом будет 20 000 ₽. Осталось:</div>
+          <div class="timer" aria-label="До повышения цены">
+            <div><b id="tH">48</b><span>часов</span></div>
+            <div><b id="tM">00</b><span>минут</span></div>
+            <div><b id="tS">00</b><span>секунд</span></div>
+          </div>
+          <div class="seats">
+            <div class="seats__top"><span>Свободно мест</span><span><b class="js-left">10</b> из <span class="js-total">10</span></span></div>
+            <div class="seats__bar" id="seatsBar"></div>
+          </div>
+          <a class="btn js-pay" href="#" target="_blank" rel="noopener">Оплатить</a>
+        </div>
+
+        <div class="pay">
+          <div class="card rv"><div class="ico"><svg><use href="#i-card"/></svg></div><div><h3>Полностью</h3><p>Одним платежом.</p><div class="methods"><span>Карта МИР, Visa, Mastercard</span><span>QR-код по СБП</span></div></div></div>
+          <div class="card rv"><div class="ico"><svg><use href="#i-split"/></svg></div><div><h3>Частями</h3><p>Четыре сервиса на выбор, оплата через СБП. Выбираешь прямо на странице оплаты.</p><div class="methods"><span>Плайт</span><span>Ozon Рассрочка</span><span>Супер Сплит</span><span>+7 Pay</span></div></div></div>
+          <div class="card rv"><div><div class="mono" style="margin-bottom:6px">Почему только <span class="js-total">10</span> мест</div><p>Отвечать каждому каждый вечер на большем количестве я физически не смогу. А без этого группа превращается в обычный курс.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. как попасть -->
+  <section>
+    <div class="wrap">
+      <div class="mono">Как попасть в поток</div>
+      <h2><span class="hl">Три шага</span> в поток</h2>
+      <div class="steps" style="margin-top:24px">
+        <div class="card rv"><h3>Оплати</h3><p>Нажми «Оплатить», укажи ФИО и почту, выбери оплату полностью или частями. Место закрепляется за тобой.</p></div>
+        <div class="card rv"><h3>Напиши мне</h3><p>После оплаты напиши в личку <a href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a>, добавлю в чат группы.</p></div>
+        <div class="card rv"><h3>Стартуем</h3><p>В понедельник созвон-старт и первое задание.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. вопросы -->
+  <section>
+    <div class="wrap narrow">
+      <div class="mono">Частые вопросы</div>
+      <h2>Коротко <span class="hl">о главном</span></h2>
+      <details><summary>Сколько времени нужно в день?</summary><p>Около часа. Ролики собираешь пачкой и ставишь в отложку, поэтому 3–5 роликов в день укладываются в этот час.</p></details>
+      <details><summary>Мне обязательно показывать лицо?</summary><p>Нет. Можно вести блог через ИИ-аватара или на бытовых кадрах. Способ выбираем на первом созвоне.</p></details>
+      <details><summary>У меня нет опыта и техники. Получится?</summary><p>Да. Всё делается с телефона. Начинали с нуля почти все, кто у меня был.</p></details>
+      <details><summary>Не знаю, про что вести блог и что продавать</summary><p>Тему выберем на первом созвоне. Продукт я даю свой, с правами перепродажи.</p></details>
+      <details><summary>А если за две недели не выйдет?</summary><p>Если делал задания и не вышел на свой конвейер, веду дальше бесплатно, пока не выйдешь. Срок не ограничиваю.</p></details>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final__bg" aria-hidden="true">
+      <div class="belt"><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""></div>
+      <div class="belt belt--rev"><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""><img src="img/slava_strip.jpg" alt=""></div>
+    </div>
+    <div class="wrap">
+      <h2>Старт <span class="hl">в понедельник</span></h2>
+      <p class="sub">Мест <span class="js-total">10</span>. Цена <span class="js-final-price">14 990 ₽</span>, пока идёт таймер.</p>
+      <div class="cta-row">
+        <a class="btn js-pay" href="#" target="_blank" rel="noopener">Оплатить</a>
+        <a class="btn btn--ghost" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">Задать вопрос</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Слава, ALPHA4 · Telegram и Instagram: <a href="https://instagram.com/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a> · <a href="mailto:slavsfaceless@gmail.com">slavsfaceless@gmail.com</a></div>
+</footer>
+
+<script>
+  // ===== НАСТРОЙКИ =====
+  // Конец скидки (время по UTC, по Москве +3 часа).
+  var DEADLINE = new Date('2026-10-02T10:30:00Z').getTime();
+  // Всего мест в потоке и сколько ещё свободно. Когда кто-то оплатил, уменьшай SEATS_LEFT.
+  var SEATS_TOTAL = 10;
+  var SEATS_LEFT = 10;
+  // Ссылка на оплату (Точка). Сейчас в ней 14 990 ₽.
+  // Когда скидка закончится, поставь в PAY_URL_AFTER ссылку на 20 000 ₽.
+  var PAY_URL = 'https://tochkaplace.com/ia/89ce0448-163f-4765-a80d-5afe2b9e7952';
+  var PAY_URL_AFTER = PAY_URL;
+  // =====================
+
+  function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+  each('.js-total', function (el) { el.textContent = SEATS_TOTAL; });
+  each('.js-left', function (el) { el.textContent = SEATS_LEFT; });
+  var bar = document.getElementById('seatsBar');
+  bar.style.gridTemplateColumns = 'repeat(' + SEATS_TOTAL + ', 1fr)';
+  for (var i = 0; i < SEATS_TOTAL; i++) {
+    var cell = document.createElement('i');
+    if (i >= SEATS_LEFT) cell.className = 'taken';
+    bar.appendChild(cell);
+  }
+
+  var ticker = document.getElementById('ticker');
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function render() {
+    var left = DEADLINE - Date.now();
+    var over = left <= 0;
+    var seats = 'свободно ' + SEATS_LEFT + ' из ' + SEATS_TOTAL + ' мест';
+    var text;
+
+    each('.js-pay', function (el) { el.href = over ? PAY_URL_AFTER : PAY_URL; });
+
+    if (over) {
+      document.getElementById('priceBox').classList.add('is-over');
+      document.getElementById('priceNow').textContent = '20 000 ₽';
+      each('.js-hero-price', function (el) { el.innerHTML = '<b>20 000 ₽</b> · старт в понедельник'; });
+      each('.js-final-price', function (el) { el.parentNode.textContent = 'Мест ' + SEATS_TOTAL + '. Цена 20 000 ₽.'; });
+      text = 'Блог на поток за 14 дней · <b>' + seats + '</b> · старт в понедельник · пиши @slava.alpha4';
+    } else {
+      var s = Math.floor(left / 1000);
+      var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+      document.getElementById('tH').textContent = pad(h);
+      document.getElementById('tM').textContent = pad(m);
+      document.getElementById('tS').textContent = pad(sec);
+      text = '<b>−25% для тех, кто заходит сейчас</b> · 14 990 ₽ вместо 20 000 ₽ · через <b>' +
+             pad(h) + ':' + pad(m) + ':' + pad(sec) + '</b> цена станет 20 000 ₽ · ' + seats + ' · старт в понедельник';
+    }
+
+    // строку повторяем, чтобы прокрутка шла без разрыва
+    var item = '<span class="ticker__item">' + text + '</span>';
+    ticker.innerHTML = item + item + item + item;
+    return over;
+  }
+
+  if (!render()) {
+    var t = setInterval(function () { if (render()) clearInterval(t); }, 1000);
+  }
+</script>
+</body>
+</html>
