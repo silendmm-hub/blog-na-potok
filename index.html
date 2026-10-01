@@ -882,6 +882,31 @@
   .path-panel::before { content: ''; position: absolute; top: -7px; left: var(--arrow, 16%); width: 12px; height: 12px; background: var(--panel); border-left: 1px solid rgba(199,247,54,.3); border-top: 1px solid rgba(199,247,54,.3); transform: rotate(45deg); transition: left .35s cubic-bezier(.2,.7,.2,1); }
   @media (max-width: 860px) { .path-panel::before { display: none; } .paths-hint { font-size: 14px; } }
   @media (prefers-reduced-motion: reduce) { .paths-hint__hand, .paths:not(.picked) .path-tab:not(.on) { animation: none; } }
+  /* ===== призывы в конце блоков ===== */
+  .scta { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; padding: 20px 22px; border-radius: 18px; background: linear-gradient(100deg, rgba(199,247,54,.10), rgba(199,247,54,.02) 60%); border: 1px solid rgba(199,247,54,.3); }
+  .scta__text { margin: 0; flex: 1 1 360px; font-size: 17px; line-height: 1.45; color: var(--silver); }
+  .scta__text b { color: #fff; }
+  .scta__btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .scta .btn, .pp__cta .btn, .why-bottom .btn { padding: 16px 22px; font-size: 14px; }
+  .scta__dm { display: inline-flex; align-items: center; gap: 10px; }
+  .scta__dm .btn__ico { width: 18px; height: 18px; color: var(--accent); }
+  @media (max-width: 600px) { .scta__btns { width: 100%; } .scta__btns .btn { flex: 1 1 100%; justify-content: center; text-align: center; } }
+
+  .pp__cta { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 20px; border-top: 1px solid var(--line); padding-top: 18px; }
+  .pp__cta p { margin: 0; flex: 1 1 320px; font-size: 16px; color: var(--silver); }
+  .pp__cta b { color: #fff; }
+
+  /* ===== эмодзи на вкладках ===== */
+  .path-tab { grid-template-columns: auto 1fr; padding: 16px 16px 16px 14px; align-items: center; }
+  .path-tab em.path-tab__emo { grid-row: 1 / span 3; }
+  .path-tab__go { position: static; transform: none; grid-column: 2; grid-row: 3; justify-self: start; margin-top: 6px; }
+  .path-tab em.path-tab__emo { width: 62px; height: 62px; font-size: 34px; line-height: 1; border-radius: 18px; background: radial-gradient(circle at 50% 40%, rgba(199,247,54,.22), rgba(199,247,54,.04) 70%); border: 1px solid rgba(199,247,54,.35); box-shadow: 0 0 22px rgba(199,247,54,.15), inset 0 0 18px rgba(199,247,54,.08); color: inherit; transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, background .3s; }
+  .path-tab:hover em.path-tab__emo { transform: scale(1.08) rotate(-4deg); }
+  .path-tab.on em.path-tab__emo { background: radial-gradient(circle at 50% 40%, rgba(199,247,54,.55), rgba(199,247,54,.15) 70%); border-color: var(--accent); box-shadow: 0 0 34px var(--glow), inset 0 0 18px rgba(199,247,54,.25); animation: emoPop .5s cubic-bezier(.2,.7,.2,1.4); }
+  @keyframes emoPop { 40% { transform: scale(1.18) rotate(-6deg); } }
+  .paths:not(.picked) .path-tab:not(.on) em.path-tab__emo { animation: emoCall 2.4s ease-in-out infinite; }
+  @keyframes emoCall { 30% { transform: scale(1.1); box-shadow: 0 0 34px var(--glow); } }
+  @media (prefers-reduced-motion: reduce) { .path-tab em.path-tab__emo { animation: none !important; } }
 </style>
 </head>
 <body>
@@ -1006,11 +1031,11 @@
       <div class="who-are">
         <div class="mono">Выбери, кто ты</div>
         <h3 class="who-are__title">Схема одна, <span class="hl">путь у каждого свой</span></h3>
-        <div class="paths-hint" id="pathsHint"><span class="paths-hint__hand" aria-hidden="true">👆</span>Нажми на свой вариант — покажу, как это сработает у тебя</div>
+        <div class="paths-hint" id="pathsHint"><span class="paths-hint__hand" aria-hidden="true">👆</span>Нажми на иконку своего варианта — получишь инструкцию, как это сработает у тебя</div>
         <div class="paths" id="paths" role="tablist" aria-label="Кто ты">
-          <button class="path-tab on" role="tab" aria-selected="true" aria-controls="pth-0" id="pt-0" data-path="0"><span class="path-tab__go" aria-hidden="true"></span><em>01</em><b>Нечего продавать</b><small>не эксперт, своего продукта нет</small></button>
-          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-1" id="pt-1" data-path="1"><span class="path-tab__go" aria-hidden="true"></span><em>02</em><b>Эксперт</b><small>есть знания, навык, услуга</small></button>
-          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-2" id="pt-2" data-path="2"><span class="path-tab__go" aria-hidden="true"></span><em>03</em><b>Предприниматель</b><small>есть бизнес или точки</small></button>
+          <button class="path-tab on" role="tab" aria-selected="true" aria-controls="pth-0" id="pt-0" data-path="0"><span class="path-tab__go" aria-hidden="true"></span><em class="path-tab__emo" aria-hidden="true">📦</em><b>Нечего продавать</b><small>не эксперт, своего продукта нет</small></button>
+          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-1" id="pt-1" data-path="1"><span class="path-tab__go" aria-hidden="true"></span><em class="path-tab__emo" aria-hidden="true">🧠</em><b>Эксперт</b><small>есть знания, навык, услуга</small></button>
+          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-2" id="pt-2" data-path="2"><span class="path-tab__go" aria-hidden="true"></span><em class="path-tab__emo" aria-hidden="true">🏢</em><b>Предприниматель</b><small>есть бизнес или точки</small></button>
         </div>
 
         <div class="path-panel on" role="tabpanel" id="pth-0" aria-labelledby="pt-0">
@@ -1020,6 +1045,7 @@
             <div><h4>Почему это работает</h4><p>Ты показываешь свой путь с нуля, а люди хотят повторить. Придумывать продукт и быть экспертом не нужно.</p></div>
             <div><h4>Что даю я</h4><p>Готовый продукт, воронку под него и разбор каждого шага, пока не пойдут первые продажи.</p></div>
           </div>
+          <div class="pp__cta"><p>Подходит этот путь? <b>Продукт и воронку даю готовыми</b> — остаётся вести блог.</p><div class="scta__btns"><a class="btn" href="#price">Хочу этот путь</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Остались вопросы? Напиши мне</a></div></div>
         </div>
 
         <div class="path-panel" role="tabpanel" id="pth-1" aria-labelledby="pt-1" hidden>
@@ -1029,6 +1055,7 @@
             <div><h4>Какие сферы</h4><div class="sell__tags"><span>фитнес</span><span>психология</span><span>финансы</span><span>питание</span><span>бьюти</span><span>английский</span><span>кулинария</span><span>любая тема</span></div></div>
             <div><h4>Что даю я</h4><p>Форматы роликов под твою нишу, упаковку профиля и воронку, которая сама ведёт людей к твоему продукту.</p></div>
           </div>
+          <div class="pp__cta"><p>Хочешь продавать свои знания через блог? <b>Подберём формат под твою нишу.</b></p><div class="scta__btns"><a class="btn" href="#price">Хочу этот путь</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Остались вопросы? Напиши мне</a></div></div>
         </div>
 
         <div class="path-panel" role="tabpanel" id="pth-2" aria-labelledby="pt-2" hidden>
@@ -1051,12 +1078,13 @@
             </div>
             <p class="aifirst__note">В потоке помогаю сделать первый шаг такой ИИ-трансформации: контент и привлечение клиентов на нейросетях.</p>
           </div>
+          <div class="pp__cta"><p>Хочешь клиентов в бизнес через личный бренд и ИИ? <b>Дам буст на старте.</b></p><div class="scta__btns"><a class="btn" href="#price">Хочу этот путь</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Остались вопросы? Напиши мне</a></div></div>
         </div>
       </div>
 
       <div class="why-bottom rv">
         <p><b>Не нужен миллион подписчиков.</b> Нужна схема, в которой каждый ролик ведёт человека к покупке. Этой схеме я и учу за 14 дней.</p>
-        <a class="btn" href="#price">Хочу так же</a>
+        <div class="scta__btns"><a class="btn" href="#price">Хочу так же</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Спросить в личке</a></div>
       </div>
     </div>
   </section>
@@ -1147,6 +1175,11 @@
         <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
       </div>
 
+
+      <div class="scta rv">
+        <p class="scta__text">Все они начинали с нуля. <b>Следующий кейс может быть твоим</b> — осталось <span class="js-left">7</span> мест.</p>
+        <div class="scta__btns"><a class="btn" href="#price">Хочу такой результат</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Спросить, как они это сделали</a></div>
+      </div>
     </div>
   </section>
 
@@ -1165,6 +1198,11 @@
           <figure class="pslide"><img class="zoom" data-group="past" src="img/slide_versus.jpg" alt="5–10 роликов в день против 2 в неделю" loading="lazy"><figcaption>5–10 роликов в день против 2 в неделю</figcaption></figure>
         </div>
         <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
+      </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Так выглядит каждый день внутри: задание, отчёт, разбор. <b>Следующий поток стартует в понедельник.</b></p>
+        <div class="scta__btns"><a class="btn" href="#price">Занять место в потоке</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Уточнить формат в личке</a></div>
       </div>
     </div>
   </section>
@@ -1188,6 +1226,11 @@
       </div>
         <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
       </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Не нашёл свою тему? <b>Напиши — подскажу, как система сработает в твоей нише.</b></p>
+        <div class="scta__btns"><a class="btn" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">Подобрать нишу в личке</a><a class="btn btn--ghost" href="#price">Смотреть цену</a></div>
+      </div>
     </div>
   </section>
 
@@ -1206,6 +1249,11 @@
           <div class="blog__head"><img src="img/syntx_ava.jpg" alt=""><div><b>@syntx.creator.alpha4</b><span>Персонаж, сгенерированный AI, и контент по системе</span></div><span class="tag">без лица · AI</span></div>
           <div class="blog__belt"><div class="belt belt--rev"><img src="img/syntx_strip.jpg" alt="Публикации @syntx.creator.alpha4" loading="lazy"><img src="img/syntx_strip.jpg" alt="" loading="lazy"></div></div>
         </div>
+      </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Всё, что работает на моих аккаунтах, <b>ты получишь внутри потока</b> — с лицом и без.</p>
+        <div class="scta__btns"><a class="btn" href="#price">Хочу вести блог так же</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Задать вопрос</a></div>
       </div>
     </div>
   </section>
@@ -1236,6 +1284,11 @@
           <div class="on">Выпустил следующий</div>
         </div>
         <p>И так <b class="accent">14 дней подряд.</b> Так появляется результат, а не папка с курсами.</p>
+      </div>
+
+      <div class="scta rv">
+        <p class="scta__text">14 дней я рядом каждый день, пока у тебя не получится. <b>Без записанных уроков, которые копятся.</b></p>
+        <div class="scta__btns"><a class="btn" href="#price">Хочу такой формат</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Спросить про нагрузку</a></div>
       </div>
     </div>
   </section>
@@ -1281,6 +1334,11 @@
           </div>
         </div>
       </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Не знаешь, какой вариант твой? <b>Напиши — решим вместе</b>, или выберем на первом созвоне.</p>
+        <div class="scta__btns"><a class="btn" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">Помочь с выбором</a><a class="btn btn--ghost" href="#price">Занять место</a></div>
+      </div>
     </div>
   </section>
 
@@ -1308,6 +1366,11 @@
           <ul><li>куда вести подписчика</li><li>что предлагать и чем закрывать</li><li>созвон-финал и план на 30 дней</li></ul>
           <div class="bar"><i style="width:100%"></i></div>
         </div>
+      </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Через 14 дней у тебя будет своя система: аккаунт, конвейер и воронка. <b>Старт в понедельник.</b></p>
+        <div class="scta__btns"><a class="btn" href="#price">Хочу в этот поток</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Задать вопрос по программе</a></div>
       </div>
     </div>
   </section>
@@ -1341,6 +1404,11 @@
         </div>
         <p>14 дней ты делаешь, а я рядом: разбираю, подсказываю и слежу, чтобы ты дошёл до результата, а не бросил на третий день.</p>
       </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Аккаунт, 50+ видео, конвейер, воронка, продукт и план на 30 дней — <b>за 14 990 ₽ вместо 20 000 ₽</b>.</p>
+        <div class="scta__btns"><a class="btn" href="#price">Перейти к оплате</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Уточнить детали</a></div>
+      </div>
     </div>
   </section>
 
@@ -1373,6 +1441,11 @@
           <p>Делал задания и не вышел на свой конвейер за две недели — веду дальше бесплатно, пока не выйдешь. Срок не ограничиваю.</p>
         </div>
       </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Узнал себя? <b>Плюс гарантия:</b> делал задания и не вышел на конвейер — веду дальше бесплатно.</p>
+        <div class="scta__btns"><a class="btn" href="#price">Занять место</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Сомневаюсь — спрошу лично</a></div>
+      </div>
     </div>
   </section>
 
@@ -1394,6 +1467,11 @@
         <div class="review"><div class="mono">Михаил К.</div><p>Ребята, это было круто!!! Воодушевляет такое общение единомышленников!!! Узнал много нового, хотя по факту я только на самом старте.</p></div>
       </div>
         <div class="slider__nav"><button class="slider__btn" data-dir="-1" aria-label="Назад">←</button><div class="slider__dots"></div><button class="slider__btn" data-dir="1" aria-label="Вперёд">→</button></div>
+      </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Люди пишут это после потока. <b>Хочешь так же?</b> Скидка 25% действует, пока идёт таймер.</p>
+        <div class="scta__btns"><a class="btn" href="#price">Занять место со скидкой</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Написать в личку</a></div>
       </div>
     </div>
   </section>
@@ -1440,6 +1518,11 @@
         </div>
         <p class="startcost__note">На время потока ChatPlace бесплатный, так что платишь только за Claude и Syntx.</p>
       </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Остались вопросы по оплате или рассрочке? <b>Отвечу лично</b>, обычно в течение часа.</p>
+        <div class="scta__btns"><a class="btn js-pay" href="#" target="_blank" rel="noopener">Оплатить</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Спросить про оплату</a></div>
+      </div>
     </div>
   </section>
 
@@ -1452,6 +1535,11 @@
         <div class="card"><h3>Оплати</h3><p>Нажми «Оплатить», укажи ФИО и почту, выбери оплату полностью или частями. Место закрепляется за тобой.</p></div>
         <div class="card"><h3>Напиши мне</h3><p>После оплаты напиши в личку <a href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">@slava.alpha4</a>, добавлю в чат группы.</p></div>
         <div class="card"><h3>Стартуем</h3><p>В понедельник созвон-старт и первое задание.</p></div>
+      </div>
+
+      <div class="scta rv">
+        <p class="scta__text">Три шага — и ты в потоке. <b>Осталось <span class="js-left">7</span> из <span class="js-total">10</span> мест.</b></p>
+        <div class="scta__btns"><a class="btn js-pay" href="#" target="_blank" rel="noopener">Оплатить и занять место</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Сначала задам вопрос</a></div>
       </div>
     </div>
   </section>
@@ -1467,6 +1555,11 @@
       <details><summary>У меня нет опыта и техники. Получится?</summary><p>Да. Всё делается с телефона. Начинали с нуля почти все, кто у меня был.</p></details>
       <details><summary>Не знаю, про что вести блог и что продавать</summary><p>Тему выберем на первом созвоне. Продукт я даю свой, с правами перепродажи.</p></details>
       <details><summary>А если за две недели не выйдет?</summary><p>Если делал задания и не вышел на свой конвейер, веду дальше бесплатно, пока не выйдешь. Срок не ограничиваю.</p></details>
+
+      <div class="scta rv">
+        <p class="scta__text">Не нашёл свой вопрос? <b>Спроси лично</b> — отвечу и помогу решить, подходит ли тебе поток.</p>
+        <div class="scta__btns"><a class="btn" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener">Написать в личку</a><a class="btn btn--ghost" href="#price">Оплатить</a></div>
+      </div>
     </div>
   </section>
 
