@@ -951,7 +951,7 @@
         <p class="lead">Конвейер роликов, воронка и продукт, который можно продавать сразу. Каждый день задание, каждый вечер разбор.</p>
         <div class="cta-row">
           <a class="btn" href="#price"><svg class="btn__ico"><use href="#i-rocket"/></svg>Хочу в поток</a>
-          <span class="price-chip js-hero-price"><s>20 000 ₽</s> <b>14 990 ₽</b> · старт в понедельник</span>
+          <span class="price-chip">Старт в понедельник · осталось <b class="js-left">7</b> из <span class="js-total">10</span> мест</span>
         </div>
         <div class="feats">
           <div><svg><use href="#i-phone"/></svg><span>Всё с телефона</span></div>
@@ -1406,7 +1406,7 @@
       </div>
 
       <div class="scta rv">
-        <p class="scta__text">Аккаунт, 50+ видео, конвейер, воронка, продукт и план на 30 дней — <b>за 14 990 ₽ вместо 20 000 ₽</b>.</p>
+        <p class="scta__text">Аккаунт, 50+ видео, конвейер, воронка, продукт и план на 30 дней — <b>и до старта со скидкой 25%</b>.</p>
         <div class="scta__btns"><a class="btn" href="#price">Перейти к оплате</a><a class="btn btn--ghost scta__dm" href="https://ig.me/m/slava.alpha4" target="_blank" rel="noopener"><svg class="btn__ico"><use href="#i-chat"/></svg>Уточнить детали</a></div>
       </div>
     </div>
@@ -1483,9 +1483,9 @@
       <h2>Сейчас дешевле <span class="hl">на 25%</span></h2>
       <div class="price-wrap" style="margin-top:24px">
         <div class="price-box rv" id="priceBox">
-          <div class="price-old">20 000 ₽</div>
+          <div class="price-old">19 990 ₽</div>
           <div class="price-new"><span id="priceNow">14 990 ₽</span><span class="badge">−25%</span></div>
-          <div class="price-hint">Для тех, кто заходит сейчас.<br>Потом будет 20 000 ₽. Осталось:</div>
+          <div class="price-hint">Для тех, кто заходит сейчас.<br>Потом будет 19 990 ₽. Осталось:</div>
           <div class="timer" aria-label="До повышения цены">
             <div><b id="tH">48</b><span>часов</span></div>
             <div><b id="tM">00</b><span>минут</span></div>
@@ -1633,9 +1633,9 @@
   var SEATS_TOTAL = 10;
   var SEATS_LEFT = 7;
   // Ссылка на оплату (Точка). Сейчас в ней 14 990 ₽.
-  // Когда скидка закончится, поставь в PAY_URL_AFTER ссылку на 20 000 ₽.
+  // Когда скидка закончится, поставь в PAY_URL_AFTER ссылку на 19 990 ₽.
   var PAY_URL = 'https://tochkaplace.com/ia/89ce0448-163f-4765-a80d-5afe2b9e7952';
-  var PAY_URL_AFTER = PAY_URL;
+  var PAY_URL_AFTER = 'https://tochkaplace.com/ia/2ffdf344-da11-48e8-8a53-ecfd32a926ac';
   // =====================
 
   function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
@@ -1662,9 +1662,8 @@
 
     if (over) {
       document.getElementById('priceBox').classList.add('is-over');
-      document.getElementById('priceNow').textContent = '20 000 ₽';
-      each('.js-hero-price', function (el) { el.innerHTML = '<b>20 000 ₽</b> · старт в понедельник'; });
-      each('.js-final-price', function (el) { el.parentNode.textContent = 'Осталось ' + SEATS_LEFT + ' мест из ' + SEATS_TOTAL + '. Цена 20 000 ₽.'; });
+      document.getElementById('priceNow').textContent = '19 990 ₽';
+      each('.js-final-price', function (el) { el.parentNode.textContent = 'Осталось ' + SEATS_LEFT + ' мест из ' + SEATS_TOTAL + '. Цена 19 990 ₽.'; });
       text = 'Блог на поток за 14 дней · <b>' + seats + '</b> · старт в понедельник · пиши @slava.alpha4';
     } else {
       var s = Math.floor(left / 1000);
@@ -1672,8 +1671,8 @@
       document.getElementById('tH').textContent = pad(h);
       document.getElementById('tM').textContent = pad(m);
       document.getElementById('tS').textContent = pad(sec);
-      text = '<b>−25% для тех, кто заходит сейчас</b> · 14 990 ₽ вместо 20 000 ₽ · через <b>' +
-             pad(h) + ':' + pad(m) + ':' + pad(sec) + '</b> цена станет 20 000 ₽ · ' + seats + ' · старт в понедельник';
+      text = '<b>−25% для тех, кто заходит сейчас</b> · скидка сгорит через <b>' +
+             pad(h) + ':' + pad(m) + ':' + pad(sec) + '</b> · ' + seats + ' · старт в понедельник';
     }
 
     // строку повторяем, чтобы прокрутка шла без разрыва
