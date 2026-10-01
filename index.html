@@ -807,6 +807,61 @@
     .sell { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) { .flow__line b { animation: none; display: none; } }
+  /* ===== кто ты: три пути ===== */
+  .who-are { margin-top: 36px; }
+  .who-are__title { font: 900 clamp(22px, 3.2vw, 32px)/1.1 'Unbounded', sans-serif; text-transform: uppercase; margin: 10px 0 20px; }
+  .paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .path-tab { text-align: left; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; padding: 16px 18px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); color: #fff; cursor: pointer; font: inherit; transition: border-color .25s, background .25s, box-shadow .25s, transform .2s; }
+  .path-tab:hover { border-color: rgba(199,247,54,.4); }
+  .path-tab:active { transform: scale(.98); }
+  .path-tab em { grid-row: span 2; font: 900 14px/1 'Unbounded', sans-serif; font-style: normal; color: var(--muted); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); transition: all .25s; }
+  .path-tab b { font: 800 17px/1.2 'Unbounded', sans-serif; text-transform: uppercase; }
+  .path-tab small { font-size: 13px; color: var(--muted); }
+  .path-tab.on { background: radial-gradient(120% 140% at 0% 0%, rgba(199,247,54,.16), var(--panel) 60%); border-color: var(--accent); box-shadow: 0 0 30px rgba(199,247,54,.15); }
+  .path-tab.on em { background: var(--accent); color: #050605; border-color: var(--accent); box-shadow: 0 0 16px var(--glow); }
+  .path-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .path-panel { margin-top: 12px; background: var(--panel); border: 1px solid rgba(199,247,54,.3); border-radius: 20px; padding: 24px; }
+  .path-panel[hidden] { display: none; }
+  .path-panel.enter { animation: panelIn .55s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(16px); filter: blur(6px); } }
+  .pp__route { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .pp__route span { font: 700 14px/1 'Manrope', sans-serif; padding: 10px 14px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); color: #fff; opacity: 0; transform: translateY(8px); animation: chipIn .5s cubic-bezier(.2,.7,.2,1) forwards; }
+  .pp__route span.hot { background: var(--accent); color: #050605; border-color: var(--accent); box-shadow: 0 0 24px var(--glow); }
+  .pp__route i { width: 18px; height: 2px; background: var(--accent); position: relative; opacity: 0; animation: chipIn .4s forwards; }
+  .pp__route i::after { content: ''; position: absolute; right: -1px; top: -3px; border: 4px solid transparent; border-left-color: var(--accent); border-right: 0; }
+  .pp__route > :nth-child(2) { animation-delay: .1s } .pp__route > :nth-child(3) { animation-delay: .18s } .pp__route > :nth-child(4) { animation-delay: .26s } .pp__route > :nth-child(5) { animation-delay: .34s } .pp__route > :nth-child(6) { animation-delay: .42s } .pp__route > :nth-child(7) { animation-delay: .5s }
+  @keyframes chipIn { to { opacity: 1; transform: none; } }
+  .pp__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pp__grid > div { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .pp__grid h4, .aifirst h4 { font: 800 14px/1.2 'Unbounded', sans-serif; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+  .pp__grid p { margin: 0; font-size: 15px; }
+  .aifirst { margin-top: 14px; border-radius: 18px; padding: 22px; background: radial-gradient(100% 140% at 100% 0%, rgba(199,247,54,.13), #070906 60%); border: 1px solid rgba(199,247,54,.4); display: grid; grid-template-columns: 1fr 1.15fr; gap: 22px; align-items: center; }
+  .aifirst h4 { font-size: clamp(18px, 2.4vw, 22px); color: #fff; margin-top: 10px; }
+  .aifirst__head p { margin: 0; font-size: 15px; }
+  .aifirst__cmp { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: stretch; }
+  .af { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+  .af small { font: 500 10px/1 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  .af b { font: 900 17px/1.15 'Unbounded', sans-serif; }
+  .af span { font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+  .af__team { display: flex; flex-wrap: wrap; gap: 4px; min-height: 44px; align-content: center; }
+  .af__team i { width: 18px; height: 18px; border-radius: 50%; background: #2a3123; }
+  .af--old b { color: var(--muted); }
+  .af--new { border-color: rgba(199,247,54,.5); box-shadow: 0 0 24px rgba(199,247,54,.12); }
+  .af--new b { color: var(--accent); }
+  .af--new .af__team i { width: 40px; height: 40px; }
+  .af--new .af__team i.me { background: #fff; }
+  .af--new .af__team i.ai { background: var(--accent); color: #050605; display: grid; place-items: center; font: 900 12px/1 'Unbounded', sans-serif; font-style: normal; box-shadow: 0 0 18px var(--glow); animation: pulse 2.2s ease-in-out infinite; }
+  .af__arrow { align-self: center; font: 900 22px/1 'Unbounded', sans-serif; color: var(--accent); }
+  .path-panel.enter .af--old .af__team i:nth-child(n+3) { animation: fadeOut 1.4s ease .6s both; }
+  @keyframes fadeOut { to { opacity: .15; transform: scale(.7); } }
+  .aifirst__note { grid-column: 1 / -1; margin: 0; font-size: 14px; color: var(--silver); border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 860px) {
+    .paths { grid-template-columns: 1fr; }
+    .pp__grid { grid-template-columns: 1fr; }
+    .aifirst { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) { .aifirst__cmp { grid-template-columns: 1fr; } .af__arrow { justify-self: center; transform: rotate(90deg); } }
+  @media (prefers-reduced-motion: reduce) { .pp__route span, .pp__route i { animation: none; opacity: 1; transform: none; } .path-panel.enter { animation: none; } }
 </style>
 </head>
 <body>
@@ -924,22 +979,57 @@
             <div class="fv-push"><b>₽</b><div><strong>Новая оплата</strong><span>Гайд · пример</span></div></div>
             <div class="fv-push fv-push--2"><b>₽</b><div><strong>Новая оплата</strong><span>Консультация · пример</span></div></div>
           </div>
-          <div class="fstep__txt"><h3>Продаёшь</h3><p>Свой цифровой продукт или услугу. А если своего нет — продаёшь мой, с правами перепродажи.</p></div>
+          <div class="fstep__txt"><h3>Зарабатываешь</h3><p>Продаёшь свой продукт или услугу, ведёшь людей в свой бизнес. А если своего нет — продаёшь мой.</p></div>
         </div>
       </div>
 
-      <div class="sell">
-        <div class="sell__card rv">
-          <div class="mono">Есть своё</div>
-          <h3>Продаёшь свои знания и услуги</h3>
-          <div class="sell__tags"><span>консультации</span><span>гайды</span><span>курсы</span><span>тренировки</span><span>услуги</span></div>
-          <p>Тренер, психолог, мастер, специалист в любой теме. Блог приводит тебе клиентов каждый день.</p>
+      <div class="who-are">
+        <div class="mono">Выбери, кто ты</div>
+        <h3 class="who-are__title">Схема одна, <span class="hl">путь у каждого свой</span></h3>
+        <div class="paths" role="tablist" aria-label="Кто ты">
+          <button class="path-tab on" role="tab" aria-selected="true" aria-controls="pth-0" id="pt-0" data-path="0"><em>01</em><b>Нечего продавать</b><small>не эксперт, своего продукта нет</small></button>
+          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-1" id="pt-1" data-path="1"><em>02</em><b>Эксперт</b><small>есть знания, навык, услуга</small></button>
+          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-2" id="pt-2" data-path="2"><em>03</em><b>Предприниматель</b><small>есть бизнес или точки</small></button>
         </div>
-        <div class="sell__card sell__card--mine rv">
-          <div class="mono">Нет своего</div>
-          <h3>Продаёшь мой продукт</h3>
-          <div class="sell__tags"><span>готовый продукт</span><span>права перепродажи</span><span>с первых подписчиков</span></div>
-          <p>Ничего придумывать не нужно. Даю готовый продукт, ты продаёшь его своей аудитории и забираешь деньги себе.</p>
+
+        <div class="path-panel on" role="tabpanel" id="pth-0" aria-labelledby="pt-0">
+          <div class="pp__route"><span>Ролики</span><i></i><span>Подписчики</span><i></i><span>Telegram</span><i></i><span class="hot">Мой продукт</span></div>
+          <div class="pp__grid">
+            <div><h4>Что продаёшь</h4><p>Мой цифровой продукт о том, как вести такой блог. С правами перепродажи: продаёшь своей аудитории, деньги остаются тебе.</p></div>
+            <div><h4>Почему это работает</h4><p>Ты показываешь свой путь с нуля, а люди хотят повторить. Придумывать продукт и быть экспертом не нужно.</p></div>
+            <div><h4>Что даю я</h4><p>Готовый продукт, воронку под него и разбор каждого шага, пока не пойдут первые продажи.</p></div>
+          </div>
+        </div>
+
+        <div class="path-panel" role="tabpanel" id="pth-1" aria-labelledby="pt-1" hidden>
+          <div class="pp__route"><span>Ролики по теме</span><i></i><span>Доверие</span><i></i><span>Telegram</span><i></i><span class="hot">Твои услуги</span></div>
+          <div class="pp__grid">
+            <div><h4>Что продаёшь</h4><p>Свои консультации, гайды, курсы, тренировки, услуги. Или мой продукт рядом со своими, как второй источник дохода.</p></div>
+            <div><h4>Какие сферы</h4><div class="sell__tags"><span>фитнес</span><span>психология</span><span>финансы</span><span>питание</span><span>бьюти</span><span>английский</span><span>кулинария</span><span>любая тема</span></div></div>
+            <div><h4>Что даю я</h4><p>Форматы роликов под твою нишу, упаковку профиля и воронку, которая сама ведёт людей к твоему продукту.</p></div>
+          </div>
+        </div>
+
+        <div class="path-panel" role="tabpanel" id="pth-2" aria-labelledby="pt-2" hidden>
+          <div class="pp__route"><span>Ролики на широкие темы</span><i></i><span>Охваты</span><i></i><span>Личный бренд</span><i></i><span class="hot">Твой бизнес и точки</span></div>
+          <div class="pp__grid">
+            <div><h4>Как это устроено</h4><p>Делаешь ролики на широкие темы, собираешь охваты и переливаешь трафик в свой бизнес: на сайт, в магазин, в офлайн-точки. Потом постепенно подключаешь говорящую голову.</p></div>
+            <div><h4>Что получаешь</h4><p>Личный бренд, который приводит клиентов без рекламного бюджета. Люди покупают у человека, а не у вывески.</p></div>
+            <div><h4>Что даю я</h4><p>Буст аккаунту и контенту на старте и примеры форматов, которые работают. Дальше развиваешь сам, как тебе удобно.</p></div>
+          </div>
+          <div class="aifirst">
+            <div class="aifirst__head">
+              <div class="mono">AI-first предприниматель</div>
+              <h4>Компания, где ИИ делает работу команды</h4>
+              <p>Это предприниматель, который строит бизнес сам, с опорой на нейросети. Раньше для этого нужны были большая команда, деньги и специалисты. Сейчас один ИИ-агент закрывает задачи 8–10 человек.</p>
+            </div>
+            <div class="aifirst__cmp">
+              <div class="af af--old"><small>Раньше</small><div class="af__team" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><b>8–10 человек</b><span>сценарист, монтажёр, SMM, дизайнер, таргетолог, менеджер…</span></div>
+              <div class="af__arrow" aria-hidden="true">→</div>
+              <div class="af af--new"><small>Сейчас</small><div class="af__team" aria-hidden="true"><i class="me"></i><i class="ai">ИИ</i></div><b>Ты + ИИ-агент</b><span>сценарии, ролики, тексты, ответы клиентам, воронка</span></div>
+            </div>
+            <p class="aifirst__note">В потоке помогаю сделать первый шаг такой ИИ-трансформации: контент и привлечение клиентов на нейросетях.</p>
+          </div>
         </div>
       </div>
 
@@ -1241,6 +1331,7 @@
       <p class="sub">Всё делается с телефона, откуда угодно. Опыт не нужен, оборудование тоже. Начинали с нуля почти все, кто у меня был.</p>
       <div class="who mcar">
         <div>Работаешь в найме и хочешь свой доход, но светиться нельзя или не хочется</div>
+        <div>Есть бизнес или офлайн-точки, и нужен поток клиентов через личный бренд и ИИ</div>
         <div>Сидишь дома или в декрете и ищешь, чем заниматься, не выходя из квартиры</div>
         <div>Есть профессия и знания, но непонятно, как превратить их в деньги онлайн</div>
         <div>Уже пробовал вести блог и забросил, когда просмотров не было</div>
@@ -1736,6 +1827,23 @@
       var st = null;
       (function f(ts) { if (!st) st = ts; var k = Math.min(1, (ts - st) / 1800), e = 1 - Math.pow(1 - k, 3); el.textContent = fmtBig(to * e); if (k < 1) requestAnimationFrame(f); })(performance.now());
     }, { threshold: .4 }).observe(el);
+  });
+// ===== кто ты: переключение путей =====
+  var pTabs = Array.prototype.slice.call(document.querySelectorAll('.path-tab'));
+  function pickPath(n) {
+    pTabs.forEach(function (b, i) {
+      var on = i === n, panel = document.getElementById('pth-' + i);
+      b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+      panel.hidden = !on; panel.classList.toggle('on', on);
+      if (on) { panel.classList.remove('enter'); void panel.offsetWidth; panel.classList.add('enter'); }
+    });
+  }
+  pTabs.forEach(function (b, i) {
+    b.addEventListener('click', function () { pickPath(i); });
+    b.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); pickPath((i + 1) % pTabs.length); pTabs[(i + 1) % pTabs.length].focus(); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); var j = (i + pTabs.length - 1) % pTabs.length; pickPath(j); pTabs[j].focus(); }
+    });
   });
 </script>
 </body>
