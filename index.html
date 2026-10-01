@@ -862,6 +862,26 @@
   }
   @media (max-width: 480px) { .aifirst__cmp { grid-template-columns: 1fr; } .af__arrow { justify-self: center; transform: rotate(90deg); } }
   @media (prefers-reduced-motion: reduce) { .pp__route span, .pp__route i { animation: none; opacity: 1; transform: none; } .path-panel.enter { animation: none; } }
+  /* ===== вкладки «кто ты»: понятно, что это кнопки ===== */
+  .paths-hint { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 14px; font: 700 15px/1.3 'Manrope', sans-serif; color: #050605; background: var(--accent); border-radius: 999px; padding: 10px 16px 10px 12px; box-shadow: 0 0 24px var(--glow); }
+  .paths-hint__hand { font-size: 20px; display: inline-block; animation: tapHand 1.4s ease-in-out infinite; }
+  @keyframes tapHand { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-5px); } 55% { transform: translateY(2px) scale(.92); } }
+  .paths.picked + .x, .paths-hint.done { background: var(--panel); color: var(--muted); box-shadow: none; border: 1px solid var(--line); }
+  .paths-hint.done .paths-hint__hand { animation: none; }
+  .path-tab { position: relative; padding-right: 110px; }
+  .path-tab__go { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font: 800 11px/1 'Manrope', sans-serif; text-transform: uppercase; letter-spacing: .03em; border-radius: 999px; padding: 8px 10px; color: var(--accent); border: 1px solid rgba(199,247,54,.55); transition: all .25s; }
+  .path-tab__go::before { content: 'Выбрать →'; }
+  .path-tab.on .path-tab__go { color: #050605; background: var(--accent); border-color: var(--accent); }
+  .path-tab.on .path-tab__go::before { content: 'Выбрано ✓'; }
+  .path-tab:hover .path-tab__go { background: rgba(199,247,54,.12); }
+  .path-tab.on:hover .path-tab__go { background: var(--accent); }
+  .paths:not(.picked) .path-tab:not(.on) { animation: tabCall 2.4s ease-in-out infinite; }
+  .paths:not(.picked) .path-tab:nth-child(3):not(.on) { animation-delay: .4s; }
+  @keyframes tabCall { 0%, 60%, 100% { border-color: var(--line); box-shadow: none; } 30% { border-color: rgba(199,247,54,.6); box-shadow: 0 0 22px rgba(199,247,54,.18); } }
+  .path-panel { position: relative; }
+  .path-panel::before { content: ''; position: absolute; top: -7px; left: var(--arrow, 16%); width: 12px; height: 12px; background: var(--panel); border-left: 1px solid rgba(199,247,54,.3); border-top: 1px solid rgba(199,247,54,.3); transform: rotate(45deg); transition: left .35s cubic-bezier(.2,.7,.2,1); }
+  @media (max-width: 860px) { .path-panel::before { display: none; } .paths-hint { font-size: 14px; } }
+  @media (prefers-reduced-motion: reduce) { .paths-hint__hand, .paths:not(.picked) .path-tab:not(.on) { animation: none; } }
 </style>
 </head>
 <body>
@@ -986,10 +1006,11 @@
       <div class="who-are">
         <div class="mono">Выбери, кто ты</div>
         <h3 class="who-are__title">Схема одна, <span class="hl">путь у каждого свой</span></h3>
-        <div class="paths" role="tablist" aria-label="Кто ты">
-          <button class="path-tab on" role="tab" aria-selected="true" aria-controls="pth-0" id="pt-0" data-path="0"><em>01</em><b>Нечего продавать</b><small>не эксперт, своего продукта нет</small></button>
-          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-1" id="pt-1" data-path="1"><em>02</em><b>Эксперт</b><small>есть знания, навык, услуга</small></button>
-          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-2" id="pt-2" data-path="2"><em>03</em><b>Предприниматель</b><small>есть бизнес или точки</small></button>
+        <div class="paths-hint" id="pathsHint"><span class="paths-hint__hand" aria-hidden="true">👆</span>Нажми на свой вариант — покажу, как это сработает у тебя</div>
+        <div class="paths" id="paths" role="tablist" aria-label="Кто ты">
+          <button class="path-tab on" role="tab" aria-selected="true" aria-controls="pth-0" id="pt-0" data-path="0"><span class="path-tab__go" aria-hidden="true"></span><em>01</em><b>Нечего продавать</b><small>не эксперт, своего продукта нет</small></button>
+          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-1" id="pt-1" data-path="1"><span class="path-tab__go" aria-hidden="true"></span><em>02</em><b>Эксперт</b><small>есть знания, навык, услуга</small></button>
+          <button class="path-tab" role="tab" aria-selected="false" aria-controls="pth-2" id="pt-2" data-path="2"><span class="path-tab__go" aria-hidden="true"></span><em>03</em><b>Предприниматель</b><small>есть бизнес или точки</small></button>
         </div>
 
         <div class="path-panel on" role="tabpanel" id="pth-0" aria-labelledby="pt-0">
@@ -1835,11 +1856,16 @@
       var on = i === n, panel = document.getElementById('pth-' + i);
       b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
       panel.hidden = !on; panel.classList.toggle('on', on);
-      if (on) { panel.classList.remove('enter'); void panel.offsetWidth; panel.classList.add('enter'); }
+      if (on) { panel.style.setProperty('--arrow', (16 + i * 33.3) + '%'); panel.classList.remove('enter'); void panel.offsetWidth; panel.classList.add('enter'); }
     });
   }
   pTabs.forEach(function (b, i) {
-    b.addEventListener('click', function () { pickPath(i); });
+    b.addEventListener('click', function () {
+      pickPath(i);
+      document.getElementById('paths').classList.add('picked');
+      var h = document.getElementById('pathsHint'); h.classList.add('done');
+      h.lastChild.textContent = 'Можно переключать варианты и сравнивать';
+    });
     b.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); pickPath((i + 1) % pTabs.length); pTabs[(i + 1) % pTabs.length].focus(); }
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); var j = (i + pTabs.length - 1) % pTabs.length; pickPath(j); pTabs[j].focus(); }
