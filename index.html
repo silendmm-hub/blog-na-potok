@@ -731,6 +731,82 @@
   .toast-tip.show { opacity: 1; transform: none; }
   @media (min-width: 1440px) { .toast-wrap { display: none; } }
   @media (prefers-reduced-motion: reduce) { .toast.pulse { animation: none; } }
+  /* ===== зачем: схема заработка ===== */
+  .flow { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 34px; --p: 0; }
+  .flow__line { position: absolute; left: 6%; right: 6%; top: 27px; height: 2px; background: var(--line); z-index: 0; }
+  .flow__line i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); box-shadow: 0 0 12px var(--glow); transform-origin: 0 50%; transform: scaleX(var(--p)); }
+  .flow__line b { position: absolute; top: -5px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 0 16px 4px var(--accent); animation: flowDot 4s linear infinite; }
+  @keyframes flowDot { from { left: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } to { left: 100%; opacity: 0; } }
+  .fstep { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; }
+  .fstep__num { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font: 900 16px/1 'Unbounded', sans-serif; color: #050605; background: var(--accent); box-shadow: 0 0 0 6px var(--bg), 0 0 24px var(--glow); }
+  .fstep__vis { position: relative; height: 210px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; padding: 14px; }
+  .fstep__txt h3 { font: 800 18px/1.2 'Unbounded', sans-serif; text-transform: uppercase; margin-bottom: 6px; }
+  .fstep__txt p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+  .fstep--money .fstep__vis { border-color: rgba(199,247,54,.5); box-shadow: 0 0 34px rgba(199,247,54,.15); }
+
+  .fv-content { display: grid; place-items: center; }
+  .fv-phone { width: 92px; height: 170px; border-radius: 16px; border: 3px solid #1f2419; overflow: hidden; background: #000; }
+  .fv-phone .belt { height: 100%; animation-duration: 18s; }
+  .fv-badge, .fv-auto { position: absolute; left: 10px; bottom: 10px; font: 700 11px/1 'IBM Plex Mono', monospace; text-transform: uppercase; color: #050605; background: var(--accent); border-radius: 999px; padding: 6px 8px; }
+
+  .fv-reach { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 8px; }
+  .fv-stat small { display: block; font: 500 10px/1 'IBM Plex Mono', monospace; text-transform: uppercase; color: var(--muted); }
+  .fv-stat b { display: block; margin-top: 6px; font: 900 20px/1 'Unbounded', sans-serif; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .fv-bars { grid-column: 1 / -1; display: flex; align-items: flex-end; gap: 6px; height: 100%; }
+  .fv-bars i { flex: 1; height: var(--h); border-radius: 4px 4px 0 0; background: linear-gradient(0deg, rgba(199,247,54,.25), var(--accent)); transform-origin: bottom; transform: scaleY(0); transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+  .fv-bars i:nth-child(2) { transition-delay: .08s } .fv-bars i:nth-child(3) { transition-delay: .16s } .fv-bars i:nth-child(4) { transition-delay: .24s } .fv-bars i:nth-child(5) { transition-delay: .32s } .fv-bars i:nth-child(6) { transition-delay: .4s } .fv-bars i:nth-child(7) { transition-delay: .48s }
+  .in .fv-bars i, html:not(.js) .fv-bars i { transform: scaleY(1); }
+
+  .fv-dm { display: flex; flex-direction: column; gap: 8px; }
+  .fv-msg { max-width: 88%; font-size: 13px; line-height: 1.35; padding: 8px 11px; border-radius: 14px; opacity: 0; transform: translateY(10px); transition: opacity .5s, transform .5s cubic-bezier(.2,.7,.2,1); }
+  .fv-msg--in { background: #1c2117; color: #fff; border-bottom-left-radius: 4px; }
+  .fv-msg--out { align-self: flex-end; background: var(--accent); color: #050605; font-weight: 700; border-bottom-right-radius: 4px; transition-delay: .7s; }
+  .fv-link { display: block; margin-top: 4px; font: 500 11px/1 'IBM Plex Mono', monospace; text-decoration: underline; }
+  .in .fv-msg, html:not(.js) .fv-msg { opacity: 1; transform: none; }
+  .fv-dm .fv-auto { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+
+  .fv-warm { display: flex; flex-direction: column; gap: 8px; }
+  .fv-post { display: flex; align-items: center; gap: 8px; background: #12160e; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; font-size: 13px; color: #fff; opacity: 0; transform: translateX(-12px); transition: opacity .5s, transform .5s cubic-bezier(.2,.7,.2,1); }
+  .fv-post i { width: 22px; height: 22px; flex: none; border-radius: 6px; background: linear-gradient(135deg, #2a3a12, var(--accent-dim)); }
+  .fv-post:nth-child(2) { transition-delay: .25s } .fv-post:nth-child(3) { transition-delay: .5s }
+  .in .fv-post, html:not(.js) .fv-post { opacity: 1; transform: none; }
+  .fv-heat { margin-top: auto; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .fv-heat span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #f2b84b, #ff6a2b); box-shadow: 0 0 10px rgba(255,106,43,.6); transition: width 1.6s cubic-bezier(.2,.7,.2,1) .7s; }
+  .in .fv-heat span, html:not(.js) .fv-heat span { width: var(--w); }
+
+  .fv-sale { display: flex; flex-direction: column; justify-content: center; gap: 10px; background: radial-gradient(120% 90% at 50% 0%, rgba(199,247,54,.14), var(--panel) 65%); }
+  .fv-push { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.95); color: #050605; border-radius: 14px; padding: 10px 12px; box-shadow: 0 10px 24px rgba(0,0,0,.5); opacity: 0; transform: translateY(-16px) scale(.96); transition: opacity .5s, transform .6s cubic-bezier(.2,.7,.2,1) ; transition-delay: .3s; }
+  .fv-push--2 { transition-delay: 1s; }
+  .fv-push b { width: 32px; height: 32px; flex: none; border-radius: 9px; display: grid; place-items: center; background: var(--accent); font: 900 16px/1 'Unbounded', sans-serif; }
+  .fv-push strong { display: block; font: 800 13px/1.2 'Manrope', sans-serif; color: #050605; }
+  .fv-push span { display: block; font-size: 11.5px; color: #4b5242; }
+  .in .fv-push, html:not(.js) .fv-push { opacity: 1; transform: none; }
+
+  .sell { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+  .sell__card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 24px; display: grid; gap: 12px; align-content: start; }
+  .sell__card h3 { font: 900 clamp(20px, 2.6vw, 26px)/1.1 'Unbounded', sans-serif; text-transform: uppercase; }
+  .sell__card p { margin: 0; font-size: 15px; }
+  .sell__card--mine { background: radial-gradient(120% 120% at 100% 0%, rgba(199,247,54,.14), var(--panel) 60%); border-color: rgba(199,247,54,.5); box-shadow: 0 0 40px rgba(199,247,54,.1); }
+  .sell__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sell__tags span { font: 500 12px/1 'IBM Plex Mono', monospace; color: #fff; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; }
+  .sell__card--mine .sell__tags span { color: #050605; background: var(--accent); border-color: var(--accent); }
+
+  .why-bottom { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .why-bottom p { margin: 0; max-width: 640px; font-size: 18px; color: var(--silver); }
+  .why-bottom b { color: #fff; }
+
+  @media (max-width: 960px) {
+    .flow { grid-template-columns: 1fr; gap: 26px; padding-left: 0; }
+    .flow__line { left: 27px; right: auto; top: 28px; bottom: 28px; width: 2px; height: auto; }
+    .flow__line i { transform-origin: 50% 0; transform: scaleY(var(--p)); }
+    .flow__line b { left: -5px; top: 0; animation: flowDotV 4s linear infinite; }
+    @keyframes flowDotV { from { top: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } to { top: 100%; opacity: 0; } }
+    .fstep { display: grid; grid-template-columns: 56px 1fr; gap: 10px 16px; }
+    .fstep__num { grid-row: span 2; }
+    .fstep__vis { height: 180px; }
+    .sell { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { .flow__line b { animation: none; display: none; } }
 </style>
 </head>
 <body>
@@ -783,7 +859,7 @@
           <div><svg><use href="#i-check"/></svg><span>Реальные кейсы</span></div>
           <div><svg><use href="#i-shield"/></svg><span>Гарантия результата</span></div>
         </div>
-        <button class="toc-open" type="button" data-toc-open><svg><use href="#i-list"/></svg>Что на странице <em class="js-parts-count">15 разделов</em></button>
+        <button class="toc-open" type="button" data-toc-open><svg><use href="#i-list"/></svg>Что на странице <em class="js-parts-count">16 разделов</em></button>
       </div>
       <div class="hero__chips" aria-hidden="true">
         <div class="float float--1"><b>2,9 млн</b><span>просмотров за месяц у ученика</span></div>
@@ -791,6 +867,88 @@
       </div>
     </div>
   </div>
+
+  <!-- зачем -->
+  <section id="why" data-nav="Зачем это всё" data-desc="Как блог превращается в заработок">
+    <div class="wrap">
+      <div class="mono">Зачем это всё</div>
+      <h2>Блог сам по себе никому не нужен. <span class="hl">Нужны деньги</span></h2>
+      <p class="sub">Блог — это способ заработка. Ролики приводят людей, Telegram их греет, а ты продаёшь свой продукт или мой. Вот как это работает целиком.</p>
+
+      <div class="flow" id="flow">
+        <div class="flow__line" aria-hidden="true"><i></i><b></b></div>
+
+        <div class="fstep rv">
+          <div class="fstep__num">01</div>
+          <div class="fstep__vis fv-content">
+            <div class="fv-phone"><div class="belt"><img src="img/syntx_strip.jpg" alt=""><img src="img/syntx_strip.jpg" alt=""></div></div>
+            <span class="fv-badge">5–10 видео в день</span>
+          </div>
+          <div class="fstep__txt"><h3>Выкладываешь контент</h3><p>Ролики с лицом или через ИИ-персонажа. Собираешь пачкой за час, ставишь в отложку.</p></div>
+        </div>
+
+        <div class="fstep rv">
+          <div class="fstep__num">02</div>
+          <div class="fstep__vis fv-reach">
+            <div class="fv-stat"><small>просмотры</small><b class="fv-count" data-to="1000000">0</b></div>
+            <div class="fv-stat"><small>подписчики</small><b class="fv-count" data-to="2019">0</b></div>
+            <div class="fv-bars"><i style="--h:22%"></i><i style="--h:35%"></i><i style="--h:30%"></i><i style="--h:52%"></i><i style="--h:48%"></i><i style="--h:70%"></i><i style="--h:100%"></i></div>
+          </div>
+          <div class="fstep__txt"><h3>Собираешь охваты</h3><p>Алгоритм раздаёт ролики незнакомым людям. Каждый день приходят новые подписчики, бесплатно.</p></div>
+        </div>
+
+        <div class="fstep rv">
+          <div class="fstep__num">03</div>
+          <div class="fstep__vis fv-dm">
+            <div class="fv-msg fv-msg--in">Хочу так же, как попасть?</div>
+            <div class="fv-msg fv-msg--out">Держи ссылку на канал 👇<span class="fv-link">t.me/твой_канал</span></div>
+            <div class="fv-auto">автоответ ChatPlace</div>
+          </div>
+          <div class="fstep__txt"><h3>Переливаешь в Telegram</h3><p>Человек пишет кодовое слово, бот сам отправляет ссылку. Подписчик из Reels становится твоим читателем.</p></div>
+        </div>
+
+        <div class="fstep rv">
+          <div class="fstep__num">04</div>
+          <div class="fstep__vis fv-warm">
+            <div class="fv-post"><i></i><span>Как я начал с нуля</span></div>
+            <div class="fv-post"><i></i><span>Кейс ученика: 0 → 25К</span></div>
+            <div class="fv-post"><i></i><span>Разбор частых ошибок</span></div>
+            <div class="fv-heat"><span style="--w:100%"></span></div>
+          </div>
+          <div class="fstep__txt"><h3>Греешь</h3><p>Статьи, кейсы, истории в канале. Человек начинает доверять и сам спрашивает, как купить.</p></div>
+        </div>
+
+        <div class="fstep fstep--money rv">
+          <div class="fstep__num">05</div>
+          <div class="fstep__vis fv-sale">
+            <div class="fv-push"><b>₽</b><div><strong>Новая оплата</strong><span>Гайд · пример</span></div></div>
+            <div class="fv-push fv-push--2"><b>₽</b><div><strong>Новая оплата</strong><span>Консультация · пример</span></div></div>
+          </div>
+          <div class="fstep__txt"><h3>Продаёшь</h3><p>Свой цифровой продукт или услугу. А если своего нет — продаёшь мой, с правами перепродажи.</p></div>
+        </div>
+      </div>
+
+      <div class="sell">
+        <div class="sell__card rv">
+          <div class="mono">Есть своё</div>
+          <h3>Продаёшь свои знания и услуги</h3>
+          <div class="sell__tags"><span>консультации</span><span>гайды</span><span>курсы</span><span>тренировки</span><span>услуги</span></div>
+          <p>Тренер, психолог, мастер, специалист в любой теме. Блог приводит тебе клиентов каждый день.</p>
+        </div>
+        <div class="sell__card sell__card--mine rv">
+          <div class="mono">Нет своего</div>
+          <h3>Продаёшь мой продукт</h3>
+          <div class="sell__tags"><span>готовый продукт</span><span>права перепродажи</span><span>с первых подписчиков</span></div>
+          <p>Ничего придумывать не нужно. Даю готовый продукт, ты продаёшь его своей аудитории и забираешь деньги себе.</p>
+        </div>
+      </div>
+
+      <div class="why-bottom rv">
+        <p><b>Не нужен миллион подписчиков.</b> Нужна схема, в которой каждый ролик ведёт человека к покупке. Этой схеме я и учу за 14 дней.</p>
+        <a class="btn" href="#price">Хочу так же</a>
+      </div>
+    </div>
+  </section>
 
   <!-- 2. кейс -->
   <section data-nav="Кейсы" data-desc="Результаты учеников со скринами">
@@ -1559,6 +1717,26 @@
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   window.addEventListener('resize', onScroll);
   onScroll();
+// ===== схема заработка: линия по прокрутке и счётчики =====
+  var flow = document.getElementById('flow');
+  function flowTick() {
+    var r = flow.getBoundingClientRect(), vh = window.innerHeight;
+    var k = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.3)));
+    flow.style.setProperty('--p', k.toFixed(3));
+  }
+  window.addEventListener('scroll', function () { requestAnimationFrame(flowTick); }, { passive: true });
+  flowTick();
+  function fmtBig(n) { return n >= 1e6 ? (n / 1e6).toFixed(1).replace('.', ',') + ' млн' : Math.round(n).toLocaleString('ru-RU'); }
+  each('.fv-count', function (el) {
+    var to = Number(el.getAttribute('data-to')), done = false;
+    el.textContent = reduceMotion ? fmtBig(to) : '0';
+    if (reduceMotion || !('IntersectionObserver' in window)) { el.textContent = fmtBig(to); return; }
+    new IntersectionObserver(function (en, ob) {
+      if (!en[0].isIntersecting || done) return; done = true; ob.disconnect();
+      var st = null;
+      (function f(ts) { if (!st) st = ts; var k = Math.min(1, (ts - st) / 1800), e = 1 - Math.pow(1 - k, 3); el.textContent = fmtBig(to * e); if (k < 1) requestAnimationFrame(f); })(performance.now());
+    }, { threshold: .4 }).observe(el);
+  });
 </script>
 </body>
 </html>
